@@ -1,0 +1,31 @@
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Installed libraries / dependencies
+node_modules/
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# LaTeX build artifacts (keep .tex .bib source; ignore generated files)
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+working/src/main.pdf
+
+# OpenScience internal data (installed envs + runtime logs only)
+.openscience/env/
+.openscience/logs/
+
+# Generated output from mindmap renderer
+mindmap-output/

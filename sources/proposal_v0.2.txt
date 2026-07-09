@@ -1,0 +1,423 @@
+# Mô hình tổng thể
+
+Đề xuất xây dựng một framework Knowledge Tracing gồm bốn module chính, trong đó quá trình học được chia thành bốn tầng biểu diễn khác nhau:
+
+* **Interaction Space**: học biểu diễn chuỗi tương tác dưới dạng vector.
+* **Distribution Space**: xây dựng và lập luận trên các mẫu hình học tập dưới dạng phân phối.
+* **Knowledge Space**: cập nhật trạng thái tri thức của học sinh.
+* **Prediction Space**: dự đoán kết quả của tương tác tiếp theo.
+
+Khác với các mô hình KT hiện tại chỉ trực tiếp học trạng thái tri thức từ chuỗi tương tác, đề xuất đưa vào một tầng biểu diễn trung gian trên không gian phân phối nhằm thực hiện lập luận trên các learning pattern trước khi cập nhật mastery.
+
+```mermaid
+flowchart LR
+
+A[Historical Interactions]
+
+-->B[Interaction Representation Learning]
+
+-->C[Probabilistic Pattern Reasoning]
+
+-->D[Mastery State Update]
+
+-->E[Prediction]
+```
+
+---
+
+# Mô hình chi tiết
+
+# 1. Interaction Representation Learning
+
+Module đầu tiên chịu trách nhiệm xây dựng biểu diễn ngữ cảnh của từng interaction.
+
+Khác với proposal trước, toàn bộ đầu vào được chia thành hai nhóm thông tin:
+
+* **Interaction Context**
+
+  * Question semantic
+  * Question difficulty
+  * Student response
+
+* **Knowledge Context**
+
+  * Current mastery memory
+  * Knowledge graph topology
+  * Concept difficulty
+
+Trong đó Knowledge Context không sử dụng toàn bộ mastery của học sinh mà chỉ truy xuất vùng tri thức liên quan tới câu hỏi hiện tại thông qua knowledge graph.
+
+```mermaid
+flowchart LR
+
+Q[Question]
+
+R[Response]
+
+DQ[Question Difficulty]
+
+KG[Knowledge Graph]
+
+M[Mastery Memory]
+
+DC[Concept Difficulty]
+
+Q-->OBS
+
+R-->OBS
+
+DQ-->OBS
+
+OBS[Interaction Context]
+
+OBS-->MB1[Mamba]
+
+KG-->READ
+
+M-->READ
+
+READ[Localized Mastery Read]
+
+READ-->KN
+
+DC-->KN
+
+KN[Knowledge Context]
+
+KN-->MB2[Mamba]
+
+MB1-->F
+
+MB2-->F
+
+F[Fusion]
+
+F-->Z[Interaction Representation]
+```
+
+Biểu diễn tương tác được mô tả sơ bộ bởi
+
+[
+\mathbf z_t
+===========
+
+Fusion
+(
+Mamba_{obs}(I_t),
+Mamba_{know}(K_t)
+)
+]
+
+với
+
+* (I_t) là Interaction Context.
+* (K_t) là Knowledge Context.
+
+---
+
+### Note
+
+Interaction Context mô hình hóa động lực của chuỗi tương tác.
+
+Knowledge Context mô hình hóa sự tiến hóa của trạng thái tri thức cục bộ quanh câu hỏi hiện tại.
+
+Hai nhánh học hai loại dynamics khác nhau thay vì học semantic và difficulty như proposal trước.
+
+---
+
+# 2. Probabilistic Pattern Reasoning
+
+Module thứ hai thực hiện chuyển đổi biểu diễn interaction từ không gian vector sang không gian phân phối.
+
+Khác với các nghiên cứu trước coi phân phối là biểu diễn belief hay uncertainty của learner, đề xuất coi phân phối là **không gian biểu diễn của interaction pattern**.
+
+Không gian này được sử dụng nhằm hỗ trợ:
+
+* Pattern aggregation
+* Pattern comparison
+* Pattern modulation
+
+trước khi cập nhật mastery.
+
+---
+
+## 2.1 Distribution Projection
+
+Đầu tiên, interaction representation được chuyển sang biểu diễn phân phối.
+
+```mermaid
+flowchart LR
+
+Z[Interaction Representation]
+
+-->SD[Statistical Descriptor]
+
+-->P[Distribution]
+```
+
+Sơ bộ,
+
+[
+h_t
+===
+
+\Phi(z_t)
+]
+
+Trong đó
+
+[
+h_t
+===
+
+(\alpha_t,\beta_t)
+]
+
+đối với Beta.
+
+---
+
+### Note
+
+Statistical Descriptor Decoder học một phép biến đổi từ interaction representation sang các tham số của phân phối.
+
+Việc sử dụng phân phối không nhằm biểu diễn mastery mà nhằm tạo ra một đối tượng có thể thực hiện các phép toán trên distribution.
+
+---
+
+## 2.2 Pattern Construction
+
+Sau khi thu được chuỗi phân phối, mô hình xây dựng nhiều learning pattern thông qua các pattern operator.
+
+Khác với proposal trước, pattern không được định nghĩa bởi số lượng interaction mà được định nghĩa bởi tập các phép tổng hợp.
+
+Đề xuất sử dụng:
+
+* Temporal Pattern Operator
+* Same-Concept Operator
+* Prerequisite Operator
+* Neighbor Concept Operator
+
+```mermaid
+flowchart LR
+
+Distribution
+
+-->Temporal
+
+Distribution
+
+-->SameKC
+
+Distribution
+
+-->Prerequisite
+
+Distribution
+
+-->Neighbor
+
+Temporal-->Patterns
+
+SameKC-->Patterns
+
+Prerequisite-->Patterns
+
+Neighbor-->Patterns
+```
+
+Sơ bộ,
+
+[
+P_i
+===
+
+\mathcal A_i(H)
+]
+
+---
+
+### Note
+
+Mỗi Pattern Operator luôn mang cùng một semantic.
+
+Do đó Pattern Representation giữ được tính nhất quán giữa các student mặc dù số lượng interaction khác nhau.
+
+---
+
+## 2.3 Pedagogical Pattern Modulation
+
+Sau khi xây dựng pattern, các soft pedagogical rule được sử dụng để điều chỉnh phân phối.
+
+Các luật này không quyết định mastery mà chỉ điều chỉnh pattern representation.
+
+```mermaid
+flowchart LR
+
+Patterns
+
+-->Rules
+
+Rules
+
+-->AlignedPatterns
+```
+
+Sơ bộ,
+
+[
+\tilde P_i
+==========
+
+Align(P_i,R_i)
+]
+
+---
+
+### Note
+
+Khác với NSKT, các luật đóng vai trò điều chỉnh phân phối thay vì suy luận trực tiếp mastery.
+
+---
+
+# 3. Mastery State Update
+
+Sau khi hoàn thành lập luận trên không gian phân phối, mô hình thực hiện ánh xạ các pattern trở lại không gian vector.
+
+```mermaid
+flowchart LR
+
+Aligned Patterns
+
+-->Readout
+
+-->Pattern Vector
+
+-->Update Network
+
+-->Mastery
+```
+
+Đầu tiên,
+
+[
+z'_i
+====
+
+Readout(\tilde P_i)
+]
+
+Trong đó
+
+[
+z'
+==
+
+[z^{temp},
+z^{same},
+z^{pre},
+z^{neighbor}]
+]
+
+là structured pattern representation.
+
+---
+
+Tiếp theo,
+
+[
+\Delta M
+========
+
+U(M_t,z')
+]
+
+Cuối cùng,
+
+[
+M_{t+1}
+=======
+
+M_t
++
+\Delta M
+]
+
+---
+
+### Note
+
+Distribution Readout không sinh ra một latent vector tùy ý mà sinh ra một structured representation gồm nhiều semantic block tương ứng với từng loại pattern.
+
+Điều này giúp Mastery Update Network luôn nhận được đầu vào có cùng cấu trúc và cùng ý nghĩa giữa mọi student.
+
+---
+
+# 4. Prediction
+
+Sau khi cập nhật mastery, mô hình thực hiện dự đoán câu hỏi tiếp theo.
+
+```mermaid
+flowchart LR
+
+Updated Mastery
+
+-->Prediction
+
+Target Question
+
+-->Prediction
+
+Prediction
+
+-->Probability
+```
+
+Sơ bộ,
+
+[
+\hat y
+======
+
+f(M_{t+1},q_{t+1})
+]
+
+---
+
+### Note
+
+Prediction không còn phụ thuộc trực tiếp vào hidden state của backbone.
+
+Toàn bộ quá trình dự đoán được thực hiện trên Knowledge State sau khi đã trải qua:
+
+* interaction representation learning,
+* probabilistic pattern reasoning,
+* mastery state update.
+
+---
+
+# Tổng kết
+
+Toàn bộ framework có thể được nhìn dưới góc độ bốn không gian biểu diễn liên tiếp:
+
+```text
+Historical Interaction
+        │
+        ▼
+Interaction Space
+(Contextual Interaction Representation)
+        │
+        ▼
+Distribution Space
+(Interaction Pattern Representation)
+        │
+        ▼
+Knowledge Space
+(Mastery State)
+        │
+        ▼
+Prediction Space
+(Response Probability)
+```
+
+Điểm khác biệt cốt lõi của proposal v0.2 không còn nằm ở việc **đưa Knowledge State sang miền phân phối**, mà ở việc **đưa quá trình lập luận trên interaction pattern sang miền phân phối**. Nói cách khác, **Mastery vẫn được duy trì trong không gian vector**, trong khi **Distribution Space trở thành một tầng reasoning trung gian** dành riêng cho việc xây dựng, tổng hợp và điều chỉnh các learning pattern trước khi cập nhật Knowledge State. Đây cũng là thay đổi lớn nhất so với proposal v0.1 và giúp vai trò của từng module trở nên rõ ràng, nhất quán và dễ bảo vệ hơn.

@@ -1,0 +1,188 @@
+# Bối cảnh và vấn đề
+
+Các mô hình Knowledge Tracing hiện tại (DKT, GKT, SAKT, MCKT) thường trực tiếp ánh xạ chuỗi tương tác lịch sử sang trạng thái mastery thông qua một hidden state. Mặc dù đạt hiệu suất dự đoán cao, cách tiếp cận này bỏ qua một câu hỏi quan trọng: **làm thế nào để mô hình hóa quá trình tổng hợp và so sánh các learning pattern trước khi cập nhật mastery?**
+
+Một số nghiên cứu gần đây bắt đầu xử lý vấn đề này. PLKT sử dụng các phép toán logic trên phân phối Beta để xây dựng reasoning path. KeenKT mô hình hóa mastery dưới dạng Normal-Inverse-Gaussian distribution. SSKT thay thế point embedding bằng Gaussian distribution để biểu diễn uncertainty. Tuy nhiên, tất cả các work này đều có chung một hạn chế: **phân phối được sử dụng để biểu diễn mastery hoặc uncertainty của học sinh**, chứ không được sử dụng làm không gian trung gian cho việc xây dựng learning pattern.
+
+Đề xuất này đặt ra một góc nhìn khác: thay vì đưa mastery sang miền phân phối, **đưa quá trình xây dựng interaction pattern sang miền phân phối**, trong khi mastery vẫn được duy trì trong không gian vector. Phân phối ở đây phục vụ cho việc biểu diễn và tổng hợp pattern, không phải cho reasoning. Reasoning — tức suy luận để cập nhật mastery — vẫn diễn ra trên không gian vector, nhưng dựa trên các pattern representations đã được xây dựng trên miền phân phối.
+
+---
+
+# Research Questions
+
+1. Liệu một tầng biểu diễn phân phối trung gian, được sử dụng riêng cho việc xây dựng và tổng hợp learning pattern, có cải thiện khả năng mô hình hóa sự tiến hóa tri thức so với các mô hình chỉ dùng hidden state?
+
+2. Các learning pattern multi-view (thời gian, khái niệm, tiên quyết) có thể được tổng hợp hiệu quả trên không gian phân phối như thế nào?
+
+3. Phân phối nào phù hợp nhất cho intermediate pattern construction — và tại sao?
+
+---
+
+# Mô hình tổng thể
+
+Đề xuất xây dựng một framework Knowledge Tracing gồm bốn module chính, trong đó quá trình học được chia thành bốn tầng biểu diễn liên tiếp:
+
+* **Interaction Space**: học biểu diễn ngữ cảnh chuỗi tương tác dưới dạng vector.
+* **Distribution Space**: chuyển biểu diễn vector sang phân phối, sau đó xây dựng và tổng hợp các learning pattern.
+* **Knowledge Space**: suy luận và cập nhật trạng thái tri thức dựa trên các pattern representations.
+* **Prediction Space**: dự đoán kết quả của tương tác tiếp theo.
+
+```mermaid
+flowchart LR
+    A[Historical Interactions] --> B[Interaction Representation Learning]
+    B --> C[Probabilistic Pattern Construction]
+    C --> D[Mastery State Update]
+    D --> E[Prediction]
+```
+
+Phân biệt rõ vai trò của từng module:
+
+* **Module 2 (Pattern Construction)** — **biểu diễn và tổng hợp**: chuyển vector sang phân phối, xây dựng multi-view patterns, điều chỉnh theo pedagogical priors. Module này **không thực hiện suy luận** mà chỉ **chuẩn bị biểu diễn**.
+* **Module 3 (Mastery Update)** — **suy luận và cập nhật**: từ structured pattern representations, model **infer** cách mastery thay đổi. Đây mới là nơi reasoning thực sự diễn ra.
+
+---
+
+# Module 1: Interaction Representation Learning
+
+Module đầu tiên xây dựng biểu diễn ngữ cảnh của từng interaction, tách biệt thành hai nhánh thông tin song song:
+
+* **Interaction Context** — mô hình hóa động lực chuỗi tương tác:语义 câu hỏi, độ khó, và câu trả lời của học sinh.
+* **Knowledge Context** — mô hình hóa sự tiến hóa tri thức cục bộ: mastery memory hiện tại, cấu trúc knowledge graph, và độ khó concept.
+
+Hai nhánh được xử lý riêng biệt bởi hai encoder và được fusion thành biểu diễn tương tác cuối cùng. Ưu điểm của thiết kế song song này là mỗi nhánh học một loại dynamics khác nhau — thay vì gộp chung semantic và difficulty vào một nhánh duy nhất.
+
+Đặc biệt, Knowledge Context không sử dụng toàn bộ mastery记忆 của học sinh mà chỉ truy xuất vùng tri thức liên quan tới câu hỏi hiện tại thông qua knowledge graph. Điều này giúp biểu diễn knowledge context tập trung vào relevant knowledge regions thay vì bị pha loãng bởi toàn bộ historical mastery.
+
+Sơ bộ, biểu diễn tương tác được tạo thành từ sự kết hợp của hai nhánh:
+
+$$\mathbf{z}_t = \text{Fusion}\big(\text{Encoder}_{\text{obs}}(I_t),\; \text{Encoder}_{\text{know}}(K_t)\big)$$
+
+trong đó $I_t$ là Interaction Context và $K_t$ là Knowledge Context.
+
+---
+
+# Module 2: Probabilistic Pattern Construction
+
+Module thứ hai thực hiện chuyển đổi biểu diễn interaction từ không gian vector sang không gian phân phối, sau đó xây dựng và tổng hợp các learning pattern. Đây là phần tạo nên sự khác biệt của đề xuất — nhưng cần hiểu rõ: **module này là construction, không phải reasoning**.
+
+## Tại sao cần Distribution Space?
+
+Các mô hình hiện tại thường xây dựng pattern trực tiếp trên vector representation thông qua attention hoặc weighted sum. Tuy nhiên, vector operations hạn chế trong việc biểu diễn các relationships phức tạp giữa các learning pattern — đặc biệt khi cần aggregation, comparison, và modulation trên nhiều view khác nhau.
+
+Phân phối cung cấp một không gian biểu diễn phong phú hơn: ngoài giá trị trung tâm (expectation), phân phối còn mang thông tin về spread và shape — tương ứng với confidence và pattern characteristics. Điều này cho phép các phép toán trên phân phối capture được nhiều relationships hơn so với vector operations thuần túy.
+
+Tuy nhiên, phân phối **không thực hiện suy luận**. Nó chỉ cung cấp **không gian biểu diễn phù hợp hơn** cho việc xây dựng pattern. Reasoning — tức quyết định mastery thay đổi thế nào — vẫn là việc của Module 3.
+
+## Distribution Projection
+
+Biểu diễn vector được chuyển sang biểu diễn phân phối thông qua một Statistical Descriptor Decoder. Đề xuất sử dụng Beta distribution với hai tham số $(\alpha, \beta)$ — vì Beta doğal giới hạn trên $[0,1]$ và trực tiếp interpretable dưới dạng probability with confidence, phù hợp cho việc biểu diễn learning patterns.
+
+$$h_t = \Phi(\mathbf{z}_t) \quad \text{với} \quad h_t = (\alpha_t, \beta_t)$$
+
+Lưu ý: phân phối ở đây **không nhằm biểu diễn mastery** mà nhằm tạo ra một không gian biểu diễn phù hợp hơn cho việc xây dựng và tổng hợp pattern.
+
+## Multi-view Pattern Aggregation
+
+Sau khi thu được chuỗi phân phối, mô hình xây dựng nhiều learning pattern thông qua các multi-view pattern operators. Mỗi operator tổng hợp phân phối theo một góc nhìn khác nhau:
+
+* **Temporal view**: tổng hợp pattern theo thời gian — capture learning trajectory và progression.
+* **Concept-based view**: tổng hợp pattern theo khái niệm — capture mastery evolution trên cùng một concept.
+* **Structural view**: tổng hợp pattern theo quan hệ tiên quyết và khái niệm lân cận — capture knowledge transfer.
+
+Mỗi pattern operator luôn mang cùng một semantic, do đó pattern representation giữ được tính nhất quán giữa các student mặc dù số lượng interaction khác nhau. Số lượng view và cách thức aggregation sẽ được xác định thông qua experimental validation.
+
+## Pedagogical Pattern Modulation
+
+Sau khi xây dựng pattern, các soft pedagogical rules được sử dụng để điều chỉnh phân phối. Khác với NSKT — nơi rules đóng vai trò suy luận trực tiếp mastery — ở đây rules chỉ điều chỉnh pattern representation. Vai trò của rules là inject prior pedagogical knowledge vào quá trình xây dựng pattern mà không deterministically quyết định mastery.
+
+---
+
+# Module 3: Mastery State Update
+
+Sau khi Module 2 hoàn thành việc xây dựng pattern representations, Module 3 thực hiện **suy luận để cập nhật mastery**. Đây là bước reasoning thực sự trong toàn bộ pipeline: model phải **infer** cách các learning patterns ảnh hưởng đến trạng thái tri thức.
+
+## Distribution Readout
+
+Đầu tiên, một Distribution Readout biến đổi các adjusted patterns từ phân phối về dạng vector representation. Để đảm bảo tính nhất quán, readout sinh ra một structured representation gồm nhiều semantic block — mỗi block tương ứng với một loại pattern view. Điều này giúp Mastery Update Network luôn nhận được đầu vào có cùng cấu trúc và cùng ý nghĩa giữa mọi student.
+
+## Mastery Reasoning
+
+Từ structured pattern representation, model thực hiện suy luận để xác định mastery thay đổi như thế nào. Quá trình này có thể được hiểu như: "dựa trên các learning patterns đã được xây dựng, mastery hiện tại nên được điều chỉnh ra sao?"
+
+$$M_{t+1} = M_t + \Delta M$$
+
+trong đó $\Delta M$ là kết quả của quá trình suy luận từ structured patterns.
+
+Việc duy trì mastery trong không gian vector — thay vì chuyển sang phân phối — giúp mô hình tránh được các phức tạp trong optimization của distributional mastery, đồng thời giữ compatibility với các backbone representation hiện có.
+
+---
+
+# Module 4: Prediction
+
+Sau khi cập nhật mastery, mô hình thực hiện dự đoán câu hỏi tiếp theo. Prediction không còn phụ thuộc trực tiếp vào hidden state của backbone mà hoàn toàn thực hiện trên Knowledge State — kết quả của quá trình interaction representation learning → pattern construction → mastery reasoning.
+
+$$\hat{y} = f(M_{t+1},\; q_{t+1})$$
+
+Thiết kế này giúp quá trình dự đoán được thực hiện trên một representation đã trải qua nhiều tầng xử lý, thay vì trực tiếp từ raw hidden state.
+
+---
+
+# Related Work và Vị trí hóa
+
+Đề xuất này nằm trong giao điểm của nhiều hướng nghiên cứu hiện tại:
+
+* **Distribution-based KT**: SSKT (Gaussian), KeenKT (NIG), UKT (Wasserstein), PLKT (Beta) đều sử dụng phân phối — nhưng chủ yếu cho mastery representation. Đề xuất khác biệt ở chỗ sử dụng phân phối cho pattern construction intermediate.
+
+* **Pattern-based reasoning**: PLKT xây dựng logical patterns trên Beta distributions; FINER trích xuất Follow-up Performance Trends. Đề xuất mở rộng bằng multi-view pattern aggregation thay vì single-view.
+
+* **Sequence modeling with Mamba**: MCKT chứng minh hiệu quả của parallel Mamba architecture cho content-aware KT. Đề xuất tích hợp kiến trúc này làm backbone nhưng bổ sung topology-aware branch.
+
+* **Interpretability**: NSKT sử dụng symbolic rules cho interpretability; RAGKT dùng LLM cho diagnostic reports. Đề xuất inject interpretability thông qua structured pattern representation — mỗi block mang semantic rõ ràng.
+
+---
+
+# Research Plan
+
+## Giai đoạn 1: Thiết kế và implement baseline
+* Xây dựng pipeline data processing cho các benchmark datasets (ASSIST09, ASSIST12, EdNet, DBE-KT22).
+* Implement vanilla Mamba-based KT làm baseline.
+* Xác định evaluation metrics: AUC, ACC, RMSE, MAE.
+
+## Giai đoạn 2: Prototype module-by-module
+* Prototype Interaction Representation Learning với hai nhánh song song.
+* Thử nghiệm Distribution Projection với Beta, Gaussian, và NIG để so sánh.
+* Prototype multi-view pattern aggregation.
+* Ablation study cho từng module.
+
+## Giai đoạn đoạn 3: Optimization và so sánh
+* End-to-end training với các loss function phù hợp.
+* So sánh với SOTA: PLKT, KeenKT, SSKT, UKT, MCKT, FINER.
+* Phân tích interpretability: visualization các pattern representations.
+
+---
+
+# Tổng kết
+
+Toàn bộ framework có thể được nhìn dưới góc độ bốn không gian biểu diễn liên tiếp:
+
+```text
+Historical Interaction
+        │
+        ▼
+Interaction Space
+(Contextual Interaction Representation)
+        │
+        ▼
+Distribution Space
+(Interaction Pattern Construction)
+        │
+        ▼
+Knowledge Space
+(Mastery Reasoning & Update)
+        │
+        ▼
+Prediction Space
+(Response Probability)
+```
+
+Điểm khác biệt cốt lõi: **Mastery vẫn được duy trì trong không gian vector**, trong khi **Distribution Space trở thành một tầng biểu diễn trung gian** dành riêng cho việc xây dựng, tổng hợp và điều chỉnh các learning pattern. Reasoning — tức suy luận để cập nhật mastery — vẫn diễn ra trên không gian vector nhưng dựa trên các pattern representations đã được xây dựng trên miền phân phối. Hướng tiếp cận này cho phép mô hình capture được các relationships phức tạp giữa learning patterns thông qua distributional representation, trong khi tránh được các phức tạp optimization của distributional mastery modeling.
