@@ -1,0 +1,2 @@
+dataset: assist09
+batch_size: 128   # ~6.6GB peak, ~1.5x faster/epoch; GPU RAM headroom allows it

@@ -1,0 +1,4 @@
+dataset: eedi
+batch_size: 64   # doubled from 32 (applies to future runs; the currently
+                 # running eedi job already loaded batch_size=32 at startup
+                 # and is unaffected by this file's edit)

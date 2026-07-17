@@ -1,0 +1,5 @@
+dataset: junyi
+batch_size: 64    # doubled from 32; ~13GB peak expected at 4x this size on
+                  # assist09, junyi's larger per-sample cost (C=1326) should
+                  # still fit comfortably given ~17GB system headroom
+d_v: 16
