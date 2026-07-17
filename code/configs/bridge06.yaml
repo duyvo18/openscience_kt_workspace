@@ -1,0 +1,3 @@
+dataset: bridge06
+batch_size: 128
+d_v: 16          # larger KC space -> smaller value dim to bound memory

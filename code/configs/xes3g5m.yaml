@@ -1,0 +1,3 @@
+dataset: xes3g5m
+batch_size: 128
+d_v: 16

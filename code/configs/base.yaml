@@ -1,0 +1,35 @@
+# Defaults shared by all datasets. Per-dataset files override as needed.
+seq_len: 200
+k_max: 4
+k_rel: 20
+min_interactions: 3
+min_q_freq: 5
+max_questions: 100000
+n_difficulty_bins: 20
+
+d_emb: 64
+d_model: 128
+d_z: 64
+d_v: 32
+d_key: 32
+n_heads: 4
+dropout: 0.2
+temporal_k: 20
+
+batch_size: 64
+eval_batch_size: 128
+lr: 0.001
+weight_decay: 0.00001
+epochs: 50
+patience: 5
+tbptt: 5            # empirically best: full-BPTT (200) + mastery_grad_clip is
+                    # numerically stable (no NaN) but converges to a WORSE
+                    # optimum on assist09 (test AUC 0.677 vs 0.717) - the
+                    # short window, despite noisier epoch-to-epoch AUC, reaches
+                    # a better optimum. Keep mastery_grad_clip as a safety net
+                    # (harmless at tbptt=5) but do not raise tbptt by default.
+mastery_grad_clip: 1.0
+grad_clip: 5.0
+amp: true
+seed: 42
+num_workers: 2

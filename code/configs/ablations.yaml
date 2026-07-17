@@ -1,0 +1,4 @@
+# Ablations are driven by --ablation <name> (see dpa_kt/config.py ABLATIONS).
+# Recommended ablation datasets: assist09 (fast) + xes3g5m (modern benchmark).
+# Names: full, no_temporal, no_samekc, no_prereq, no_neighbor,
+#        no_mono, no_gs, no_distributional, single_branch
