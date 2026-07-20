@@ -104,66 +104,185 @@ package. Regenerate it with `python scripts/build_notebook.py`.
 ## Workspace folder tree
 
 ```
-The repository/
-├── README.md, PLAN.md              this file / progress checklist
-├── main.pdf                        the conceptual DPA-KT paper
-├── Main model architecture.png     reference architecture diagram (above)
+.
+├── .claude/
+│   └── settings.local.json
+├── .env
+├── .gitignore
+├── Main model architecture.png
+├── README.md
+├── dpa_kt_vs_pykt_baselines_report.md
+├── main.pdf
 ├── requirements.txt
-├── .env                            local secrets (gitignored, e.g. sudo pw)
-│
-├── dpa_kt/                         the package — all logic lives here
-│   ├── config.py                   Config dataclass, YAML load/merge, ablation presets
-│   ├── utils.py                    seeding, RNG save/restore, timers, param count
-│   ├── data/
-│   │   ├── canonical.py            canonical parquet schema + vocab/difficulty maps
-│   │   ├── loaders/                one file per dataset family
-│   │   │   ├── assist09.py  assist12.py  junyi.py
-│   │   │   ├── eedi.py  xes3g5m.py  kddcup.py   (algebra05 + bridge06)
-│   │   ├── sequences.py            pyKT-style sequencing -> memmap .npy
-│   │   ├── kc_graph.py             prerequisite/neighbor KC graph estimation
-│   │   └── dataset.py              memmap Dataset + DataLoader factory
-│   ├── models/
-│   │   ├── embeddings.py           embedding tables + masked_softmax
-│   │   ├── interaction_encoder.py  Module 1 (Transformer branch + GRU branch)
-│   │   ├── distribution.py         Module 2.1 (Gaussian projection + KL)
-│   │   ├── patterns.py             Module 2.2-2.4 (4 pattern operators + readout)
-│   │   ├── mastery.py              Module 3 (mastery state + gating)
-│   │   ├── predictor.py            Module 4 (KC contributions + guess/slip)
-│   │   └── dpa_kt.py                assembly: time loop, losses, attribution trace
-│   ├── training/
-│   │   ├── trainer.py              fit/evaluate/predict, AMP, early stopping, resume
-│   │   ├── checkpoint.py           save/load model+optimizer+scheduler+epoch+RNG
-│   │   ├── metrics.py              AUC/ACC/RMSE, param count
-│   │   └── csv_logger.py           per-epoch CSV logging
-│   └── analysis/
-│       ├── literature.py           static literature AUC table + comparison frame
-│       ├── attribution.py          per-student attribution trace extraction
-│       └── visualize.py            every plotting function used by the notebook
-│
-├── configs/                        base.yaml + one YAML per dataset + ablations.yaml
-├── scripts/
-│   ├── setup_venv.sh                venv + deps + Jupyter kernel
-│   ├── preprocess.py                CLI: loader -> canonical -> sequences -> KC graph
-│   ├── train.py                     CLI: train / ablate / resume
-│   ├── build_notebook.py            (re)generates the master notebook
-│   └── run_all.sh                   trains every dataset + the 18-run ablation grid
-├── notebooks/
-│   └── DPA_KT_master.ipynb          the orchestration notebook (13 sections)
-│
-├── datasets/                        raw input data
-│   ├── dataset ASSISTments/          2009-2010, 2012-13-with-affect
-│   ├── dataset Junyi Academy/
-│   ├── dataset XES3G5M (Google Drive)/
+├── configs/
+│   ├── ablations.yaml
+│   ├── algebra05.yaml
+│   ├── assist09.yaml
+│   ├── assist12.yaml
+│   ├── base.yaml
+│   ├── bridge06.yaml
+│   ├── eedi.yaml
+│   ├── junyi.yaml
+│   └── xes3g5m.yaml
+├── data_cache/                   # generated, gitignored
+│   ├── canonical/
+│   │   ├── algebra05.parquet
+│   │   ├── assist09.parquet
+│   │   ├── assist12.parquet
+│   │   ├── bridge06.parquet
+│   │   ├── eedi.parquet
+│   │   ├── junyi.parquet
+│   │   └── xes3g5m.parquet
+│   ├── graphs/
+│   │   ├── algebra05.npz
+│   │   ├── assist09.npz
+│   │   ├── assist12.npz
+│   │   ├── bridge06.npz
+│   │   ├── eedi.npz
+│   │   ├── junyi.npz
+│   │   └── xes3g5m.npz
+│   ├── maps/
+│   │   ├── algebra05.json
+│   │   ├── assist09.json
+│   │   ├── assist12.json
+│   │   ├── bridge06.json
+│   │   ├── eedi.json
+│   │   ├── junyi.json
+│   │   └── xes3g5m.json
+│   ├── raw/
+│   │   └── assist12/
+│   └── sequences/
+│       ├── algebra05/
+│       ├── assist09/
+│       ├── assist12/
+│       ├── bridge06/
+│       ├── eedi/
+│       ├── junyi/
+│       └── xes3g5m/
+├── datasets/
+│   ├── dataset ASSISTments/
+│   │   ├── 2009-2010/
+│   │   └── 2012-13-school-data-with-affect/
 │   ├── dataset Eedi NeurIPS 2020/
-│   └── dataset PSLC KDD Cup 2010/    algebra_2005_2006, bridge_to_algebra_2006_2007
-│
-├── data_cache/                      generated, gitignored
-│   ├── canonical/  maps/            per-dataset parquet + vocab/difficulty JSON
-│   ├── sequences/  graphs/          memmap .npy sequences + KC graph .npz
-│   └── raw/assist12/                one-time ZIP extraction
-│
-└── runs/                            generated, gitignored
-    └── <dataset>_<ablation>/         last.pt, best.pt, log.csv, test_metrics.json
+│   │   ├── data_extracted/
+│   │   └── starter_kit_extracted/
+│   ├── dataset Junyi Academy/
+│   │   └── Junyi/
+│   ├── dataset PSLC KDD Cup 2010/
+│   │   ├── algebra_2005_2006/
+│   │   └── bridge_to_algebra_2006_2007/
+│   └── dataset XES3G5M (Google Drive)/
+│       └── XES3G5M/
+├── dpa_kt/
+│   ├── __init__.py
+│   ├── config.py
+│   ├── utils.py
+│   ├── analysis/
+│   │   ├── __init__.py
+│   │   ├── attribution.py
+│   │   ├── literature.py
+│   │   └── visualize.py
+│   ├── data/
+│   │   ├── __init__.py
+│   │   ├── canonical.py
+│   │   ├── dataset.py
+│   │   ├── kc_graph.py
+│   │   ├── loaders/
+│   │   └── sequences.py
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── distribution.py
+│   │   ├── dpa_kt.py
+│   │   ├── embeddings.py
+│   │   ├── interaction_encoder.py
+│   │   ├── mastery.py
+│   │   ├── patterns.py
+│   │   └── predictor.py
+│   └── training/
+│       ├── __init__.py
+│       ├── checkpoint.py
+│       ├── csv_logger.py
+│       ├── metrics.py
+│       └── trainer.py
+├── notebooks/
+│   ├── DPA_KT_master.ipynb
+│   └── figures/
+│       ├── algebra05_beta_student0_first.png
+│       ├── algebra05_beta_student0_last.png
+│       ├── algebra05_beta_student_last_first.png
+│       ├── algebra05_beta_student_last_last.png
+│       ├── algebra05_kc_graph.png
+│       ├── algebra05_mastery_spider_student0.png
+│       ├── algebra05_mastery_spider_student_last.png
+│       ├── assist09_beta_student0_first.png
+│       ├── assist09_beta_student0_last.png
+│       ├── assist09_beta_student_last_first.png
+│       ├── assist09_beta_student_last_last.png
+│       ├── assist09_kc_graph.png
+│       ├── assist09_mastery_spider_student0.png
+│       ├── assist09_mastery_spider_student_last.png
+│       ├── assist12_beta_student0_first.png
+│       ├── assist12_beta_student0_last.png
+│       ├── assist12_kc_graph.png
+│       ├── assist12_mastery_spider_student0.png
+│       ├── bridge06_beta_student0_first.png
+│       ├── bridge06_beta_student0_last.png
+│       ├── bridge06_beta_student_last_first.png
+│       ├── bridge06_beta_student_last_last.png
+│       ├── bridge06_kc_graph.png
+│       ├── bridge06_mastery_spider_student0.png
+│       ├── bridge06_mastery_spider_student_last.png
+│       ├── composite_first_student.png
+│       ├── composite_last_student.png
+│       ├── eedi_kc_graph.png
+│       ├── junyi_kc_graph.png
+│       ├── xes3g5m_beta_student0_first.png
+│       ├── xes3g5m_beta_student0_last.png
+│       ├── xes3g5m_beta_student_last_first.png
+│       ├── xes3g5m_beta_student_last_last.png
+│       ├── xes3g5m_kc_graph.png
+│       ├── xes3g5m_mastery_spider_student0.png
+│       └── xes3g5m_mastery_spider_student_last.png
+├── runs/                         # generated, gitignored
+│   ├── algebra05_full/
+│   ├── assist09_full/
+│   ├── assist09_no_distributional/
+│   ├── assist09_no_gs/
+│   ├── assist09_no_mono/
+│   ├── assist09_no_neighbor/
+│   ├── assist09_no_prereq/
+│   ├── assist09_no_samekc/
+│   ├── assist09_no_temporal/
+│   ├── assist09_single_branch/
+│   ├── assist12_full/
+│   ├── bridge06_full/
+│   ├── eedi_full/
+│   ├── exp_nodist/
+│   ├── exp_reg/
+│   ├── exp_reg2/
+│   ├── exp_reg3/
+│   ├── exp_small/
+│   ├── exp_smallreg/
+│   ├── exp_wd/
+│   ├── junyi_full/
+│   ├── xes3g5m_full/
+│   ├── xes3g5m_no_distributional/
+│   ├── xes3g5m_no_gs/
+│   ├── xes3g5m_no_mono/
+│   ├── xes3g5m_no_neighbor/
+│   ├── xes3g5m_no_prereq/
+│   ├── xes3g5m_no_samekc/
+│   ├── xes3g5m_no_temporal/
+│   └── xes3g5m_single_branch/
+├── scripts/
+│   ├── build_notebook.py
+│   ├── preprocess.py
+│   ├── queue_run.sh
+│   ├── run_all.sh
+│   ├── setup_venv.sh
+│   └── train.py
+└── venv/                          # local virtualenv, gitignored
+    └── ...
 ```
 
 ## Notes & caveats

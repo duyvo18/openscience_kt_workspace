@@ -14,6 +14,9 @@ def register(name: str):
     return deco
 
 
-# Import every loader module so its @register runs. Registry keys:
-#   assist09, algebra05, bridge06, xes3g5m, assist12, eedi, junyi
-from . import assist09, assist12, eedi, junyi, kddcup, xes3g5m  # noqa: E402,F401
+from .assist09 import *
+from .assist12 import *
+from .eedi import *
+from .junyi import *
+from .kddcup import *
+from .xes3g5m import *

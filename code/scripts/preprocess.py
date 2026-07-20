@@ -13,8 +13,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from dpa_kt.data import canonical, kc_graph
 from dpa_kt.config import load_config
-from dpa_kt.data import canonical, kc_graph, sequences
+from dpa_kt.data import sequences
 from dpa_kt.data.loaders import LOADERS
 
 ALL = ["assist09", "algebra05", "bridge06", "xes3g5m", "assist12", "eedi", "junyi"]

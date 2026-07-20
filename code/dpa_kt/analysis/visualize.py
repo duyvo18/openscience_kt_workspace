@@ -179,6 +179,87 @@ def plot_beta_contributions(trace, b: int, step: int, kc_names=None):
 
 
 # ----------------------------------------------------------------------
+# Mastery spider/radar chart
+# ----------------------------------------------------------------------
+def plot_mastery_spider(mastery_first: np.ndarray, mastery_last: np.ndarray,
+                        kc_labels, title="Mastery spider"):
+    """Radar chart comparing mastery at first vs last interaction.
+
+    mastery_first / mastery_last: 1-D arrays of length n_kcs (or subset).
+    kc_labels: list of strings for KC names/ids.
+    """
+    import matplotlib.pyplot as plt
+
+    mastery_first = np.asarray(mastery_first)
+    mastery_last = np.asarray(mastery_last)
+    kc_labels = [str(l) for l in kc_labels]
+    n = len(kc_labels)
+    angles = np.linspace(0, 2 * np.pi, n, endpoint=False).tolist()
+    angles += angles[:1]
+    mf = np.concatenate([mastery_first, mastery_first[:1]])
+    ml = np.concatenate([mastery_last, mastery_last[:1]])
+
+    fig, ax = plt.subplots(figsize=(max(8, n * 0.6), max(8, n * 0.6)), subplot_kw=dict(projection="polar"))
+    ax.plot(angles, mf, "-o", ms=3, label="first interaction", color="#4C72B0")
+    ax.fill(angles, mf, alpha=0.15, color="#4C72B0")
+    ax.plot(angles, ml, "-o", ms=3, label="last interaction", color="#C44E52")
+    ax.fill(angles, ml, alpha=0.15, color="#C44E52")
+    ax.set_xticks(angles[:-1])
+    ax.set_xticklabels(kc_labels, fontsize=max(7, min(10, 90 // n)))
+    ax.set_ylim(0, 1)
+    ax.set_title(title)
+    ax.legend(loc="upper right", bbox_to_anchor=(1.3, 1.1))
+
+    # Set CJK-capable font so non-ASCII labels (e.g. Chinese KC names in xes3g5m)
+    # render correctly instead of as boxed glyphs.
+    _use_cjk_font(ax)
+
+    fig.tight_layout()
+    return fig
+
+
+def _use_cjk_font(ax) -> None:
+    """Configure a CJK-capable font on the given Axes so non-Latin labels render.
+
+    Falls back silently to whatever font is available if no CJK font is found.
+    """
+    import matplotlib.font_manager as fm
+    from matplotlib import rcParams
+
+    cjk_candidates = [
+        "Noto Sans CJK SC",
+        "Noto Sans CJK TC",
+        "Noto Sans CJK JP",
+        "WenQuanYi Zen Hei",
+        "WenQuanYi Micro Hei",
+        "SimHei",
+        "Microsoft YaHei",
+        "PingFang SC",
+        "Source Han Sans CN",
+        "Source Han Sans SC",
+        "AR PL UMing CN",
+        "AR PL UKai CN",
+        "Droid Sans Fallback",
+    ]
+    available = {f.name for f in fm.fontManager.ttflist}
+    chosen = next((c for c in cjk_candidates if c in available), None)
+    if chosen is None:
+        return
+    fp = fm.FontProperties(family=chosen)
+    for lbl in ax.get_xticklabels():
+        lbl.set_fontproperties(fp)
+    for lbl in ax.get_yticklabels():
+        lbl.set_fontproperties(fp)
+    ax.set_title(ax.get_title(), fontproperties=fp)
+    leg = ax.get_legend()
+    if leg is not None:
+        for txt in leg.get_texts():
+            txt.set_fontproperties(fp)
+    rcParams["font.sans-serif"] = [chosen, "DejaVu Sans"]
+    rcParams["axes.unicode_minus"] = False
+
+
+# ----------------------------------------------------------------------
 # Ablation matrix
 # ----------------------------------------------------------------------
 def plot_ablation_matrix(results: dict, datasets, title="Ablation ΔAUC vs full"):
@@ -206,4 +287,128 @@ def plot_ablation_matrix(results: dict, datasets, title="Ablation ΔAUC vs full"
     ax.set_title(title)
     fig.colorbar(im, ax=ax, fraction=0.03, label="ΔAUC (full=abs)")
     fig.tight_layout()
+    return fig
+
+
+# ----------------------------------------------------------------------
+# Per-dataset composite (single big figure for one dataset)
+# ----------------------------------------------------------------------
+def plot_dataset_composite(
+    ds: str,
+    spider_first_ax: plt.Axes,
+    spider_last_ax: plt.Axes,
+    beta_first_ax: plt.Axes,
+    beta_last_ax: plt.Axes,
+    kc_graph_ax: plt.Axes,
+    titles: dict,
+    fig=None,
+):
+    """No-op aggregator; use ``plot_dataset_composite_grid`` to compose
+    multiple composite figures into one large grid figure.
+    """
+    raise NotImplementedError(
+        "Use plot_dataset_composite_grid to render multiple dataset composites."
+    )
+
+
+def plot_dataset_composite_grid(
+    per_dataset_payloads: list[tuple[str, dict]],
+    ncols: int = 1,
+    suptitle: str = "Per-dataset mastery spider + beta contributions",
+):
+    """Compose one big figure with each dataset in its own row.
+
+    Each row has 4 panels: KC-graph | mastery spider (first student) | beta
+    bar (first step) | beta bar (last step). Saves a single PNG and returns
+    the Figure so the notebook can embed it.
+
+    per_dataset_payloads: list of (dataset_name, payload_dict).
+        payload_dict keys:
+          - "kc_graph": (P_rel, N_rel)
+          - "spider_first": (m_first_vals, m_last_vals, kc_labels)
+          - "beta_first": (beta_vals, kc_labels_sorted)
+          - "beta_last":  (beta_vals, kc_labels_sorted)
+    """
+    import matplotlib.pyplot as plt
+    from matplotlib.gridspec import GridSpec
+
+    n = len(per_dataset_payloads)
+    rows = n
+    fig = plt.figure(figsize=(24, 5 * rows))
+    gs = GridSpec(rows, 4, figure=fig, hspace=0.55, wspace=0.35,
+                  width_ratios=[1, 1.4, 1, 1])
+
+    for r, (ds, payload) in enumerate(per_dataset_payloads):
+        # Panel 1: KC graph degree distributions
+        ax_kc = fig.add_subplot(gs[r, 0])
+        if payload.get("kc_graph") is not None:
+            P, N = payload["kc_graph"]
+            ax_kc.hist(np.asarray(P).sum(1), bins=20, color="#4C72B0", label="prereq")
+            ax_kc2 = ax_kc.twinx()
+            ax_kc2.hist(np.asarray(N).sum(1), bins=20, color="#55A868",
+                        alpha=0.6, label="neighbor")
+            ax_kc.set_title(f"{ds}: KC degree distribution")
+            ax_kc.set_xlabel("# edges")
+            ax_kc.set_ylabel("prereq count", color="#4C72B0")
+            ax_kc2.set_ylabel("neighbor count", color="#55A868")
+            ax_kc.legend(loc="upper left", fontsize=8)
+            ax_kc2.legend(loc="upper right", fontsize=8)
+            _use_cjk_font(ax_kc); _use_cjk_font(ax_kc2)
+        else:
+            ax_kc.text(0.5, 0.5, f"{ds}\nKC graph N/A", ha="center", va="center")
+            ax_kc.set_xticks([]); ax_kc.set_yticks([])
+
+        # Panel 2: mastery spider (polar)
+        ax_sp = fig.add_subplot(gs[r, 1], projection="polar")
+        if payload.get("spider_first") is not None:
+            mf, ml, labels = payload["spider_first"]
+            mf = np.asarray(mf); ml = np.asarray(ml)
+            k = len(labels)
+            angles = np.linspace(0, 2 * np.pi, k, endpoint=False).tolist()
+            angles += angles[:1]
+            ax_sp.plot(angles, np.concatenate([mf, mf[:1]]), "-o", ms=3,
+                       color="#4C72B0", label="first interaction")
+            ax_sp.fill(angles, np.concatenate([mf, mf[:1]]), alpha=0.15, color="#4C72B0")
+            ax_sp.plot(angles, np.concatenate([ml, ml[:1]]), "-o", ms=3,
+                       color="#C44E52", label="last interaction")
+            ax_sp.fill(angles, np.concatenate([ml, ml[:1]]), alpha=0.15, color="#C44E52")
+            ax_sp.set_xticks(angles[:-1])
+            ax_sp.set_xticklabels(labels, fontsize=max(7, min(10, 90 // k)))
+            ax_sp.set_ylim(0, 1)
+            ax_sp.set_title(f"{ds}: mastery spider (first student)")
+            ax_sp.legend(loc="upper right", bbox_to_anchor=(1.3, 1.1))
+            _use_cjk_font(ax_sp)
+        else:
+            ax_sp.text(0.5, 0.5, "N/A", ha="center", va="center")
+            ax_sp.set_xticks([]); ax_sp.set_yticks([])
+
+        # Panel 3: beta at first step
+        ax_b1 = fig.add_subplot(gs[r, 2])
+        if payload.get("beta_first") is not None:
+            vals, kc_labels_sorted = payload["beta_first"]
+            ax_b1.bar(range(len(vals)), vals, color="#8172B3")
+            ax_b1.set_xticks(range(len(kc_labels_sorted)))
+            ax_b1.set_xticklabels(kc_labels_sorted, rotation=90, fontsize=7)
+            ax_b1.set_ylabel("β (KC→prediction)")
+            ax_b1.set_title(f"{ds}: β at first step")
+            _use_cjk_font(ax_b1)
+        else:
+            ax_b1.text(0.5, 0.5, "N/A", ha="center", va="center")
+            ax_b1.set_xticks([]); ax_b1.set_yticks([])
+
+        # Panel 4: beta at last step
+        ax_b2 = fig.add_subplot(gs[r, 3])
+        if payload.get("beta_last") is not None:
+            vals, kc_labels_sorted = payload["beta_last"]
+            ax_b2.bar(range(len(vals)), vals, color="#C44E52")
+            ax_b2.set_xticks(range(len(kc_labels_sorted)))
+            ax_b2.set_xticklabels(kc_labels_sorted, rotation=90, fontsize=7)
+            ax_b2.set_ylabel("β (KC→prediction)")
+            ax_b2.set_title(f"{ds}: β at last step")
+            _use_cjk_font(ax_b2)
+        else:
+            ax_b2.text(0.5, 0.5, "N/A", ha="center", va="center")
+            ax_b2.set_xticks([]); ax_b2.set_yticks([])
+
+    fig.suptitle(suptitle, fontsize=14)
     return fig

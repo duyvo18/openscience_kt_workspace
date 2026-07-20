@@ -1,4 +1,6 @@
 # Defaults shared by all datasets. Per-dataset files override as needed.
+# Aligned with PyKT benchmark defaults (kt_config.json) and common practice:
+#   epochs=200, patience=10, optimizer=Adam, seq_len=200, batch_size adjusted per dataset.
 seq_len: 200
 k_max: 4
 k_rel: 20
@@ -19,9 +21,9 @@ temporal_k: 20
 batch_size: 64
 eval_batch_size: 128
 lr: 0.001
-weight_decay: 0.00001
-epochs: 50
-patience: 5
+weight_decay: 0.0
+epochs: 200
+patience: 10
 tbptt: 5            # empirically best: full-BPTT (200) + mastery_grad_clip is
                     # numerically stable (no NaN) but converges to a WORSE
                     # optimum on assist09 (test AUC 0.677 vs 0.717) - the

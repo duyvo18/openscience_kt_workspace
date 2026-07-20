@@ -586,3 +586,19 @@ TSWLatexianTemp*
 # option is specified. Footnotes are the stored in a file with suffix Notes.bib.
 # Uncomment the next line to have this generated file ignored.
 #*Notes.bib
+
+.env
+venv/
+data_cache/
+runs/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+datasets/
+.claude/code/venv/
+claude-science/linux-x64
+
+# Generated artifacts
+code/Main model architecture.png
+code/main.pdf
+code/notebooks/figures/
