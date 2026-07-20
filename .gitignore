@@ -597,7 +597,10 @@ __pycache__/
 datasets/
 .claude/code/venv/
 claude-science/linux-x64
-
+claude-science/config/.claude-science/active-org.json
+claude-science/config/.claude-science/auth-owner.lock
+claude-science/config/.claude-science/encryption.key
+claude-science/config/.claude-science/here-instances.json
 # Generated artifacts
 code/Main model architecture.png
 code/main.pdf
