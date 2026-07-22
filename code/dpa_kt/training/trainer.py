@@ -1,22 +1,35 @@
 """Training harness: fit / evaluate / predict, AMP, early stopping, resume.
 
-Instrumentation (per epoch, written to runs/<run_name>/log.csv):
+Instrumentation (per epoch, written to runs-50-epochs/<run_name>/log.csv by
+default, or runs-200-epochs/<run_name>/log.csv when DPA_KT_RUNS_200 is set):
   loss + component losses, train/val AUC/ACC/RMSE, lr, epoch seconds,
   throughput (interactions/s), peak GPU memory.
 """
 from __future__ import annotations
 
+import os
 import time
 from pathlib import Path
 
 import numpy as np
 import torch
 
-from ..config import RUNS_DIR, Config
+from ..config import RUNS_DIR, RUNS_DIR_200, Config
 from ..utils import Timer, count_parameters
 from .checkpoint import load_checkpoint, save_checkpoint
 from .csv_logger import CSVLogger
 from .metrics import compute_metrics
+
+
+def _default_run_root() -> Path:
+    """Pick the output root for a run.
+
+    The 200-epoch + 5-fold sweep sets DPA_KT_RUNS_200 so every fold lands
+    under runs-200-epochs/. Everything else (master notebook, ad-hoc
+    training, ablation grid) keeps using runs-50-epochs/.
+    """
+    override = os.environ.get("DPA_KT_RUNS_200")
+    return Path(override) if override else RUNS_DIR
 
 
 class Trainer:
@@ -33,7 +46,7 @@ class Trainer:
             self.optimizer, mode="max", factor=0.5, patience=2
         )
         self.amp = cfg.amp and self.device.type == "cuda"
-        self.run_dir = Path(run_dir or (RUNS_DIR / cfg.run_name))
+        self.run_dir = Path(run_dir or (_default_run_root() / cfg.run_name))
         self.run_dir.mkdir(parents=True, exist_ok=True)
         self.logger = CSVLogger(self.run_dir / "log.csv")
         self.epoch = 0

@@ -1,0 +1,9 @@
+{
+  "auc": 0.8076382808531893,
+  "acc": 0.8258622834263835,
+  "rmse": 0.3537315215214697,
+  "best_val_auc": 0.8077059596810092,
+  "run_name": "xes3g5m_full_fold1",
+  "dataset": "xes3g5m",
+  "ablation": "full"
+}

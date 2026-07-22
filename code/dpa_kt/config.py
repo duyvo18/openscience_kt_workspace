@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import dataclasses
+import os
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -9,7 +10,13 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA_CACHE = ROOT / "data_cache"
-RUNS_DIR = ROOT / "runs"
+RUNS_DIR = ROOT / "runs-50-epochs"
+# Default parent directory for the 200-epoch + 5-fold CV sweep. Individual
+# runs land in <RUNS_DIR_200>/<dataset>_full_fold<i>/. Override by exporting
+# DPA_KT_RUNS_200=/path/to/root before launching the sweep.
+RUNS_DIR_200 = Path(
+    os.environ.get("DPA_KT_RUNS_200", str(ROOT / "runs-200-epochs"))
+)
 DATASETS_DIR = ROOT / "datasets"
 
 

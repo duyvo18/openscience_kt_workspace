@@ -1,0 +1,9 @@
+{
+  "auc": 0.7010719854119504,
+  "acc": 0.6865852836042355,
+  "rmse": 0.4510311055727315,
+  "best_val_auc": 0.7712255123310247,
+  "run_name": "exp_reg",
+  "dataset": "assist09",
+  "ablation": "full"
+}

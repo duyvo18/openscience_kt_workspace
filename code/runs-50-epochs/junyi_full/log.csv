@@ -1,0 +1,2 @@
+epoch,train_loss,train_bce,train_mono,train_gs,train_kl,train_epoch_seconds,train_throughput,val_auc,val_acc,val_rmse,lr,peak_mem_gb
+1,0.52628,0.52451,0.0,0.00184,15.90284,4146.90911,2496.62453,0.75905,0.73753,0.41857,0.001,4.068

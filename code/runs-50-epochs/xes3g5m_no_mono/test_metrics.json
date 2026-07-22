@@ -1,0 +1,9 @@
+{
+  "auc": 0.807154171862419,
+  "acc": 0.8256432536112879,
+  "rmse": 0.3539181098887604,
+  "best_val_auc": 0.8077133147437261,
+  "run_name": "xes3g5m_no_mono",
+  "dataset": "xes3g5m",
+  "ablation": "no_mono"
+}

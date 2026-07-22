@@ -1,0 +1,9 @@
+{
+  "auc": 0.7705914658381071,
+  "acc": 0.8409944958995557,
+  "rmse": 0.3422618319282296,
+  "best_val_auc": 0.8260249091388628,
+  "run_name": "bridge06_full_fold4",
+  "dataset": "bridge06",
+  "ablation": "full"
+}

@@ -9,7 +9,7 @@ import numpy as np
 
 
 # ----------------------------------------------------------------------
-# Training curves (from runs/<run>/log.csv)
+# Training curves (from runs-50-epochs/<run>/log.csv or runs-200-epochs/<run>/log.csv)
 # ----------------------------------------------------------------------
 def plot_learning_curves(csv_path, title: str = ""):
     import matplotlib.pyplot as plt

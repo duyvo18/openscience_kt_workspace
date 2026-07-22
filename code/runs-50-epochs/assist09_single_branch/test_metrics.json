@@ -1,0 +1,9 @@
+{
+  "auc": 0.7049384182826082,
+  "acc": 0.6966345181088555,
+  "rmse": 0.44855767410933095,
+  "best_val_auc": 0.7674919051432813,
+  "run_name": "assist09_single_branch",
+  "dataset": "assist09",
+  "ablation": "single_branch"
+}

@@ -1,0 +1,9 @@
+{
+  "auc": 0.7744289782124124,
+  "acc": 0.8009422625746275,
+  "rmse": 0.3839766648101531,
+  "best_val_auc": 0.7943542933222801,
+  "run_name": "algebra05_full_fold4",
+  "dataset": "algebra05",
+  "ablation": "full"
+}

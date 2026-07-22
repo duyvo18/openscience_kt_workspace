@@ -47,14 +47,14 @@ TASKS=(
 log "=== queue start: ${#TASKS[@]} tasks, cap=$MAXJOBS, gate=${GATE_GB}GB ==="
 for entry in "${TASKS[@]}"; do
   name="${entry%%|||*}"; cargs="${entry##*|||}"
-  if [ -f "runs/$name/test_metrics.json" ]; then log "SKIP $name (done)"; continue; fi
+  if [ -f "runs-50-epochs/$name/test_metrics.json" ]; then log "SKIP $name (done)"; continue; fi
   # wait for a free slot
   while [ "$(jobs -rp | wc -l)" -ge "$MAXJOBS" ]; do wait -n; done
   # RAM gate: don't launch into a tight window
   while [ "$(avail)" -lt "$GATE_GB" ]; do log "gate wait (avail=$(avail)GB, running=$(jobs -rp|wc -l))"; sleep 30; done
   log "START $name  (avail=$(avail)GB, running=$(jobs -rp|wc -l))"
-  ( $PY scripts/train.py $cargs > "runs/q_${name}.log" 2>&1
-    a=$([ -f "runs/$name/test_metrics.json" ] && $PY -c "import json;m=json.load(open('runs/$name/test_metrics.json'));print(f\"auc={m['auc']:.4f} acc={m['acc']:.4f} val={m['best_val_auc']:.4f}\")" || echo FAILED)
+  ( $PY scripts/train.py $cargs > "runs-50-epochs/q_${name}.log" 2>&1
+    a=$([ -f "runs-50-epochs/$name/test_metrics.json" ] && $PY -c "import json;m=json.load(open('runs-50-epochs/$name/test_metrics.json'));print(f\"auc={m['auc']:.4f} acc={m['acc']:.4f} val={m['best_val_auc']:.4f}\")" || echo FAILED)
     echo "[$(date +%H:%M:%S)] DONE $name :: $a" ) &
   sleep 5   # small stagger so simultaneous model-init spikes don't collide
 done

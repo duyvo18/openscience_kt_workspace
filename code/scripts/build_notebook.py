@@ -195,7 +195,7 @@ print(f"learned guess = {trace['guess']:.3f}   slip = {trace['slip']:.3f}")
 md("""## 8. Full training
 
 Train each dataset with `scripts/train.py` (checkpoints + per-epoch CSV logs
-land in `runs/<dataset>_full/`). Heavier datasets are best run from a shell so
+land in `runs-50-epochs/<dataset>_full/`). Heavier datasets are best run from a shell so
 the notebook can just load their logs:
 ```
 python scripts/train.py --dataset assist09

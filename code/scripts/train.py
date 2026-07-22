@@ -4,7 +4,7 @@
 Usage:
   python scripts/train.py --dataset assist09
   python scripts/train.py --dataset assist09 --ablation no_prereq
-  python scripts/train.py --dataset assist09 --resume runs/assist09_full/last.pt
+  python scripts/train.py --dataset assist09 --resume runs-50-epochs/assist09_full/last.pt
 """
 from __future__ import annotations
 

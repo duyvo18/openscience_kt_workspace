@@ -1,0 +1,9 @@
+{
+  "auc": 0.7068522358290759,
+  "acc": 0.6948472381466244,
+  "rmse": 0.44850252524061573,
+  "best_val_auc": 0.7748961111801044,
+  "run_name": "exp_nodist",
+  "dataset": "assist09",
+  "ablation": "full"
+}

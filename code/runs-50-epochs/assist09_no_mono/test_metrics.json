@@ -1,0 +1,9 @@
+{
+  "auc": 0.7056100728131843,
+  "acc": 0.6912220948270048,
+  "rmse": 0.44927679599078,
+  "best_val_auc": 0.7739538684446415,
+  "run_name": "assist09_no_mono",
+  "dataset": "assist09",
+  "ablation": "no_mono"
+}

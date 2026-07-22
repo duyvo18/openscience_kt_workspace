@@ -1,0 +1,9 @@
+{
+  "auc": 0.7079628666273289,
+  "acc": 0.6978147973291967,
+  "rmse": 0.44699051571071413,
+  "best_val_auc": 0.7730015272167106,
+  "run_name": "assist09_no_neighbor",
+  "dataset": "assist09",
+  "ablation": "no_neighbor"
+}

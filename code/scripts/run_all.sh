@@ -8,10 +8,10 @@ PY=./venv/bin/python
 run() {  # run <dataset> <ablation>
   local ds="$1" ab="$2" tag
   tag=$([ "$ab" = full ] && echo "${ds}_full" || echo "${ds}_${ab}")
-  if [ -f "runs/${tag}/test_metrics.json" ]; then
+  if [ -f "runs-50-epochs/${tag}/test_metrics.json" ]; then
     echo "SKIP ${tag} (done)"; return; fi
   echo ">>> TRAIN ${tag}"
-  $PY scripts/train.py --dataset "$ds" --ablation "$ab" 2>&1 | tee "runs/${tag}.log" | grep -E "epoch|TEST|early" || true
+  $PY scripts/train.py --dataset "$ds" --ablation "$ab" 2>&1 | tee "runs-50-epochs/${tag}.log" | grep -E "epoch|TEST|early" || true
 }
 
 # 1) full model on every dataset, cheapest first
