@@ -39,22 +39,29 @@ sys.path.insert(0, str(ROOT))
 from dpa_kt.config import RUNS_DIR_200  # noqa: E402
 
 DATASETS = ["assist09", "algebra05", "bridge06", "xes3g5m",
-            "assist12", "eedi", "junyi"]
+            "assist12", "eedi"]
 ABLATIONS = ["full"]                      # sweep only the full model
 FOLDS = [0, 1, 2, 3, 4]
 RAM_CAP_GB = 10.0                         # hard ceiling per process (GB)
 # Per-dataset batch_size picked from the probe runs (assist09 and algebra05
 # measured directly at b=192 ≈ 9.8 GB peak). Larger datasets (bridge06,
-# assist12) get a smaller batch to stay under the 10 GB cap; junyi has the
-# largest KC count so we are conservative.
+# assist12) get a smaller batch to stay under the 10 GB cap; eedi has the
+# largest student count so we are conservative.
+# eedi bumped 2026-07-23: the per-epoch cost is dominated by the
+# `for t in range(L)` python-level time loop in dpa_kt.py, whose overhead is
+# ~fixed per batch, not per sample - so epoch time scales with n_users /
+# batch_size almost linearly. eedi has 118,971 students (4-6x any other
+# dataset), so raising its batch buys a near-proportional speedup. eedi
+# fold0 measured 5.59 GB peak at b=96; linear scaling puts b=144 at ~8.4 GB,
+# still comfortably under the 10 GB cap. junyi bumped more conservatively
+# (still has the largest KC count, C=1326, d_v already halved for it).
 BATCH_SIZE: dict[str, int] = {
     "assist09":   192,
     "algebra05":  192,
     "bridge06":   128,
     "xes3g5m":    128,
     "assist12":   128,
-    "eedi":        96,
-    "junyi":       64,
+    "eedi":       144,
 }
 PY = "./venv/bin/python"
 

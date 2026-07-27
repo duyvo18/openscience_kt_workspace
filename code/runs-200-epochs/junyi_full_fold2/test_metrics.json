@@ -1,0 +1,9 @@
+{
+  "auc": 0.8052368579257628,
+  "acc": 0.7739270734339846,
+  "rmse": 0.3933023064742848,
+  "best_val_auc": 0.8087000051597957,
+  "run_name": "junyi_full_fold2",
+  "dataset": "junyi",
+  "ablation": "full"
+}

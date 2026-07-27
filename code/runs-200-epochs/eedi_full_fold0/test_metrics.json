@@ -1,0 +1,9 @@
+{
+  "auc": 0.7913562975486701,
+  "acc": 0.7336433788904817,
+  "rmse": 0.41924390844606735,
+  "best_val_auc": 0.793253441473851,
+  "run_name": "eedi_full_fold0",
+  "dataset": "eedi",
+  "ablation": "full"
+}

@@ -1,0 +1,9 @@
+{
+  "auc": 0.7479054389603964,
+  "acc": 0.7403066953917214,
+  "rmse": 0.41999344326759624,
+  "best_val_auc": 0.7703689960354374,
+  "run_name": "assist12_full_fold4",
+  "dataset": "assist12",
+  "ablation": "full"
+}
