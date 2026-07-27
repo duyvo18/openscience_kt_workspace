@@ -71,6 +71,13 @@ Grounded in Evidence-Centered Design (ECD)~\cite{mislevy2005ecd}, this mechanism
 
 PLKT~\cite{wu2026plkt} is the closest prior work: it retrieves distribution representations from a learned, interaction-keyed lookup matrix, pools them into patterns via temporal sliding windows, and scores them by divergence from the target outcome. We instead project the history representation into a distributional space, pool by pedagogical operators, and align against pedagogical principles before inferring the mastery update. The patterns are thus simultaneously history-conditioned and pedagogically structured and affect the mastery update rather than directly infer the outcome. LPKT~\cite{shen2021lpkt} is close from a different angle: it models the learning process with explicit learning and forgetting gates, but constructs neither learner-consistent patterns nor a distributional evidence stage. These are alternative design choices for individual components and form the comparison set for the planned evaluation (Section~\ref{sec:eval}).
 
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.92\columnwidth]{designspace}
+\caption{Positioning of the proposed framework. Existing KT models map interactions directly to a mastery representation; the proposed framework inserts an explicit \emph{Distributional Pedagogical Alignment} stage that interprets interactions as evidence \emph{before} the mastery update, organized into four representation spaces: Interaction, Distribution, Knowledge, and Prediction.}
+\label{fig:motivation}
+\end{figure}
+
 % ====================================================================
 \section{Problem Formulation}
 \label{sec:formulation}
@@ -120,6 +127,13 @@ The alignment layer, DPA, proceeds in four conceptual steps:
 
     \item~\emph{Pattern readout} maps the aligned patterns back to a structured representation $z'$, in which each block corresponds to one pattern type. The readout preserves the statistical descriptor (i.e., the mean and variance) to carry over into the mastery update.
 \end{enumerate}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.96\columnwidth]{dpa_module}
+\caption{The four conceptual steps of the Distributional Pedagogical Alignment (Module~2). Starting from the interaction representation $z_t$ produced by Module~1, the framework (i) projects it to a distributional descriptor, (ii) pools it into learning patterns through fixed operators, (iii) applies a rule-shaped pedagogical adjustment whose functional form is fixed by the principle and only its amplitude is learnable, and (iv) reads the result back into structured evidence $z'$ that the mastery update consumes.}
+\label{fig:dpa}
+\end{figure}
 
 \subsection{Module 3: Mastery State Tracking}
 \label{sec:mst}
