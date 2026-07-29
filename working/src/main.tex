@@ -69,16 +69,6 @@ Recent KT research follows three complementary themes. \textbf{Interaction repre
 
 Grounded in Evidence-Centered Design (ECD)~\cite{mislevy2005ecd}, this mechanism reframes the aforementioned three themes into a unified evidence interpretation stage. KC-topology-aware encoding provides the observations, a distributional coordinate enables pooling while maintaining dispersion, and a principle-guided adjustment transforms pooled patterns into evidence before, and separately from, the mastery update. Although distributional representations~\cite{zhou2024psikt,wu2026plkt,li2025keenkt}, pattern pooling~\cite{wu2026plkt}, and pedagogically informed modeling~\cite{hooshyar2026nskt} have each been explored independently, none introduces an explicit, pedagogically constrained alignment step between the interaction representation and the student-model update. This separation aligns with ECD principles, whereas previous approaches have left it implicit or entangled. The novelty is formulating this process as a differentiable stage, with a functional form determined by pedagogical considerations.
 
-
-PLKT~\cite{wu2026plkt} is the closest prior work: it retrieves distribution representations from a learned, interaction-keyed lookup matrix, pools them into patterns via temporal sliding windows, and scores them by divergence from the target outcome. We instead project the history representation into a distributional space, pool by pedagogical operators, and align against pedagogical principles before inferring the mastery update. The patterns are thus simultaneously history-conditioned and pedagogically structured. They affect the mastery update rather than directly inferring the outcome. LPKT~\cite{shen2021lpkt} is close from a different angle: it models the learning process with explicit learning and forgetting gates, but constructs neither learner-consistent patterns nor a distributional evidence stage. These are alternative design choices for individual components and form the comparison set for the planned evaluation (Section~\ref{sec:eval}).
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.92\columnwidth]{designspace}
-\caption{Positioning of the proposed framework. Existing KT models map interactions directly to a mastery representation; the proposed framework inserts an explicit \emph{Distributional Pedagogical Alignment} stage that interprets interactions as evidence \emph{before} the mastery update, organized into four representation spaces: Interaction, Distribution, Knowledge, and Prediction.}
-\label{fig:motivation}
-\end{figure}
-
 % ====================================================================
 \section{Problem Formulation}
 \label{sec:formulation}
@@ -129,13 +119,6 @@ The alignment layer, DPA, proceeds in four conceptual steps:
     \item~\emph{Pattern readout} maps the aligned patterns back to a structured representation $z'$, in which each block corresponds to one pattern type. The readout preserves the statistical descriptor (i.e., the mean and variance) to carry over into the mastery update.
 \end{enumerate}
 
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.96\columnwidth]{dpa_module}
-\caption{The four conceptual steps of the Distributional Pedagogical Alignment (Module~2). Starting from the interaction representation $z_t$ produced by Module~1, the framework (i) projects it to a distributional descriptor, (ii) pools it into learning patterns through fixed operators, (iii) applies a rule-shaped pedagogical adjustment whose functional form is fixed by the principle and only its amplitude is learnable, and (iv) reads the result back into structured evidence $z'$ that the mastery update consumes.}
-\label{fig:dpa}
-\end{figure}
-
 \subsection{Module 3: Mastery State Tracking}
 \label{sec:mst}
 
@@ -152,7 +135,7 @@ The final module predicts the outcome of the next interaction from the updated k
 
 We report a preliminary evaluation of the framework's initial implementation. The implementation includes all four framework modules as presented in Section~\ref{sec:framework}, but the specific components remain simplified and have not yet been individually validated or optimized. Consequently, the results should be interpreted as an initial feasibility study rather than evidence of the framework's final performance.
 
-For this preliminary study, we evaluate the framework on four representative datasets selected from the two dataset groups: two flat-tag benchmarks requiring a constructed concept graph (ASSISTments 2009~\cite{feng2009assistments} and Algebra~\cite{stamper2010kddcup}), and two benchmarks providing a native concept structure (XES3G5M~\cite{liu2023xes3g5m} and Eedi~\cite{wang2021neurips}). We compare against the foundational BKT~\cite{corbett1994kt} and two widely adopted deep knowledge tracing baselines, DKT~\cite{piech2015dkt} and DKVMN~\cite{zhang2017dkvmn}. More recent state-of-the-art methods are reserved for the comprehensive evaluation described in Section~\ref{sec:eval}. The framework results are reported in Table~\ref{tab:prelim_results} as the mean $\pm$ standard deviation over five-fold cross-validation after 200 training epochs.
+For this preliminary study, we evaluate the framework on four representative datasets selected from the two dataset groups: two flat-tag benchmarks requiring a constructed concept graph (ASSISTments 2009~\cite{feng2009assistments} and Algebra~\cite{stamper2010kddcup}), and two benchmarks providing a native concept structure (XES3G5M~\cite{liu2023xes3g5m} and Eedi~\cite{wang2021neurips}). We compare against the foundational BKT~\cite{corbett1994kt} and two widely adopted deep knowledge tracing baselines, DKT~\cite{piech2015dkt} and DKVMN~\cite{zhang2017dkvmn}. More recent state-of-the-art methods are reserved for the comprehensive evaluation described in Section~\ref{sec:eval}. The framework results are reported in Table~\ref{tab:prelim_results} as the mean over five-fold cross-validation after 200 training epochs.
 
 \begin{table*}[!htbp]
 \centering
@@ -167,12 +150,12 @@ Method & ASSISTments 2009~\cite{feng2009assistments} & Algebra~\cite{stamper2010
 BKT~\cite{corbett1994kt}  & 0.6700 & -- & -- & -- \\
 DKT~\cite{piech2015dkt} & \textbf{0.7541} & \textbf{0.8149} & \underline{0.7852} & \underline{0.7689} \\
 DKVMN~\cite{zhang2017dkvmn} & \underline{0.7473} & \underline{0.8054} & 0.7792 & 0.7673 \\
-\textbf{Ours} & $0.7128 \pm 0.0080$ & $0.7818 \pm 0.0063$ & $\mathbf{0.8065 \pm 0.0027}$ & $\mathbf{0.7912 \pm 0.0003}$ \\
+\textbf{Ours} & 0.7128 & 0.7818 & \textbf{0.8065} & \textbf{0.7912} \\
 \bottomrule
 \end{tabular}
 \begin{flushleft}
 \footnotesize
-The best result in each column is shown in \textbf{bold}, and the second best is \underline{underlined}. Established results for BKT, DKT, and DKVMN are taken from their pyKT implementation~\cite{zitao2022pykt}, while our proposal is reported as the mean $\pm$ standard deviation over five-fold cross-validation. All training and evaluation paradigms are consistent.
+The best result in each column is shown in \textbf{bold}, and the second best is \underline{underlined}. Established results for BKT, DKT, and DKVMN are taken from their pyKT implementation~\cite{zitao2022pykt}, while our proposal is reported as the mean over five-fold cross-validation. All training and evaluation paradigms are consistent.
 \end{flushleft}
 \end{table*}
 
