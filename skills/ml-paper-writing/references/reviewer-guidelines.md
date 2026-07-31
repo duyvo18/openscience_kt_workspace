@@ -270,7 +270,7 @@ Overall Assessment:
 - Thank reviewers for their time
 - Address each concern specifically
 - Provide evidence (new experiments if possible)
-- Be concise—reviewers are busy
+- Be concise-reviewers are busy
 - Acknowledge valid criticisms
 
 **Don't:**

@@ -58,7 +58,7 @@ def wait_for_sweep(poll_s: int = 60, timeout_s: int | None = None) -> bool:
             1 for ds in DATASETS for f in FOLDS
             if (RUNS / f"{ds}_full_fold{f}" / "test_metrics.json").exists()
         )
-        print(f"[wait] {n_done}/35 folds done — sleeping {poll_s}s "
+        print(f"[wait] {n_done}/35 folds done - sleeping {poll_s}s "
               f"(manifest={'yes' if SWEEP_MANIFEST.exists() else 'no'})",
               flush=True)
         time.sleep(poll_s)
@@ -82,7 +82,7 @@ def _per_fold_curves(ds: str, fold: int, out: Path) -> Path | None:
         ax0b = ax[0].twinx()
         ax0b.plot(d["epoch"], d["val_auc"], "-", color="seagreen", label="val AUC")
         ax0b.set_ylabel("val AUC", color="seagreen")
-    ax[0].set_xlabel("epoch"); ax[0].set_title(f"{ds} fold{fold} — loss & val AUC")
+    ax[0].set_xlabel("epoch"); ax[0].set_title(f"{ds} fold{fold} - loss & val AUC")
     ax[0].legend(loc="upper left")
 
     if "val_acc" in d:
@@ -95,7 +95,7 @@ def _per_fold_curves(ds: str, fold: int, out: Path) -> Path | None:
         ax[1].scatter([best["epoch"]], [best["val_auc"]],
                       color="red", s=30, zorder=5,
                       label=f"best e{int(best['epoch'])}={best['val_auc']:.3f}")
-    ax[1].set_title(f"{ds} fold{fold} — val ACC")
+    ax[1].set_title(f"{ds} fold{fold} - val ACC")
     ax[1].legend(loc="lower right")
     fig.tight_layout()
     fig.savefig(out, dpi=130, bbox_inches="tight")
@@ -135,12 +135,12 @@ def _cv_summary_plot(out: Path) -> Path | None:
     fig, ax = plt.subplots(1, 2, figsize=(12, 4.2))
     ax[0].bar(s.index, s["auc_mean"], yerr=s["auc_std"],
               capsize=4, color="steelblue")
-    ax[0].set_title(f"5-fold CV test AUC — mean ± std (n={int(s['n'].iloc[0])} folds)")
+    ax[0].set_title(f"5-fold CV test AUC - mean ± std (n={int(s['n'].iloc[0])} folds)")
     ax[0].set_ylabel("AUC"); ax[0].set_ylim(0.5, 1.0)
     ax[0].tick_params(axis="x", rotation=30)
     ax[1].bar(s.index, s["acc_mean"], yerr=s["acc_std"],
               capsize=4, color="seagreen")
-    ax[1].set_title("5-fold CV test ACC — mean ± std")
+    ax[1].set_title("5-fold CV test ACC - mean ± std")
     ax[1].set_ylabel("ACC"); ax[1].set_ylim(0.5, 1.0)
     ax[1].tick_params(axis="x", rotation=30)
     fig.tight_layout()
@@ -173,7 +173,7 @@ def _per_dataset_composite(out: Path) -> Path | None:
             ax.set_title(f"{ds} f{f} ({int(best['epoch'])}:{best['val_auc']:.3f})",
                          fontsize=7)
             ax.tick_params(labelsize=6)
-    fig.suptitle("Validation AUC per (dataset, fold) — red dot = best epoch",
+    fig.suptitle("Validation AUC per (dataset, fold) - red dot = best epoch",
                  fontsize=10)
     fig.tight_layout(rect=(0, 0, 1, 0.97))
     fig.savefig(out, dpi=130, bbox_inches="tight")

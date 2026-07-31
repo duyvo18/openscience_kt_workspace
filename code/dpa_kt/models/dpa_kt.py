@@ -2,7 +2,7 @@
 
 Causality per step t:
   1. Module 4 predicts y_hat_t from M_t (built from interactions < t) and the
-     identity/difficulty of q_t — the response r_t is NOT visible here.
+     identity/difficulty of q_t - the response r_t is NOT visible here.
   2. Modules 1-3 then consume interaction t (including r_t) to produce the
      evidence z'_t and update M_t -> M_{t+1}.
 

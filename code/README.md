@@ -1,4 +1,4 @@
-# DPA-KT — Distributional Pedagogical Alignment for Knowledge Tracing
+# DPA-KT - Distributional Pedagogical Alignment for Knowledge Tracing
 
 A reference implementation of the four-module Knowledge Tracing framework
 described in `main.pdf` (*Distributional Pedagogical Alignment*), trained
@@ -18,7 +18,7 @@ modules and the attribution trace.* The diagram specifies Mamba blocks and a
 Beta(α, β) distribution; this implementation substitutes trainable-at-this-scale
 equivalents documented in the table below (causal Transformer + GRU instead of
 Mamba SSM blocks, a Gaussian instead of Beta, and a DKVMN-style multiplicative
-erase-add instead of the diagram's additive `M_{t+1} = M_t + ΔM`) — the module
+erase-add instead of the diagram's additive `M_{t+1} = M_t + ΔM`) - the module
 boundaries, data flow, and attribution trace match the diagram exactly.
 
 ## The model (`dpa_kt/models/`)
@@ -37,7 +37,7 @@ boundaries, data flow, and attribution trace match the diagram exactly.
 
 | Component | Spec |
 |-----------|------|
-| GPU | NVIDIA **GB10** (Grace-Blackwell, unified memory), driver 580.142, **CUDA 13.0** — shared with other workloads (e.g. a resident vLLM process); training peaks well under 8 GB |
+| GPU | NVIDIA **GB10** (Grace-Blackwell, unified memory), driver 580.142, **CUDA 13.0** - shared with other workloads (e.g. a resident vLLM process); training peaks well under 8 GB |
 | CPU | ARM **Cortex-X925 / Cortex-A725**, aarch64, 20 cores |
 | RAM | 121 GiB unified CPU+GPU memory |
 | OS | Ubuntu 24.04.4 LTS (aarch64) |
@@ -56,14 +56,14 @@ Requires PyTorch with CUDA (tested on an NVIDIA GB10 / CUDA 13, aarch64). The
 GPU may be shared; training peaks well under 10 GB. Triton kernel compilation
 needs the Python dev headers (`python3.12-dev`).
 
-## Model reference — modules, I/O, and roles
+## Model reference - modules, I/O, and roles
 
 The table below is the canonical reference for the four-module architecture;
 the same content appears in the notebooks under §2d.
 
 | # | Module | File | Role | Key input | Key output |
 |---|--------|------|------|-----------|------------|
-| — | `InteractionEmbeddings` | `embeddings.py` | Shared embedding tables for question id, response, KC id, question & KC difficulty bins | `q` (B,L), `r` (B,L), `kc` (B,L,K_max), `q_diff_bin` (V_q), `kc_diff_bin` | `e_q` (B,L,d_emb), `e_r` (B,L,d_emb), `e_dq` (B,L,d_emb), `e_c_mean` (B,L,d), `e_dc_mean` (B,L,d) |
+| - | `InteractionEmbeddings` | `embeddings.py` | Shared embedding tables for question id, response, KC id, question & KC difficulty bins | `q` (B,L), `r` (B,L), `kc` (B,L,K_max), `q_diff_bin` (V_q), `kc_diff_bin` | `e_q` (B,L,d_emb), `e_r` (B,L,d_emb), `e_dq` (B,L,d_emb), `e_c_mean` (B,L,d), `e_dc_mean` (B,L,d) |
 | 1 | `BranchA` | `interaction_encoder.py` | Parallel 1-layer causal Transformer over (question ⊕ response ⊕ difficulty); produces interaction-context representation independent of mastery state | `e_q, e_r, e_dq` (B,L,d_emb), `pad_mask` (B,L) | `h_a` (B,L,d_model) |
 | 1 | `BranchBCell` | `interaction_encoder.py` | GRU cell over localized mastery read + concept/difficulty embedding; stepped once per interaction inside the time loop | `m_read` (B,d_v), `e_c` (B,d), `e_dc` (B,d), `h_prev` (B,d_model), `step_valid` (B,) | `h_b` (B,d_model) |
 | 1 | `Fusion` | `interaction_encoder.py` | Projects the concatenation of branch-A and branch-B outputs into `z_t`, the unified interaction representation | `h_a` (B,d_model), `h_b` (B,d_model) | `z_t` (B,d_model) |
@@ -72,7 +72,7 @@ the same content appears in the notebooks under §2d.
 | 3 | `MasteryState` | `mastery.py` | Explicit mastery memory `M_t` (B,C,d_v); DKVMN-style erase-add update gate-controlled by pattern outputs; scalar mastery readout in (0,1) | `M` (B,C,d_v), `rel` (B,K_rel), `patterns` (Module 2 output), `step_valid` (B,) | `M_new` (B,C,d_v), `gates {name: (B,K_rel)}`, scalar mastery (B,C) |
 | 3 | `MasteryState.read` | `mastery.py` | Localized attention read over only the related KCs of the current question | `M` (B,C,d_v), `rel` (B,K_rel), `e_q` (B,d_emb) | `m_read` (B,d_v), `alpha` (B,K_rel) |
 | 4 | `PredictionHead` | `predictor.py` | KC→prediction contribution weights `β` (attribution trace) + MLP over mastery read + question/difficulty embedding; corrected by soft-capped guess/slip scalars | `M` (B,C,d_v), `rel` (B,K_rel), `kc_key`, `e_q` (B,d_emb), `e_dq` (B,d_emb) | `y_hat` (B,), `beta` (B,K_rel) |
-| — | `DPAKT` (assembly) | `dpa_kt.py` | Wires all modules into a truncated-BPTT time loop; Module 4 predicts before seeing `r_t`, then Modules 1-3 update; returns `y`, `loss`, and the full attribution trace | `batch: q,r,kc,selectmask` (all B,L) or (B,L,K_max) | `y` (B,L), `loss` (scalar), `trace: {pattern_w, gates, beta, rel, alpha, mastery, guess, slip}` |
+| - | `DPAKT` (assembly) | `dpa_kt.py` | Wires all modules into a truncated-BPTT time loop; Module 4 predicts before seeing `r_t`, then Modules 1-3 update; returns `y`, `loss`, and the full attribution trace | `batch: q,r,kc,selectmask` (all B,L) or (B,L,K_max) | `y` (B,L), `loss` (scalar), `trace: {pattern_w, gates, beta, rel, alpha, mastery, guess, slip}` |
 
 ## Data
 
@@ -133,7 +133,7 @@ runs whose `test_metrics.json` already exists).
 DPA_KT_RUNS_200=/path/to/root ./venv/bin/python scripts/train_200_cv.py --resume
 ```
 
-The aggregated results are surfaced in two notebooks — one English, one
+The aggregated results are surfaced in two notebooks - one English, one
 Vietnamese:
 
 ```bash

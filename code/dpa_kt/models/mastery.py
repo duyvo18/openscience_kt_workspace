@@ -3,7 +3,7 @@
 M_t: (B,C,d_v). Each step updates only the <= K_rel related KCs of the
 current question via a DKVMN-style erase-add residual increment. The gating
 A_i = softmax over related KCs of (K_c . W_g v_i) quantifies how much each
-learning pattern contributes to each related KC — this is the interpretable
+learning pattern contributes to each related KC - this is the interpretable
 pattern->KC block of the attribution trace.
 
 A shared scalar readout u maps a mastery row to a scalar mastery in (0,1),
@@ -113,7 +113,7 @@ class MasteryState(nn.Module):
         # elementwise here, at the exact point it re-enters the recurrence,
         # keeps every step's local contribution bounded so the compounded norm
         # stays finite (~150 at tbptt=25, ~2e3 at tbptt=200) instead of
-        # exploding — this is what lets tbptt run the FULL sequence length.
+        # exploding - this is what lets tbptt run the FULL sequence length.
         if self.cfg.mastery_grad_clip > 0 and M_new.requires_grad:
             clip = self.cfg.mastery_grad_clip
             M_new.register_hook(lambda g, c=clip: g.clamp(-c, c))

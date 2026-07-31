@@ -7,7 +7,7 @@ template.
 node archify/renderers/workflow/render-workflow.mjs input.workflow.json output.html
 ```
 
-Run `npm install` once in the skill folder first — the renderer validates the
+Run `npm install` once in the skill folder first - the renderer validates the
 input against `archify/schemas/workflow.schema.json` via ajv. Without it, the
 renderer prints a warning and skips schema validation; its own layout checks
 still run.
@@ -62,7 +62,7 @@ archify/schemas/workflow.schema.json
 
 | Constant | Value |
 |----------|-------|
-| viewBox | default `[720, auto]` — auto height = 52 + lanes×104 + (lanes−1)×20 + 124 |
+| viewBox | default `[720, auto]` - auto height = 52 + lanes×104 + (lanes−1)×20 + 124 |
 | Lane frame | x 40, width 640, height 104, gap 20; first lane top at y 52 |
 | Lane title strip | top 30px of each lane; node boxes must stay below it |
 | Column centers (`col` 0–5) | x = 88, 220, 300, 430, 500, 625 |
@@ -76,7 +76,7 @@ archify/schemas/workflow.schema.json
 | Legend row | y = lane bottom + 44; viewBox height must be ≥ legend y + 18 |
 
 Column-center gaps are 132 / 80 / 130 / 70 / 125 px: columns 1↔2 (80px) and
-3↔4 (70px) cannot both hold default-width 92px nodes in the same lane — skip a
+3↔4 (70px) cannot both hold default-width 92px nodes in the same lane - skip a
 column or reduce `width`.
 
 ## Design Rules
@@ -89,8 +89,8 @@ column or reduce `width`.
 - Place nodes with lane IDs and column indexes, not raw SVG coordinates.
 - Leave short adjacent links unlabeled; the arrow is enough.
 - Use labels for cross-lane decisions, approvals, async traces, and return paths.
-- Prefer route presets — `drop` (bend between lanes; `bias` 0–1 picks where),
-  `outside-right`, `return-left`, `bottom-channel`, and `up-channel` — before
+- Prefer route presets - `drop` (bend between lanes; `bias` 0–1 picks where),
+  `outside-right`, `return-left`, `bottom-channel`, and `up-channel` - before
   using raw `via` points. `straight` and the default `auto` cover the rest.
 - Keep workflow examples compact enough to render well in narrow chat/browser
   previews.

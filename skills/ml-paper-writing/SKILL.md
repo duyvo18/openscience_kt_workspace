@@ -26,7 +26,7 @@ The typical workflow starts with a research repository containing code, results,
 4. **Refine through feedback cycles** when the scientist provides input
 5. **Ask for clarification** only when genuinely uncertain about key decisions
 
-**Key Principle**: Be proactive. If the repo and results are clear, deliver a full draft. Don't block waiting for feedback on every section—scientists are busy. Produce something concrete they can react to, then iterate based on their response.
+**Key Principle**: Be proactive. If the repo and results are clear, deliver a full draft. Don't block waiting for feedback on every section-scientists are busy. Produce something concrete they can react to, then iterate based on their response.
 
 ---
 
@@ -35,7 +35,7 @@ The typical workflow starts with a research repository containing code, results,
 **This is the most important rule in academic writing with AI assistance.**
 
 ### The Problem
-AI-generated citations have a **~40% error rate**. Hallucinated references—papers that don't exist, wrong authors, incorrect years, fabricated DOIs—are a serious form of academic misconduct that can result in desk rejection or retraction.
+AI-generated citations have a **~40% error rate**. Hallucinated references-papers that don't exist, wrong authors, incorrect years, fabricated DOIs-are a serious form of academic misconduct that can result in desk rejection or retraction.
 
 ### The Rule
 **NEVER generate BibTeX entries from memory. ALWAYS fetch programmatically.**
@@ -128,7 +128,7 @@ grep -r "arxiv\|doi\|cite" --include="*.md" --include="*.bib" --include="*.py"
 find . -name "*.bib"
 ```
 
-These are high-signal starting points for Related Work—the scientist has already deemed them relevant.
+These are high-signal starting points for Related Work-the scientist has already deemed them relevant.
 
 **Step 3: Clarify the Contribution**
 
@@ -138,7 +138,7 @@ Before writing, explicitly confirm with the scientist:
 > The key results show [Y]. Is this the framing you want for the paper,
 > or should we emphasize different aspects?"
 
-**Never assume the narrative—always verify with the human.**
+**Never assume the narrative-always verify with the human.**
 
 **Step 4: Search for Additional Literature**
 
@@ -156,7 +156,7 @@ Then verify and retrieve BibTeX using the citation workflow below.
 
 **Step 5: Deliver a First Draft**
 
-**Be proactive—deliver a complete draft rather than asking permission for each section.**
+**Be proactive-deliver a complete draft rather than asking permission for each section.**
 
 If the repo provides clear results and the contribution is apparent:
 1. Write the full first draft end-to-end
@@ -165,13 +165,13 @@ If the repo provides clear results and the contribution is apparent:
 
 If genuinely uncertain about framing or major claims:
 1. Draft what you can confidently
-2. Flag specific uncertainties: "I framed X as the main contribution—let me know if you'd prefer to emphasize Y instead"
+2. Flag specific uncertainties: "I framed X as the main contribution-let me know if you'd prefer to emphasize Y instead"
 3. Continue with the draft rather than blocking
 
 **Questions to include with the draft** (not before):
-- "I emphasized X as the main contribution—adjust if needed"
-- "I highlighted results A, B, C—let me know if others are more important"
-- "Related work section includes [papers]—add any I missed"
+- "I emphasized X as the main contribution-adjust if needed"
+- "I highlighted results A, B, C-let me know if others are more important"
+- "Related work section includes [papers]-add any I missed"
 
 ---
 
@@ -203,11 +203,11 @@ Use this skill when:
 
 | Section | Draft Autonomously | Flag With Draft |
 |---------|-------------------|-----------------|
-| Abstract | Yes | "Framed contribution as X—adjust if needed" |
-| Introduction | Yes | "Emphasized problem Y—correct if wrong" |
-| Methods | Yes | "Included details A, B, C—add missing pieces" |
-| Experiments | Yes | "Highlighted results 1, 2, 3—reorder if needed" |
-| Related Work | Yes | "Cited papers X, Y, Z—add any I missed" |
+| Abstract | Yes | "Framed contribution as X-adjust if needed" |
+| Introduction | Yes | "Emphasized problem Y-correct if wrong" |
+| Methods | Yes | "Included details A, B, C-add missing pieces" |
+| Experiments | Yes | "Highlighted results 1, 2, 3-reorder if needed" |
+| Related Work | Yes | "Cited papers X, Y, Z-add any I missed" |
 
 **Only block for input when:**
 - Target venue is unclear (affects page limits, framing)
@@ -225,7 +225,7 @@ Use this skill when:
 
 ## The Narrative Principle
 
-**The single most critical insight**: Your paper is not a collection of experiments—it's a story with one clear contribution supported by evidence.
+**The single most critical insight**: Your paper is not a collection of experiments-it's a story with one clear contribution supported by evidence.
 
 Every successful ML paper centers on what Neel Nanda calls "the narrative": a short, rigorous, evidence-based technical story with a takeaway readers care about.
 
@@ -274,7 +274,7 @@ Before writing anything, articulate and verify:
 
 **Step 2: Draft Figure 1**
 
-Figure 1 deserves special attention—many readers skip directly to it.
+Figure 1 deserves special attention-many readers skip directly to it.
 - Convey core idea, approach, or most compelling result
 - Use vector graphics (PDF/EPS for plots)
 - Write captions that stand alone without main text
@@ -332,7 +332,7 @@ Organize methodologically, not paper-by-paper:
 
 **Bad:** "Snap et al. introduced X while Crackle et al. introduced Y."
 
-Cite generously—reviewers likely authored relevant papers.
+Cite generously-reviewers likely authored relevant papers.
 
 **Step 8: Limitations Section (REQUIRED)**
 
@@ -349,9 +349,9 @@ NeurIPS, ICML, and ICLR all require paper checklists. See [references/checklists
 
 ## Writing Philosophy for Top ML Conferences
 
-**This section distills the most important writing principles from leading ML researchers.** These aren't optional style suggestions—they're what separates accepted papers from rejected ones.
+**This section distills the most important writing principles from leading ML researchers.** These aren't optional style suggestions-they're what separates accepted papers from rejected ones.
 
-> "A paper is a short, rigorous, evidence-based technical story with a takeaway readers care about." — Neel Nanda
+> "A paper is a short, rigorous, evidence-based technical story with a takeaway readers care about." - Neel Nanda
 
 ### The Sources Behind This Guidance
 
@@ -824,7 +824,7 @@ If you cannot verify a citation at ANY step:
 | Uncertain if paper exists | ❌ Mark `[CITATION NEEDED]`, inform scientist |
 | "I think there's a paper about X" | ❌ **NEVER cite** - search first or mark placeholder |
 
-**🚨 NEVER generate BibTeX from memory—always fetch programmatically. 🚨**
+**🚨 NEVER generate BibTeX from memory-always fetch programmatically. 🚨**
 
 See [references/citation-workflow.md](references/citation-workflow.md) for complete API documentation.
 
@@ -912,14 +912,14 @@ Baseline & 85.2 & 45ms \\
 - **Raster** (PNG 600 DPI) only for photographs
 - Use **colorblind-safe palettes** (Okabe-Ito or Paul Tol)
 - Verify **grayscale readability** (8% of men have color vision deficiency)
-- **No title inside figure**—the caption serves this function
-- **Self-contained captions**—reader should understand without main text
+- **No title inside figure**-the caption serves this function
+- **Self-contained captions**-reader should understand without main text
 
 ---
 
 ## Citing AI Research Skills
 
-If this library helped with your research — whether for training pipelines, evaluation, paper writing, or any other skill — please consider citing it in your acknowledgments or references:
+If this library helped with your research - whether for training pipelines, evaluation, paper writing, or any other skill - please consider citing it in your acknowledgments or references:
 
 ```bibtex
 @software{ai_research_skills,

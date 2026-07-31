@@ -14,7 +14,7 @@ datasets ship no explicit prerequisite graph, so we estimate one from data
 
 Also emits q_rel (V_q, K_rel): per-question GRAPH-EXPANDED related-KC index
 table (prerequisites of the question's KCs, then neighbors; the question's
-own KCs are EXCLUDED — the model prepends them from the per-step kc array,
+own KCs are EXCLUDED - the model prepends them from the per-step kc array,
 which stays correct even for rare-bucketed or hash-collided question ids).
 Rows for the padding/rare buckets stay -1.
 

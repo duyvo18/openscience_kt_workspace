@@ -17,7 +17,7 @@ export function loadDiagram({ rendererDir, diagramType, defaultExample, argv = p
 }
 
 // Common CLI tail: fill the template and write the standalone HTML file.
-// The keyboard hint is screen-only — it means nothing on paper.
+// The keyboard hint is screen-only - it means nothing on paper.
 export function writeDiagram({ outPath, template, meta, footerLabel, svg, cards }) {
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, applyTemplate(template, {
@@ -32,7 +32,7 @@ export function writeDiagram({ outPath, template, meta, footerLabel, svg, cards 
 
 // Accessible name for the generated diagram SVG.
 export function svgRootAttrs(meta, kind) {
-  const name = meta.subtitle ? `${meta.title} — ${meta.subtitle}` : meta.title;
+  const name = meta.subtitle ? `${meta.title} - ${meta.subtitle}` : meta.title;
   const animation = meta.animation === 'trace' ? ' data-animation="trace"' : '';
   return `role="img" aria-label="${esc(`${name} (${kind})`)}"${animation}`;
 }

@@ -154,12 +154,12 @@ function validateWorkflow() {
       continue;
     }
     if (!isFinitePoint(node.x, node.y, node.cx, node.cy)) {
-      problems.push(`Node "${node.id}" produced non-finite coordinates — check col, width, height, and yOffset are numbers.`);
+      problems.push(`Node "${node.id}" produced non-finite coordinates - check col, width, height, and yOffset are numbers.`);
       continue;
     }
     const estLabelW = textUnits(node.label) * 6.8;
     if (estLabelW > node.width + 6) {
-      problems.push(`Label "${node.label}" (~${Math.round(estLabelW)}px) is wider than node "${node.id}" (${node.width}px) — shorten the label, move detail to sublabel, or increase node.width.`);
+      problems.push(`Label "${node.label}" (~${Math.round(estLabelW)}px) is wider than node "${node.id}" (${node.width}px) - shorten the label, move detail to sublabel, or increase node.width.`);
     }
 
     const top = laneTop(node.lane);
@@ -184,7 +184,7 @@ function validateWorkflow() {
     const estLabelW = textUnits(phase.label) * 5.6;
     const width = spanForCols(phase.fromCol, phase.toCol).width;
     if (estLabelW > width + 8) {
-      problems.push(`Phase label "${phase.label}" (~${Math.round(estLabelW)}px) is wider than its ${Math.round(width)}px span — shorten the label or widen the phase range.`);
+      problems.push(`Phase label "${phase.label}" (~${Math.round(estLabelW)}px) is wider than its ${Math.round(width)}px span - shorten the label or widen the phase range.`);
     }
   }
 
@@ -202,7 +202,7 @@ function validateWorkflow() {
     }
     const contained = [...nodes.values()].some((node) => node.lane === group.lane && node.col >= group.fromCol && node.col <= group.toCol);
     if (!contained) {
-      problems.push(`Group "${group.id}" does not contain any nodes — align its lane/columns with the parallel or branch work it frames.`);
+      problems.push(`Group "${group.id}" does not contain any nodes - align its lane/columns with the parallel or branch work it frames.`);
     }
   }
 
@@ -214,7 +214,7 @@ function validateWorkflow() {
     for (let i = 0; i < laneNodes.length; i += 1) {
       for (let j = i + 1; j < laneNodes.length; j += 1) {
         if (rectsOverlap(laneNodes[i], laneNodes[j], 8)) {
-          problems.push(`Nodes "${laneNodes[i].id}" and "${laneNodes[j].id}" are less than 8px apart in lane "${lane}" — move one to another col, adjust yOffset, or reduce width/height.`);
+          problems.push(`Nodes "${laneNodes[i].id}" and "${laneNodes[j].id}" are less than 8px apart in lane "${lane}" - move one to another col, adjust yOffset, or reduce width/height.`);
         }
       }
     }
@@ -229,7 +229,7 @@ function validateWorkflow() {
         const [start, end] = routed.points;
         const segmentLength = Math.hypot(end[0] - start[0], end[1] - start[1]);
         if (segmentLength < 28) {
-          problems.push(`Edge "${edge.from}" -> "${edge.to}" is too short (${Math.round(segmentLength)}px; minimum 28px) — drop its label or route it through a channel.`);
+          problems.push(`Edge "${edge.from}" -> "${edge.to}" is too short (${Math.round(segmentLength)}px; minimum 28px) - drop its label or route it through a channel.`);
         }
       }
       const segments = [];
@@ -239,7 +239,7 @@ function validateWorkflow() {
       for (const node of nodes.values()) {
         if (node.id === edge.from || node.id === edge.to) continue;
         if (segments.some((segment) => segmentIntersectsRect(segment, node, 2))) {
-          problems.push(`Edge "${edge.from}" -> "${edge.to}" crosses node "${node.id}" — adjust fromSide/toSide, route it through a channel, or move one node to a clearer lane/column.`);
+          problems.push(`Edge "${edge.from}" -> "${edge.to}" crosses node "${node.id}" - adjust fromSide/toSide, route it through a channel, or move one node to a clearer lane/column.`);
         }
       }
     }
@@ -259,10 +259,10 @@ function validateWorkflow() {
       if (!from || !to) continue;
       const linked = workflow.edges.some((edge) => edge.from === fromId && edge.to === toId);
       if (!linked) {
-        problems.push(`mainPath step "${fromId}" -> "${toId}" has no matching edge — add the edge or remove the pair from mainPath.`);
+        problems.push(`mainPath step "${fromId}" -> "${toId}" has no matching edge - add the edge or remove the pair from mainPath.`);
       }
       if (to.col < from.col) {
-        problems.push(`mainPath step "${fromId}" -> "${toId}" moves backward from col ${from.col} to ${to.col} — use a return edge outside mainPath for loops.`);
+        problems.push(`mainPath step "${fromId}" -> "${toId}" moves backward from col ${from.col} to ${to.col} - use a return edge outside mainPath for loops.`);
       }
     }
   }
@@ -277,23 +277,23 @@ function validateWorkflow() {
   for (const rect of labelRects) {
     for (const node of nodes.values()) {
       if (rectsOverlap(rect, node, -2)) {
-        problems.push(`Label "${rect.label}" overlaps node "${node.id}" — adjust labelDx/labelDy/labelSegment or set labelAt.\n${suggestLabelObstacleFix(rect, rect.lx, rect.ly, node, 'node')}`);
+        problems.push(`Label "${rect.label}" overlaps node "${node.id}" - adjust labelDx/labelDy/labelSegment or set labelAt.\n${suggestLabelObstacleFix(rect, rect.lx, rect.ly, node, 'node')}`);
       }
     }
   }
   for (let i = 0; i < labelRects.length; i += 1) {
     for (let j = i + 1; j < labelRects.length; j += 1) {
       if (rectsOverlap(labelRects[i], labelRects[j], -2)) {
-        problems.push(`Labels "${labelRects[i].label}" and "${labelRects[j].label}" overlap — adjust labelDx/labelDy or remove one label.\n${suggestLabelPairFix(labelRects[i], labelRects[j])}`);
+        problems.push(`Labels "${labelRects[i].label}" and "${labelRects[j].label}" overlap - adjust labelDx/labelDy or remove one label.\n${suggestLabelPairFix(labelRects[i], labelRects[j])}`);
       }
     }
   }
 
   if (viewBox[0] < layout.laneX + layout.laneW + 16) {
-    problems.push(`viewBox width ${viewBox[0]} clips the ${layout.laneW}px lanes — set meta.viewBox[0] to at least ${layout.laneX + layout.laneW + 16}.`);
+    problems.push(`viewBox width ${viewBox[0]} clips the ${layout.laneW}px lanes - set meta.viewBox[0] to at least ${layout.laneX + layout.laneW + 16}.`);
   }
   if (legendY() + 18 > viewBox[1]) {
-    problems.push(`Legend exceeds viewBox height ${viewBox[1]} — set meta.viewBox[1] to at least ${legendY() + 18}.`);
+    problems.push(`Legend exceeds viewBox height ${viewBox[1]} - set meta.viewBox[1] to at least ${legendY() + 18}.`);
   }
 
   if (problems.length) {

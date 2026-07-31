@@ -29,7 +29,7 @@ Evaluation:
   ...
 ```
 
-**Key property**: Creates a **traceable contract** — reviewers can verify that every claimed gap has a corresponding solution and evaluation.
+**Key property**: Creates a **traceable contract** - reviewers can verify that every claimed gap has a corresponding solution and evaluation.
 
 ### Example: Lucid (ASPLOS'23)
 
@@ -81,7 +81,7 @@ Evaluation:
   Show system handles the patterns identified in O1–O3
 ```
 
-**Key property**: Ground-truth data makes the motivation **irrefutable** — reviewers cannot argue the problem does not exist if you show production evidence.
+**Key property**: Ground-truth data makes the motivation **irrefutable** - reviewers cannot argue the problem does not exist if you show production evidence.
 
 ### Example: GFS (arXiv 2025 preprint)
 
@@ -160,7 +160,7 @@ Sia lists 5 primary contributions:
 1. List contributions as numbered items (3–7 is typical)
 2. Tag each with a type: Analysis, Design, Algorithm, System, Evaluation
 3. Cross-reference sections: "(§N)"
-4. Ensure each contribution is **testable** — a reviewer should be able to verify it from the paper
+4. Ensure each contribution is **testable** - a reviewer should be able to verify it from the paper
 5. In evaluation, map experiments back to contribution numbers
 
 ---
@@ -195,7 +195,7 @@ Evaluation: Prove X is better for Y in Z
 
 ### Combining the Thesis Formula with Other Patterns
 
-The thesis formula is **compositional** — it works as the top-level structure while other patterns fill in the details:
+The thesis formula is **compositional** - it works as the top-level structure while other patterns fill in the details:
 
 - Thesis + Gap Analysis: "X is better for Y in Z because it addresses G1–Gn"
 - Thesis + Observation-Driven: "X is better for Y in Z; we discovered this through O1–O3"
@@ -224,7 +224,7 @@ Listing system features without connecting them to problems or claims. Fix: use 
 Presenting the design before establishing why it is needed. Fix: use Observation-Driven to ground the design in real data.
 
 ### Anti-Pattern 3: Vague Contributions
-"We propose a novel system for X" — not testable, not verifiable. Fix: use Contribution List with specific, measurable claims.
+"We propose a novel system for X" - not testable, not verifiable. Fix: use Contribution List with specific, measurable claims.
 
 ### Anti-Pattern 4: Missing Alternatives
 Presenting design choices as the only option. Fix: for every major decision, discuss at least one alternative and why it was rejected (Irene Zhang's rule).

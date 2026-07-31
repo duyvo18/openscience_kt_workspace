@@ -61,7 +61,7 @@ Complete templates for generating conference presentations in both Beamer LaTeX 
 
 \begin{frame}{Problem Context}
   \begin{itemize}
-    \item Domain importance — concrete numbers
+    \item Domain importance - concrete numbers
     \item Scale of the challenge
     \item Why existing approaches fall short
   \end{itemize}
@@ -128,7 +128,7 @@ Complete templates for generating conference presentations in both Beamer LaTeX 
   \begin{itemize}
     \item<1-> What Component A does
     \item<2-> Design choice: we use [X] because [reason]
-    \item<3-> Alternative considered: [Y] — rejected because [trade-off]
+    \item<3-> Alternative considered: [Y] - rejected because [trade-off]
   \end{itemize}
   \only<3>{
     \begin{block}{Key Trade-off}
@@ -167,7 +167,7 @@ Complete templates for generating conference presentations in both Beamer LaTeX 
     \end{column}
   \end{columns}
   \note{
-    [1 min] Brief setup — don't dwell here.
+    [1 min] Brief setup - don't dwell here.
     Transition: "Here are our main results..."
   }
 \end{frame}
@@ -385,7 +385,7 @@ def create_presentation(title: str, authors: str, venue: str, talk_type: str) ->
 
     # --- Thank You Slide ---
     slide = prs.slides.add_slide(prs.slide_layouts[1])
-    slide.shapes.title.text = "Thank You — Questions?"
+    slide.shapes.title.text = "Thank You - Questions?"
     body = slide.placeholders[1]
     body.text = "Paper: https://arxiv.org/abs/XXXX.XXXXX\nCode: https://github.com/org/repo"
     _add_notes(slide, "Leave up during Q&A. Have backup slides ready.")

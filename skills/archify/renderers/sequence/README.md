@@ -7,7 +7,7 @@ template.
 node archify/renderers/sequence/render-sequence.mjs input.sequence.json output.html
 ```
 
-Run `npm install` once in the skill folder first — the renderer validates the
+Run `npm install` once in the skill folder first - the renderer validates the
 input against `archify/schemas/sequence.schema.json` via ajv. Without it, the
 renderer prints a warning and skips schema validation; its own layout checks
 still run.

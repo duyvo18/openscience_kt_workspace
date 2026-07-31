@@ -12,8 +12,8 @@ dependencies: [matplotlib>=3.8.0, seaborn>=0.13.0, numpy, google-genai>=1.0.0]
 
 Generate publication-quality figures for ML/AI conference papers. Two distinct workflows:
 
-1. **Diagram figures** (architecture, system design, workflows, pipelines) — AI image generation via Gemini
-2. **Data figures** (line charts, bar charts, scatter plots, heatmaps, ablations) — matplotlib/seaborn
+1. **Diagram figures** (architecture, system design, workflows, pipelines) - AI image generation via Gemini
+2. **Data figures** (line charts, bar charts, scatter plots, heatmaps, ablations) - matplotlib/seaborn
 
 ## When to Use Which Workflow
 
@@ -33,7 +33,7 @@ Generate publication-quality figures for ML/AI conference papers. Two distinct w
 
 ## Step 0: Context Analysis & Extraction
 
-The user will typically provide one of these inputs — not a ready-made specification:
+The user will typically provide one of these inputs - not a ready-made specification:
 
 | Input Type | Example | What to Extract |
 |-----------|---------|-----------------|
@@ -47,11 +47,11 @@ The user will typically provide one of these inputs — not a ready-made specifi
 
 **For diagrams** (research context → architecture figure):
 
-1. **Read the provided context** — paper section, abstract, or description paragraph
-2. **Identify visual entities** — What are the main components/modules/stages?
+1. **Read the provided context** - paper section, abstract, or description paragraph
+2. **Identify visual entities** - What are the main components/modules/stages?
    - Look for: nouns that represent system parts, named modules, layers, stages
    - Count them: if >8 top-level entities, consider grouping into sections
-3. **Identify relationships** — How do components connect?
+3. **Identify relationships** - How do components connect?
    - Look for: verbs describing data flow ("sends to", "queries", "feeds into")
    - Classify: data flow (solid arrow), control flow (gray), error path (dashed red)
 4. **Determine layout pattern**:
@@ -59,12 +59,12 @@ The user will typically provide one of these inputs — not a ready-made specifi
    - Layered architecture → horizontal bands stacked vertically
    - Hub-and-spoke → central node with radiating connections
    - Hierarchical → top-down tree
-5. **Assign colors** — One accent color per logical group/layer
-6. **Write every label exactly** — Extract exact terminology from the paper text
+5. **Assign colors** - One accent color per logical group/layer
+6. **Write every label exactly** - Extract exact terminology from the paper text
 
 **For data charts** (results → figure):
 
-1. **Read the provided data** — table, paragraph with numbers, CSV, or JSON
+1. **Read the provided data** - table, paragraph with numbers, CSV, or JSON
 2. **Identify dimensions**:
    - What is being compared? (methods, models, configurations) → categorical axis
    - What is the metric? (accuracy, loss, latency, F1) → value axis
@@ -77,8 +77,8 @@ The user will typically provide one of these inputs — not a ready-made specifi
    - Correlation between two continuous variables → **scatter plot**
    - Square matrix of values → **heatmap**
    - Proportional breakdown → **stacked bar** (avoid pie charts)
-4. **Determine figure sizing** — Single column vs full width based on data density
-5. **Highlight "our method"** — Identify which entry is the paper's contribution and give it a distinct color
+4. **Determine figure sizing** - Single column vs full width based on data density
+5. **Highlight "our method"** - Identify which entry is the paper's contribution and give it a distinct color
 
 ### Auto-Detection Examples
 
@@ -92,7 +92,7 @@ The user will typically provide one of these inputs — not a ready-made specifi
 
 ## Workflow 1: Architecture & System Diagrams (AI Image Generation)
 
-Use Gemini 3 Pro Image Preview to generate diagrams. **Choose a visual style first** — this is the single biggest factor in whether the figure looks professional or generic.
+Use Gemini 3 Pro Image Preview to generate diagrams. **Choose a visual style first** - this is the single biggest factor in whether the figure looks professional or generic.
 
 ### Visual Styles
 
@@ -103,8 +103,8 @@ Pick one style per paper (all figures should be consistent):
 Warm, approachable, memorable. Ideal for overview figures and system introductions. Looks like a whiteboard sketch refined by a designer.
 
 ```
-VISUAL STYLE — HAND-DRAWN SKETCH:
-- Slightly irregular, hand-drawn line quality — lines wobble gently, not perfectly straight
+VISUAL STYLE - HAND-DRAWN SKETCH:
+- Slightly irregular, hand-drawn line quality - lines wobble gently, not perfectly straight
 - Rounded, soft shapes with visible pen strokes (like drawn with a thick felt-tip marker)
 - Warm off-white background (#FAFAF7), NOT pure white
 - Fill colors are soft watercolor-like washes: muted blue (#D6E4F0), soft peach (#F5DEB3),
@@ -113,7 +113,7 @@ VISUAL STYLE — HAND-DRAWN SKETCH:
 - Arrows are hand-drawn with slight curves, ending in simple open arrowheads (not filled triangles)
 - Text uses a rounded sans-serif font (like Comic Neue or Architects Daughter feel)
 - Small doodle-style icons inside boxes: a tiny gear ⚙ for processing, a lightbulb 💡 for ideas,
-  a magnifying glass 🔍 for search — rendered as simple line drawings, NOT emoji
+  a magnifying glass 🔍 for search - rendered as simple line drawings, NOT emoji
 - Overall feel: a carefully drawn whiteboard diagram, clean but with personality
 - NO clip art, NO stock icons, NO photorealistic elements
 ```
@@ -123,20 +123,20 @@ VISUAL STYLE — HAND-DRAWN SKETCH:
 Confident, authoritative. Best for method figures where precision matters.
 
 ```
-VISUAL STYLE — MODERN MINIMAL:
+VISUAL STYLE - MODERN MINIMAL:
 - Ultra-clean geometric shapes with crisp edges
-- Bold color blocks as backgrounds for sections — NOT just accent bars, but full section fills
+- Bold color blocks as backgrounds for sections - NOT just accent bars, but full section fills
   using desaturated tones: slate blue (#E8EDF2), warm sand (#F5F0E8), cool mint (#E8F2EE)
-- Component boxes have ROUNDED CORNERS (12px radius), NO visible border — they float on
+- Component boxes have ROUNDED CORNERS (12px radius), NO visible border - they float on
   the section background using subtle shadow (1px, 4px blur, rgba(0,0,0,0.06))
 - ONE accent color per section used sparingly on key elements: Deep blue (#2563EB),
   Emerald (#059669), Amber (#D97706), Rose (#E11D48)
 - Arrows are thin (1.5px), dark gray (#6B7280), with small filled circle at source
-  and clean arrowhead at target — NOT thick colored arrows
+  and clean arrowhead at target - NOT thick colored arrows
 - Typography: Inter or system sans-serif, title 600 weight, body 400 weight
 - Labels INSIDE boxes, not beside them
-- Generous whitespace — at least 24px between elements
-- NO decorative elements, NO icons — let the structure speak
+- Generous whitespace - at least 24px between elements
+- NO decorative elements, NO icons - let the structure speak
 ```
 
 #### Style C: "Illustrated Technical" (Icon-Rich)
@@ -144,7 +144,7 @@ VISUAL STYLE — MODERN MINIMAL:
 Engaging, explanatory. Good for tutorial-style papers and figures that need to be self-explanatory.
 
 ```
-VISUAL STYLE — ILLUSTRATED TECHNICAL:
+VISUAL STYLE - ILLUSTRATED TECHNICAL:
 - Each major component has a small MEANINGFUL ICON drawn in a consistent line-art style
   (single color, 2px stroke, ~24x24px): brain icon for reasoning, database cylinder for storage,
   arrow-loop for iteration, network nodes for communication
@@ -163,7 +163,7 @@ VISUAL STYLE — ILLUSTRATED TECHNICAL:
 The default academic style. Safe for any venue, works well in grayscale.
 
 ```
-VISUAL STYLE — CLASSIC ACCENT BAR:
+VISUAL STYLE - CLASSIC ACCENT BAR:
 - Horizontal section bands stacked vertically, pale gray (#F7F7F5) fill
 - Thick colored LEFT ACCENT BAR (8px) distinguishes each section
 - Content boxes: white fill, thin #DDD border, 4px rounded corners
@@ -175,7 +175,7 @@ VISUAL STYLE — CLASSIC ACCENT BAR:
 
 ### Curated Color Palettes
 
-**"Ocean Dusk"** (professional, calming — default recommendation):
+**"Ocean Dusk"** (professional, calming - default recommendation):
 `#264653` deep teal, `#2A9D8F` teal, `#E9C46A` gold, `#F4A261` sandy orange, `#E76F51` burnt coral
 
 **"Ink & Wash"** (for 简笔画 style):
@@ -190,8 +190,8 @@ VISUAL STYLE — CLASSIC ACCENT BAR:
 ### Checklist
 
 - [ ] **Extract from context**: Read paper/description, identify entities and relationships
-- [ ] **Choose visual style** (A/B/C/D) — match the paper's tone and venue
-- [ ] **Choose color palette** — or use one consistent with existing paper figures
+- [ ] **Choose visual style** (A/B/C/D) - match the paper's tone and venue
+- [ ] **Choose color palette** - or use one consistent with existing paper figures
 - [ ] Obtain Gemini API key (`GEMINI_API_KEY` env var)
 - [ ] Write a detailed prompt: style block + layout + connections + constraints
 - [ ] Generate script at `figures/gen_fig_<name>.py`, run for 3 attempts
@@ -206,17 +206,17 @@ Every Gemini prompt must include these sections in order:
    [VENUE] paper. The diagram should feel [ADJECTIVES]..."
 
 2. VISUAL STYLE (20-30 lines): Copy the full style block from above (A/B/C/D).
-   This is the most important section — it determines the entire visual character.
+   This is the most important section - it determines the entire visual character.
 
 3. COLOR PALETTE (10 lines): Exact hex codes for every color used.
 
-4. LAYOUT (50-150 lines): Every component, box, section — exact text, spatial
+4. LAYOUT (50-150 lines): Every component, box, section - exact text, spatial
    arrangement, and grouping. Be exhaustively specific.
 
-5. CONNECTIONS (30-80 lines): Every arrow individually — source, target, style,
+5. CONNECTIONS (30-80 lines): Every arrow individually - source, target, style,
    label, routing direction.
 
-6. CONSTRAINTS (10 lines): What NOT to include. Adapt per style — e.g., sketch
+6. CONSTRAINTS (10 lines): What NOT to include. Adapt per style - e.g., sketch
    style allows slight irregularity but still no clip art.
 ```
 
@@ -286,11 +286,11 @@ if __name__ == "__main__":
 
 ### Key Rules
 
-- **Always 3 attempts** — quality varies significantly between runs
-- **Style block is mandatory** — without it, Gemini defaults to generic corporate look
-- **Never hardcode API keys** — use `os.environ.get("GEMINI_API_KEY")`
-- **Save generation scripts** — reproducibility is critical
-- **Specify every label exactly** — Gemini may misspell or rearrange text
+- **Always 3 attempts** - quality varies significantly between runs
+- **Style block is mandatory** - without it, Gemini defaults to generic corporate look
+- **Never hardcode API keys** - use `os.environ.get("GEMINI_API_KEY")`
+- **Save generation scripts** - reproducibility is critical
+- **Specify every label exactly** - Gemini may misspell or rearrange text
 
 **Full prompt examples per style**: See [references/diagram-generation.md](references/diagram-generation.md)
 
@@ -343,14 +343,14 @@ plt.rcParams.update({
 # --- "Ocean Dusk" palette (professional, distinctive, colorblind-safe) ---
 COLORS = ["#264653", "#2A9D8F", "#E9C46A", "#F4A261", "#E76F51",
           "#0072B2", "#56B4E9", "#8C8C8C"]
-OUR_COLOR = "#E76F51"       # coral — warm, stands out
-BASELINE_COLOR = "#B0BEC5"  # cool gray — recedes
+OUR_COLOR = "#E76F51"       # coral - warm, stands out
+BASELINE_COLOR = "#B0BEC5"  # cool gray - recedes
 FIG_SINGLE, FIG_FULL = (3.25, 2.5), (6.75, 2.8)
 ```
 
 ### Common Chart Patterns
 
-**Line plot (training curves)** — with markers and confidence bands:
+**Line plot (training curves)** - with markers and confidence bands:
 
 ```python
 fig, ax = plt.subplots(figsize=FIG_SINGLE)
@@ -368,7 +368,7 @@ fig.savefig("figures/fig_training.pdf")
 fig.savefig("figures/fig_training.png", dpi=300)
 ```
 
-**Grouped bar chart (ablation)** — with value labels:
+**Grouped bar chart (ablation)** - with value labels:
 
 ```python
 fig, ax = plt.subplots(figsize=FIG_FULL)
@@ -390,7 +390,7 @@ ax.legend(ncol=min(n, 4))
 fig.savefig("figures/fig_ablation.pdf")
 ```
 
-**Heatmap** — with diverging colormap and clean borders:
+**Heatmap** - with diverging colormap and clean borders:
 
 ```python
 import seaborn as sns
@@ -404,7 +404,7 @@ ax.set_ylabel("Actual")
 fig.savefig("figures/fig_confusion.pdf")
 ```
 
-**Horizontal bar (leaderboard)** — with "our method" highlight:
+**Horizontal bar (leaderboard)** - with "our method" highlight:
 
 ```python
 fig, ax = plt.subplots(figsize=FIG_SINGLE)
@@ -462,7 +462,7 @@ fig.savefig("figures/fig_leaderboard.pdf")
 |------|-----------|-------------|
 | Architecture diagrams | Gemini generation | TikZ (manual), draw.io (interactive), Mermaid (simple) |
 | Data charts | matplotlib/seaborn | Plotly (interactive), R/ggplot2 (statistics-heavy) |
-| Full paper writing | Use with `ml-paper-writing` | — |
+| Full paper writing | Use with `ml-paper-writing` | - |
 | Poster figures | Larger fonts, wider | `latex-posters` skill |
 | Presentation figures | Larger text, fewer details | PowerPoint/Keynote export |
 

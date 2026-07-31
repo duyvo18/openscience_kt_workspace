@@ -38,7 +38,7 @@ Research has documented significant issues with AI-generated citations:
 
 ### Solution
 
-**Never generate citations from memory—always verify programmatically.**
+**Never generate citations from memory-always verify programmatically.**
 
 ---
 

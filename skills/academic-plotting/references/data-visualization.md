@@ -34,7 +34,7 @@ plt.rcParams.update({
     "xtick.major.width": 0.8,
     "ytick.major.width": 0.8,
     "axes.grid": True,
-    "grid.alpha": 0.15,        # Very subtle — guides the eye without competing
+    "grid.alpha": 0.15,        # Very subtle - guides the eye without competing
     "grid.linewidth": 0.6,
     "grid.linestyle": "-",      # Solid but faint, not dashed (less visual noise)
     "lines.linewidth": 1.8,
@@ -46,7 +46,7 @@ plt.rcParams.update({
 
 ## Color Palettes
 
-### "Ocean Dusk" (default — professional, distinctive)
+### "Ocean Dusk" (default - professional, distinctive)
 
 ```python
 COLORS = {
@@ -62,9 +62,9 @@ COLORS = {
 COLOR_LIST = list(COLORS.values())
 
 # Semantic colors for highlighting
-OUR_COLOR = "#E76F51"       # coral — warm, draws attention
-BASELINE_COLOR = "#B0BEC5"  # cool gray — recedes
-BEST_BASELINE = "#264653"   # deep teal — strongest competitor
+OUR_COLOR = "#E76F51"       # coral - warm, draws attention
+BASELINE_COLOR = "#B0BEC5"  # cool gray - recedes
+BEST_BASELINE = "#264653"   # deep teal - strongest competitor
 ```
 
 ### "Okabe-Ito" (maximum colorblind safety)

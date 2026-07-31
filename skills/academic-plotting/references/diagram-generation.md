@@ -26,7 +26,7 @@ Set the tone and context. This shapes the model's entire approach.
 **For Sketch/简笔画 style**:
 ```
 Create a warm, hand-drawn-style technical diagram for a NeurIPS machine learning
-paper. The diagram should feel like a carefully drawn whiteboard sketch —
+paper. The diagram should feel like a carefully drawn whiteboard sketch -
 approachable and clear, with personality in the line work, but still precise
 enough for a top venue. Think: the kind of diagram a brilliant researcher would
 draw during a coffee chat to explain their system.
@@ -35,7 +35,7 @@ draw during a coffee chat to explain their system.
 **For Modern Minimal style**:
 ```
 Create an ultra-clean, modern technical architecture diagram for an ICML paper.
-The diagram should feel like a premium design system — confident, spacious, and
+The diagram should feel like a premium design system - confident, spacious, and
 authoritative. Think: Apple's developer documentation meets a Nature paper.
 Every element earns its space. No visual noise.
 ```
@@ -44,7 +44,7 @@ Every element earns its space. No visual noise.
 ```
 Create a richly illustrated technical diagram for an ICLR paper. Each component
 should have a small, meaningful line-art icon that helps the reader instantly
-understand its purpose. The diagram should be self-explanatory — a reader should
+understand its purpose. The diagram should be self-explanatory - a reader should
 grasp the system architecture just by looking at the figure, before reading the
 caption. Think: the best technical documentation you've ever seen.
 ```
@@ -58,7 +58,7 @@ This is the MOST important section. Copy the full style block from SKILL.md and 
 Good: "Lines should wobble gently like drawn with a thick felt-tip marker on smooth paper"
 Bad: "Lines should be slightly irregular"
 
-Good: "Fill colors are soft watercolor-like washes — imagine diluted ink bleeding into damp paper"
+Good: "Fill colors are soft watercolor-like washes - imagine diluted ink bleeding into damp paper"
 Bad: "Use light colors"
 
 Good: "Components float on the background with barely-there shadows (1px offset, 6px blur, 3% opacity)"
@@ -84,19 +84,19 @@ COLOR PALETTE (use EXACTLY these colors, no substitutions):
 
 **"Ink & Wash" palette** (for 简笔画):
 ```
-COLOR PALETTE — INK AND WASH:
+COLOR PALETTE - INK AND WASH:
 - All outlines and text: Charcoal ink #2C2C2C
 - Wash fill 1: Diluted blue #D6E4F0 (like watercolor blue, very soft)
 - Wash fill 2: Warm wheat #F5DEB3 (like tea-stained paper)
 - Wash fill 3: Soft sage #D4E6D4 (like pale green ink wash)
 - Wash fill 4: Faint lavender #E6DFF0 (like diluted purple ink)
-- Background: Warm paper #FAFAF7 (NOT pure white — should feel like quality drawing paper)
+- Background: Warm paper #FAFAF7 (NOT pure white - should feel like quality drawing paper)
 - Accent marks: Terracotta #C0725E (used sparingly for emphasis)
 ```
 
 **"Nord" palette** (for modern minimal):
 ```
-COLOR PALETTE — NORD:
+COLOR PALETTE - NORD:
 - Primary: Polar Night #2E3440
 - Section fills: Snow Storm #ECEFF4, #E5E9F0, #D8DEE9
 - Accent Blue: Frost #5E81AC
@@ -109,7 +109,7 @@ COLOR PALETTE — NORD:
 
 ### Section 4: Layout Description (50-150 lines)
 
-**Be exhaustively specific.** This is where most prompts fail — they're too vague.
+**Be exhaustively specific.** This is where most prompts fail - they're too vague.
 
 Rules for writing layout descriptions:
 1. **Name every box** with exact text content
@@ -120,12 +120,12 @@ Rules for writing layout descriptions:
 
 **Example (Sketch/简笔画 style)**:
 ```
-LAYOUT — THREE-STAGE PIPELINE (left to right):
+LAYOUT - THREE-STAGE PIPELINE (left to right):
 
 The diagram flows LEFT to RIGHT across three main stages, with a feedback loop
 curving back from right to left at the bottom.
 
-STAGE 1 — "Observe" (left third of diagram):
+STAGE 1 - "Observe" (left third of diagram):
 - Draw a rounded blob (not a rectangle!) with soft blue wash fill (#D6E4F0)
 - Inside the blob: hand-drawn icon of an EYE (simple line drawing, 3 curved lines)
 - Below the icon: "Observe" in bold charcoal
@@ -133,7 +133,7 @@ STAGE 1 — "Observe" (left third of diagram):
 - A small stack of paper sheets icon to the lower-right of the blob,
   labeled "Raw Data" with a tiny arrow pointing into the blob
 
-STAGE 2 — "Hypothesize" (middle third):
+STAGE 2 - "Hypothesize" (middle third):
 - Draw a rounded blob with warm wheat wash fill (#F5DEB3)
 - Inside: hand-drawn LIGHTBULB icon (simple: circle + filament lines + base)
 - Below: "Hypothesize" in bold
@@ -141,7 +141,7 @@ STAGE 2 — "Hypothesize" (middle third):
 - Two small thought-bubble circles trailing from the blob upward,
   suggesting the thinking process
 
-STAGE 3 — "Verify" (right third):
+STAGE 3 - "Verify" (right third):
 - Draw a rounded blob with sage wash fill (#D4E6D4)
 - Inside: hand-drawn CHECKMARK icon (a satisfying thick check)
 - Below: "Verify" in bold
@@ -185,24 +185,24 @@ Adapt constraints to the chosen style:
 **For Sketch/简笔画**:
 ```
 CONSTRAINTS:
-- Lines should look HAND-DRAWN but still legible — wobbly, not chaotic
+- Lines should look HAND-DRAWN but still legible - wobbly, not chaotic
 - NO clip art, NO stock icons, NO photorealistic elements
-- NO emoji — icons must be simple LINE DRAWINGS in charcoal
+- NO emoji - icons must be simple LINE DRAWINGS in charcoal
 - NO figure numbers, NO captions, NO watermarks
 - Background is warm off-white #FAFAF7, NOT pure white
 - Overall composition should feel warm and inviting, like a sketchbook page
 - Every text label spelled EXACTLY as specified
-- Publication quality — this is for NeurIPS, not a napkin sketch
+- Publication quality - this is for NeurIPS, not a napkin sketch
 ```
 
 **For Modern Minimal**:
 ```
 CONSTRAINTS:
-- ZERO decoration — no icons, no illustrations, no ornaments
-- NO visible borders on component boxes — they float using subtle shadow only
-- NO thick colored lines — all connections are thin gray
+- ZERO decoration - no icons, no illustrations, no ornaments
+- NO visible borders on component boxes - they float using subtle shadow only
+- NO thick colored lines - all connections are thin gray
 - NO gradients, NO patterns, NO textures
-- Whitespace is a design element — at least 24px between all elements
+- Whitespace is a design element - at least 24px between all elements
 - NO figure numbers, NO captions, NO watermarks
 - Background pure white #FFFFFF
 - Every text label spelled EXACTLY as specified
@@ -215,10 +215,10 @@ CONSTRAINTS:
 ```
 Create a warm, hand-drawn-style technical diagram for a NeurIPS paper showing
 an autonomous research agent system. The diagram should feel like a carefully
-drawn whiteboard sketch — approachable yet precise.
+drawn whiteboard sketch - approachable yet precise.
 
-VISUAL STYLE — HAND-DRAWN SKETCH:
-- Slightly irregular, hand-drawn line quality — lines wobble gently, not perfectly straight
+VISUAL STYLE - HAND-DRAWN SKETCH:
+- Slightly irregular, hand-drawn line quality - lines wobble gently, not perfectly straight
 - Rounded, soft shapes with visible pen strokes (like drawn with a thick felt-tip marker)
 - Warm off-white background (#FAFAF7)
 - Fill colors are soft watercolor washes: blue #D6E4F0, wheat #F5DEB3, sage #D4E6D4
@@ -227,7 +227,7 @@ VISUAL STYLE — HAND-DRAWN SKETCH:
 - Small doodle-style line-art icons inside each component (NOT emoji, NOT clip art)
 - Text in rounded sans-serif, warm and readable
 
-COLOR PALETTE — INK AND WASH:
+COLOR PALETTE - INK AND WASH:
 - Outlines/text: Charcoal #2C2C2C
 - Planner fill: Blue wash #D6E4F0
 - Executor fill: Wheat wash #F5DEB3
@@ -235,22 +235,22 @@ COLOR PALETTE — INK AND WASH:
 - Background: Warm paper #FAFAF7
 - Failure/retry: Terracotta #C0725E
 
-LAYOUT — TRIANGULAR ARRANGEMENT:
+LAYOUT - TRIANGULAR ARRANGEMENT:
 Three rounded blob shapes arranged in a triangle:
 
-TOP CENTER — "Planner" blob:
+TOP CENTER - "Planner" blob:
 - Blue wash fill (#D6E4F0)
 - Line-art icon: a small COMPASS or MAP (simple 2D line drawing)
 - Bold label: "Planner"
 - Subtitle: "Decomposes research questions"
 
-BOTTOM LEFT — "Executor" blob:
+BOTTOM LEFT - "Executor" blob:
 - Wheat wash fill (#F5DEB3)
 - Line-art icon: a small GEAR or WRENCH
 - Bold label: "Executor"
 - Subtitle: "Runs experiments & tools"
 
-BOTTOM RIGHT — "Verifier" blob:
+BOTTOM RIGHT - "Verifier" blob:
 - Sage wash fill (#D4E6D4)
 - Line-art icon: a small MAGNIFYING GLASS
 - Bold label: "Verifier"
@@ -263,13 +263,13 @@ ARROWS:
    Label: "raw results" (italic, small)
 3. Verifier → Planner: curved arrow going UP-LEFT, terracotta #C0725E, DASHED
    Label: "needs revision" (italic, small)
-   This is the feedback/retry path — dashed to show it's conditional
+   This is the feedback/retry path - dashed to show it's conditional
 
 CENTER of triangle: small text "Shared Memory" with a tiny notebook icon
 
 CONSTRAINTS:
 - Hand-drawn feel but still publication quality for NeurIPS
-- NO clip art, NO stock icons — only simple line drawings
+- NO clip art, NO stock icons - only simple line drawings
 - NO figure numbers, NO captions
 - Warm off-white background, NOT pure white
 - Every label spelled EXACTLY as written
@@ -281,7 +281,7 @@ CONSTRAINTS:
 Create an ultra-clean, modern technical architecture diagram for an ICML paper.
 Confident, spacious, authoritative. Think: Apple developer docs meets Nature paper.
 
-VISUAL STYLE — MODERN MINIMAL:
+VISUAL STYLE - MODERN MINIMAL:
 - Ultra-clean geometric shapes with crisp edges
 - Bold color blocks as section fills using desaturated tones
 - Component boxes: 12px rounded corners, NO visible border, float on section
@@ -292,7 +292,7 @@ VISUAL STYLE — MODERN MINIMAL:
 - Typography: system sans-serif, titles 600 weight, body 400 weight
 - Labels INSIDE boxes, generous whitespace (24px+ between elements)
 
-COLOR PALETTE — NORD:
+COLOR PALETTE - NORD:
 - Deep text: #2E3440
 - Section 1 fill: #EEF1F6 (blue tint), accent: #5E81AC
 - Section 2 fill: #EDF3ED (green tint), accent: #A3BE8C
@@ -300,25 +300,25 @@ COLOR PALETTE — NORD:
 - Box fill: White #FFFFFF
 - Arrows: #6B7280
 
-LAYOUT — THREE HORIZONTAL SECTIONS:
+LAYOUT - THREE HORIZONTAL SECTIONS:
 Three wide horizontal bands, stacked vertically with 16px gaps.
 Each section is a full-width rounded rectangle (8px corners).
 
-[SECTION 1 — "Data" — blue tint background #EEF1F6]
+[SECTION 1 - "Data" - blue tint background #EEF1F6]
 - Small section header top-left: "DATA" in #5E81AC, small caps, letter-spaced
 - Three white floating boxes in a row:
   Box: "Corpus" / "1.2T tokens"
   Box: "Filter" / "Quality + dedup"
   Box: "Tokenize" / "BPE 32K"
 
-[SECTION 2 — "Train" — green tint background #EDF3ED]
+[SECTION 2 - "Train" - green tint background #EDF3ED]
 - Header: "TRAIN" in #A3BE8C
 - Three white floating boxes:
   Box: "Model" / "7B · 32 layers"
   Box: "Optimize" / "AdamW · cosine"
   Box: "Checkpoint" / "Every 1K steps"
 
-[SECTION 3 — "Evaluate" — yellow tint background #F5F2EA]
+[SECTION 3 - "Evaluate" - yellow tint background #F5F2EA]
 - Header: "EVALUATE" in #EBCB8B
 - Three white floating boxes:
   Box: "Benchmark" / "MMLU · HumanEval"
@@ -331,8 +331,8 @@ ARROWS:
 3. "Analyze" → "Report": thin gray, horizontal, label "publish"
 
 CONSTRAINTS:
-- ZERO decoration — no icons, no illustrations
-- NO visible box borders — shadow only
+- ZERO decoration - no icons, no illustrations
+- NO visible box borders - shadow only
 - Generous whitespace between all elements
 - NO figure numbers, NO captions, NO watermarks
 - Background: pure white #FFFFFF

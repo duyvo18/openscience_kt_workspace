@@ -1,6 +1,6 @@
 # Conference Paper Checklists
 
-This reference documents the mandatory checklist requirements for major ML/AI conferences. All major venues now require paper checklists—missing them results in desk rejection.
+This reference documents the mandatory checklist requirements for major ML/AI conferences. All major venues now require paper checklists-missing them results in desk rejection.
 
 **For systems conference checklists (OSDI, NSDI, ASPLOS, SOSP)**, see the [systems-paper-writing](../../systems-paper-writing/) skill.
 

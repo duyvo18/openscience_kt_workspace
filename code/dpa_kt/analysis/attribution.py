@@ -74,7 +74,7 @@ def render_panel(panel: str, model, batch, b: int, step: int,
         ax.plot(range(T), y[:T], "-o", ms=3, label="predicted P(correct)")
         ax.scatter(range(T), r[:T], marker="x", color="k", label="actual", zorder=3)
         ax.axvline(step, color="red", ls="--", alpha=0.6, label=f"step {step}")
-        ax.set_title(f"Predictions vs actual — student {b} "
+        ax.set_title(f"Predictions vs actual - student {b} "
                      f"(guess={trace['guess']:.2f}, slip={trace['slip']:.2f})")
         ax.set_xlabel("step"); ax.set_ylabel("P(correct)"); ax.legend(fontsize=8)
         fig.tight_layout()
@@ -126,7 +126,7 @@ def attribution_case_study(model, batch, b: int = 0, step: int | None = None,
     ax.plot(range(T), y[:T], "-o", ms=3, label="predicted P(correct)")
     ax.scatter(range(T), r[:T], marker="x", color="k", label="actual", zorder=3)
     ax.axvline(step, color="red", ls="--", alpha=0.6, label=f"step {step}")
-    ax.set_title(f"Predictions vs actual — student {b} "
+    ax.set_title(f"Predictions vs actual - student {b} "
                  f"(guess={trace['guess']:.2f}, slip={trace['slip']:.2f})")
     ax.set_xlabel("step"); ax.set_ylabel("P(correct)"); ax.legend(fontsize=8)
     fig.tight_layout()
@@ -146,7 +146,7 @@ def pick_attribution_examples(batch, k: int = 4, strategy: str = "spread"):
       * ``"spread"`` (default): pick one pair per student at quartile points
         of that student's real prefix length, so the figures cover early,
         mid, and late interactions rather than always step 1.
-      * ``"first"``: legacy behaviour — pick the first valid step per student.
+      * ``"first"``: legacy behaviour - pick the first valid step per student.
     """
     import torch
 

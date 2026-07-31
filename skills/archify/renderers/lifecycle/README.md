@@ -7,7 +7,7 @@ template.
 node archify/renderers/lifecycle/render-lifecycle.mjs input.lifecycle.json output.html
 ```
 
-Run `npm install` once in the skill folder first — the renderer validates the
+Run `npm install` once in the skill folder first - the renderer validates the
 input against `archify/schemas/lifecycle.schema.json` via ajv. Without it, the
 renderer prints a warning and skips schema validation; its own layout checks
 still run.
@@ -38,7 +38,7 @@ Lifecycle JSON files must set:
 Lane ids are semantic and reserved: a lane with id `main` is required and maps
 to the top phase band; `terminal` maps to the bottom outcome band; every other
 lane id (up to 4 lanes total) shares the single middle event band. The three
-band headers render from your lane labels — the middle band joins the labels of
+band headers render from your lane labels - the middle band joins the labels of
 all event lanes with ` + `. A complete worked example lives at
 `archify/examples/agent-run.lifecycle.json`.
 
@@ -60,7 +60,7 @@ archify/schemas/lifecycle.schema.json
 |----------|-------|
 | viewBox | default `[980, 660]`; schema minimum `[420, 360]` |
 | State area | x within `[32, width − 32]`; y within `[64, legend y − 24]` |
-| State spacing | ≥10px between any two states — checked across lanes, because all event lanes share one band; separate same-band states with `col` or `yOffset` |
+| State spacing | ≥10px between any two states - checked across lanes, because all event lanes share one band; separate same-band states with `col` or `yOffset` |
 | Transition length | ≥32px between endpoints |
 | Legend row | y = height − 98 |
 

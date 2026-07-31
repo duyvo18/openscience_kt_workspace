@@ -37,7 +37,7 @@ Comprehensive self-check before submitting to OSDI, SOSP, ASPLOS, NSDI, and Euro
 ### Clarity (Gernot Heiser)
 - [ ] No forward references without explicit pointers ("as we show in §N")
 - [ ] Every acronym defined on first use
-- [ ] No orphan terminology — every technical term defined before use
+- [ ] No orphan terminology - every technical term defined before use
 - [ ] Consistent naming: system name capitalized uniformly throughout
 - [ ] Active voice preferred over passive where possible
 
@@ -139,13 +139,13 @@ Comprehensive self-check before submitting to OSDI, SOSP, ASPLOS, NSDI, and Euro
 
 ## Stage 6: Venue-Specific Requirements
 
-> **Verify against the current year's CFP** — rules change annually.
+> **Verify against the current year's CFP** - rules change annually.
 
 ### All Systems Venues
 
-- [ ] **System design and implementation** — not just algorithms
-- [ ] **Real workloads and evaluation** — microbenchmarks are insufficient
-- [ ] **Practical benefits demonstrated** — latency, throughput, cost, energy
+- [ ] **System design and implementation** - not just algorithms
+- [ ] **Real workloads and evaluation** - microbenchmarks are insufficient
+- [ ] **Practical benefits demonstrated** - latency, throughput, cost, energy
 - [ ] **Comparison with state-of-the-art systems**
 - [ ] **No simultaneous submission to other venues**
 - [ ] **Prior arXiv/tech reports permitted**

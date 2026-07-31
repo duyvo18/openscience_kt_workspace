@@ -4,12 +4,12 @@ Standards for figure styling across major ML/AI conferences.
 
 ## Universal Rules
 
-1. **Vector format preferred** — Export PDF for LaTeX, PNG only for AI-generated diagrams
+1. **Vector format preferred** - Export PDF for LaTeX, PNG only for AI-generated diagrams
 2. **300 DPI minimum** for raster images
-3. **Colorblind-safe palettes** — Never rely on color alone; add markers, patterns, or labels
-4. **Consistent style** — All figures in a paper must share fonts, colors, and styling
-5. **Self-contained** — Every figure must be understandable without reading the caption first
-6. **No decorative elements** — No shadows, 3D effects, gradients, or clip art
+3. **Colorblind-safe palettes** - Never rely on color alone; add markers, patterns, or labels
+4. **Consistent style** - All figures in a paper must share fonts, colors, and styling
+5. **Self-contained** - Every figure must be understandable without reading the caption first
+6. **No decorative elements** - No shadows, 3D effects, gradients, or clip art
 
 ## Venue-Specific Figure Dimensions
 
@@ -65,7 +65,7 @@ Template: `\usepackage[hyperref]{acl2025}`
 This palette is distinguishable under all forms of color vision deficiency:
 
 ```python
-# "deep" variant — high contrast, good for lines and bars
+# "deep" variant - high contrast, good for lines and bars
 PALETTE_DEEP = [
     "#4C72B0",  # blue
     "#DD8452",  # orange
@@ -82,8 +82,8 @@ PALETTE_DEEP = [
 
 ```python
 # High contrast pair
-OURS = "#C44E52"     # red — stands out
-BASELINE = "#8C8C8C" # gray — recedes
+OURS = "#C44E52"     # red - stands out
+BASELINE = "#8C8C8C" # gray - recedes
 
 # Alternative pair
 OURS = "#4C72B0"     # blue
@@ -102,10 +102,10 @@ BASELINE = "#DD8452"  # orange
 
 ### Colors to Avoid
 
-- **Pure red + pure green** — indistinguishable for ~8% of males
-- **Rainbow/jet colormap** — perceptually non-uniform, misleading
-- **Light yellow on white** — insufficient contrast
-- **Neon/saturated colors** — look unprofessional in academic papers
+- **Pure red + pure green** - indistinguishable for ~8% of males
+- **Rainbow/jet colormap** - perceptually non-uniform, misleading
+- **Light yellow on white** - insufficient contrast
+- **Neon/saturated colors** - look unprofessional in academic papers
 
 ## Typography
 
@@ -288,7 +288,7 @@ Background:       #FFFFFF
 - **First sentence**: What the figure shows (standalone understanding)
 - **Key takeaway**: What the reader should notice
 - **Color note**: "Best viewed in color" if color carries meaning
-- **No "Figure X shows..."** — the figure number is already there
+- **No "Figure X shows..."** - the figure number is already there
 
 Good: "Training loss across model sizes. Larger models converge faster and to lower final loss."
 Bad: "Figure 3 shows the training loss for different model sizes."

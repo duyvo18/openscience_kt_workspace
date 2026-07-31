@@ -12,7 +12,7 @@ metadata:
 
 Create professional technical diagrams as self-contained HTML files with inline SVG, a theme toggle, and a built-in image/SVG export menu.
 
-Every diagram ships with a **dark/light theme toggle** (persists in `localStorage`, respects `prefers-color-scheme`), an **export menu** (copy PNG to clipboard; download PNG/JPEG/WebP rasterized natively at up to 4× resolution; download a **dual-theme SVG** that follows the embedding host's `prefers-color-scheme` — ideal for GitHub READMEs), and a **CSS-variable color system** that keeps both themes consistent.
+Every diagram ships with a **dark/light theme toggle** (persists in `localStorage`, respects `prefers-color-scheme`), an **export menu** (copy PNG to clipboard; download PNG/JPEG/WebP rasterized natively at up to 4× resolution; download a **dual-theme SVG** that follows the embedding host's `prefers-color-scheme` - ideal for GitHub READMEs), and a **CSS-variable color system** that keeps both themes consistent.
 
 ## Setup (one-time, renderer modes only)
 
@@ -22,7 +22,7 @@ The five typed renderers validate JSON against schemas via `ajv`. From this skil
 npm install
 ```
 
-Without it the renderers still run — they print a warning and skip schema validation, keeping their own layout checks. The **generated HTML never has dependencies**; only the renderers do.
+Without it the renderers still run - they print a warning and skip schema validation, keeping their own layout checks. The **generated HTML never has dependencies**; only the renderers do.
 
 If you have no shell access at all (e.g. the skill was added as project knowledge), fall back to architecture mode for every request: hand-place SVG into `assets/template.html` following the Design System below, and run the self-review checklist before delivering.
 
@@ -40,7 +40,7 @@ Trigger phrases: "architecture/system/cloud diagram" → `architecture` (unless 
 
 ## Mermaid as an Input Dialect
 
-When the user pastes Mermaid code, do NOT try to render or parse it mechanically — read it for structure and **lay out from scratch** in the matching archify mode:
+When the user pastes Mermaid code, do NOT try to render or parse it mechanically - read it for structure and **lay out from scratch** in the matching archify mode:
 
 | Mermaid | Archify mode | Mapping |
 |---------|--------------|---------|
@@ -48,27 +48,27 @@ When the user pastes Mermaid code, do NOT try to render or parse it mechanically
 | `sequenceDiagram` | `sequence` | `participant` → participants (pick semantic `type` from the name); `->>` → message, `-->>` → `return` variant; `Note` → message `note`; `rect` blocks → segments |
 | `stateDiagram` | `lifecycle` | states → states (pick `start`/`active`/`waiting`/`success`/`failure` from names); `[*]` start/end → `start` type / `terminal` lane; transition labels → event-like labels |
 
-Drop Mermaid styling; keep only the topology and meaning. You choose grouping, lane order, and what deserves emphasis — that judgment is the product.
+Drop Mermaid styling; keep only the topology and meaning. You choose grouping, lane order, and what deserves emphasis - that judgment is the product.
 
 ## Layout principles (read before placing)
 
 Archify's readability comes from **spatial narrative**, not from drawing every dependency as an arrow. Before you write coordinates or edge lists, plan one clear story:
 
-1. **One main path** — left → right (architecture) or lane → column (workflow). The reader should trace the happy path without crossing lines.
-2. **Few labeled edges** — label only cross-boundary or non-obvious transitions on the main path. Adjacent steps stay unlabeled.
-3. **Short side branches** — permissions, storage, bots, CI: connect **up or down** from the nearest node on the main path. Never route a secondary edge diagonally across unrelated components.
-4. **Cards for detail** — policies, tech stack notes, and "also connects to X" belong in summary cards, not as extra arrows.
-5. **Mode fit** — process / approval / tool-call stories → `workflow` or `sequence`. Component maps with ≤12 nodes → `architecture`. If the diagram needs 20+ edges, remove edges until the main path is obvious.
+1. **One main path** - left → right (architecture) or lane → column (workflow). The reader should trace the happy path without crossing lines.
+2. **Few labeled edges** - label only cross-boundary or non-obvious transitions on the main path. Adjacent steps stay unlabeled.
+3. **Short side branches** - permissions, storage, bots, CI: connect **up or down** from the nearest node on the main path. Never route a secondary edge diagonally across unrelated components.
+4. **Cards for detail** - policies, tech stack notes, and "also connects to X" belong in summary cards, not as extra arrows.
+5. **Mode fit** - process / approval / tool-call stories → `workflow` or `sequence`. Component maps with ≤12 nodes → `architecture`. If the diagram needs 20+ edges, remove edges until the main path is obvious.
 
 Worked examples on this pattern: `examples/archify-repo.architecture.json` (this repo) and `examples/maka-architecture.architecture.json` (third-party desktop app).
 
-When validation fails on label overlap, read the **Suggested fix** lines (coordinates / `labelAt` / `labelDy`) and apply them directly — do not guess offsets blindly.
+When validation fails on label overlap, read the **Suggested fix** lines (coordinates / `labelAt` / `labelDy`) and apply them directly - do not guess offsets blindly.
 
 ## Renderer Modes (architecture / workflow / sequence / dataflow / lifecycle)
 
 All five modes follow the same loop:
 
-1. **Read first**: the schema (`schemas/<type>.schema.json`) and the complete worked example (`examples/*.{architecture,workflow,sequence,dataflow,lifecycle}.json`) — copy its patterns instead of guessing field shapes.
+1. **Read first**: the schema (`schemas/<type>.schema.json`) and the complete worked example (`examples/*.{architecture,workflow,sequence,dataflow,lifecycle}.json`) - copy its patterns instead of guessing field shapes.
 2. Write `<name>.<type>.json`.
 3. Render: `node bin/archify.mjs render <type> <input>.json <output>.html` (paths relative to this skill's folder).
 4. Validate the generated artifact: `node bin/archify.mjs validate <type> <input>.json --json`, or check an existing HTML file with `node bin/archify.mjs check <output>.html`. This catches malformed SVG output, non-finite SVG values, two-point diagonal arrows, and arrows crossing the legend.
@@ -100,7 +100,7 @@ Set `meta.animation: "trace"` only when the user asks for motion or a presentati
 }
 ```
 
-**Layout budget**: 6 columns (`col` 0–5) at fixed x positions `[88, 220, 300, 430, 500, 625]` — columns 1↔2 and 3↔4 are only 70–80px apart, so default-width (92px) nodes in those adjacent columns of the same lane overlap; skip a column or shrink `width`. Lane content width is 640px. Omit `meta.viewBox` — the renderer sizes height to the lane count automatically. Use `phases` for top-of-diagram story beats, `groups` to frame parallel work or a branch inside one lane, and `lane.variant: "exception"` for error/retry/fallback lanes. `mainPath` is optional but recommended: list the happy-path node ids in order so the renderer can catch missing edges or accidental backward movement. Edge routes: `straight`, `drop` (bend between lanes; `bias` 0–1 picks where), `outside-right`, `return-left`, `bottom-channel`, `up-channel`, or explicit `via` points. Keep adjacent-step edges unlabeled; reserve labels for cross-lane transitions, approvals, async traces, and returns.
+**Layout budget**: 6 columns (`col` 0–5) at fixed x positions `[88, 220, 300, 430, 500, 625]` - columns 1↔2 and 3↔4 are only 70–80px apart, so default-width (92px) nodes in those adjacent columns of the same lane overlap; skip a column or shrink `width`. Lane content width is 640px. Omit `meta.viewBox` - the renderer sizes height to the lane count automatically. Use `phases` for top-of-diagram story beats, `groups` to frame parallel work or a branch inside one lane, and `lane.variant: "exception"` for error/retry/fallback lanes. `mainPath` is optional but recommended: list the happy-path node ids in order so the renderer can catch missing edges or accidental backward movement. Edge routes: `straight`, `drop` (bend between lanes; `bias` 0–1 picks where), `outside-right`, `return-left`, `bottom-channel`, `up-channel`, or explicit `via` points. Keep adjacent-step edges unlabeled; reserve labels for cross-lane transitions, approvals, async traces, and returns.
 
 ### Sequence
 
@@ -173,7 +173,7 @@ Set `meta.animation: "trace"` only when the user asks for motion or a presentati
 }
 ```
 
-**Layout budget — lane ids are semantic and reserved**: `main` is required and maps to the top phase band (cols 0–4); `terminal` maps to the bottom outcome band (cols 0–2); **every other lane id shares the single middle event band** (cols 0–2) — separate same-band states with different `col` or `yOffset`. Band headers render from your lane labels. Default viewBox `[980, 660]`. Keep transition labels event-like and sparse ("retry", "timeout", "cancel"); prefer state `tag`s, `step` numbers, and summary cards over label-heavy arrows. Put terminal states in the `terminal` lane so endings are unambiguous.
+**Layout budget - lane ids are semantic and reserved**: `main` is required and maps to the top phase band (cols 0–4); `terminal` maps to the bottom outcome band (cols 0–2); **every other lane id shares the single middle event band** (cols 0–2) - separate same-band states with different `col` or `yOffset`. Band headers render from your lane labels. Default viewBox `[980, 660]`. Keep transition labels event-like and sparse ("retry", "timeout", "cancel"); prefer state `tag`s, `step` numbers, and summary cards over label-heavy arrows. Put terminal states in the `terminal` lane so endings are unambiguous.
 
 ### Per-mode deep guidance
 
@@ -181,7 +181,7 @@ Each renderer has a README with its full design language (route presets, semanti
 
 ## Architecture Mode
 
-Architecture has the same read-schema-then-render loop as the other modes — prefer it. Hand-placed SVG is the fallback for when renderers can't run.
+Architecture has the same read-schema-then-render loop as the other modes - prefer it. Hand-placed SVG is the fallback for when renderers can't run.
 
 ```json
 {
@@ -206,9 +206,9 @@ Architecture has the same read-schema-then-render loop as the other modes — pr
 
 Render: `node bin/archify.mjs render architecture <input>.json <output>.html`.
 
-**Free placement** — `pos: [x, y]` is the component's top-left; `size: [w, h]` defaults to `[120, 60]`. Unlike typed modes there is no lane/stage grid — asymmetric placement is yours to choose. `meta.viewBox` is optional (auto-fitted).
+**Free placement** - `pos: [x, y]` is the component's top-left; `size: [w, h]` defaults to `[120, 60]`. Unlike typed modes there is no lane/stage grid - asymmetric placement is yours to choose. `meta.viewBox` is optional (auto-fitted).
 
-**Grid placement (#8)** — when manual coordinates are painful, set semantic cells instead of doing arithmetic:
+**Grid placement (#8)** - when manual coordinates are painful, set semantic cells instead of doing arithmetic:
 
 ```json
 {
@@ -220,9 +220,9 @@ Render: `node bin/archify.mjs render architecture <input>.json <output>.html`.
 }
 ```
 
-`pos` still wins when present (override one cell). This is **not** auto-layout — spacing is fixed cell math. Example: `examples/archify-repo-grid.architecture.json`.
+`pos` still wins when present (override one cell). This is **not** auto-layout - spacing is fixed cell math. Example: `examples/archify-repo-grid.architecture.json`.
 
-**Inspect layout (#9)** — after editing JSON, dump computed boxes without opening HTML:
+**Inspect layout (#9)** - after editing JSON, dump computed boxes without opening HTML:
 
 ```bash
 node bin/archify.mjs inspect architecture my.architecture.json
@@ -233,11 +233,11 @@ Output includes component rects, boundaries, connection point paths, and label p
 
 **The renderer does the mechanical work that used to be hand-tuned**, so you only choose coordinates and meaning:
 
-- **Free coordinates** — `pos: [x, y]` is the component's top-left; `size: [w, h]` defaults to `[120, 60]`. Unlike the typed modes there is no lane/stage grid — asymmetric placement is yours to choose. `meta.viewBox` is optional (auto-fitted to your components + a legend row).
-- **Grid placement** — optional `layout.mode: "grid"` with `row`/`col` per component (see above). Not dagre; fixed cell spacing only.
-- **Boundaries from `wraps`** — list the component ids a `region` (dashed amber) or `security-group` (dashed rose) encloses; the renderer computes the box with correct 30/50 padding automatically. Never hand-arithmetic a boundary again.
+- **Free coordinates** - `pos: [x, y]` is the component's top-left; `size: [w, h]` defaults to `[120, 60]`. Unlike the typed modes there is no lane/stage grid - asymmetric placement is yours to choose. `meta.viewBox` is optional (auto-fitted to your components + a legend row).
+- **Grid placement** - optional `layout.mode: "grid"` with `row`/`col` per component (see above). Not dagre; fixed cell spacing only.
+- **Boundaries from `wraps`** - list the component ids a `region` (dashed amber) or `security-group` (dashed rose) encloses; the renderer computes the box with correct 30/50 padding automatically. Never hand-arithmetic a boundary again.
 - **Connections** route like edges (`variant`, `fromSide`/`toSide`, `route: straight|orthogonal-h|orthogonal-v|auto`, `via`, `labelDx/labelDy/labelAt`). For a vertical labeled connection, push the label into the gap with `labelDy` (the validator will tell you if it lands on a box).
-- The renderer auto-emits the two-rect `c-mask` pattern, draws arrows before boxes (z-order), builds the legend from the component types you used, and **fails fast on component overlap, off-canvas components/boundaries, unknown wraps/connection ids, label-vs-component collisions, and non-finite coordinates** — the same reliability the other four modes already had.
+- The renderer auto-emits the two-rect `c-mask` pattern, draws arrows before boxes (z-order), builds the legend from the component types you used, and **fails fast on component overlap, off-canvas components/boundaries, unknown wraps/connection ids, label-vs-component collisions, and non-finite coordinates** - the same reliability the other four modes already had.
 
 ### Hand-placed fallback (no renderer available)
 
@@ -256,13 +256,13 @@ The theme toggle works by switching CSS custom properties. Hardcoded `fill="rgba
 
 ### Design system
 
-Component fills `c-frontend` (clients/UI), `c-backend` (services/APIs), `c-database` (stores/caches), `c-cloud` (managed infra), `c-security` (auth/secrets), `c-messagebus` (Kafka/queues), `c-external` (3rd parties); text accents `t-<same>` plus neutrals `t-primary` / `t-muted` / `t-dim`. Arrows `a-default`, `a-emphasis` (hot path), `a-security` (dashed), `a-dashed` (async) — always set `stroke-width` and pair `marker-end="url(#arrowhead[-variant])"` with the matching class. Boundaries: `c-security-group` (dashed rose), `c-region` (dashed amber), `c-lane` (swimlane).
+Component fills `c-frontend` (clients/UI), `c-backend` (services/APIs), `c-database` (stores/caches), `c-cloud` (managed infra), `c-security` (auth/secrets), `c-messagebus` (Kafka/queues), `c-external` (3rd parties); text accents `t-<same>` plus neutrals `t-primary` / `t-muted` / `t-dim`. Arrows `a-default`, `a-emphasis` (hot path), `a-security` (dashed), `a-dashed` (async) - always set `stroke-width` and pair `marker-end="url(#arrowhead[-variant])"` with the matching class. Boundaries: `c-security-group` (dashed rose), `c-region` (dashed amber), `c-lane` (swimlane).
 
 Typography inherits JetBrains Mono from the SVG root. Sizes: 11–12px component names, 9px sublabels, 8px annotations, 7px tiny labels.
 
 ### Hard layout rules
 
-- **Two-rect pattern everywhere**: opaque `c-mask` rect first, styled `c-<type>` rect on top — semi-transparent fills otherwise let arrows bleed through.
+- **Two-rect pattern everywhere**: opaque `c-mask` rect first, styled `c-<type>` rect on top - semi-transparent fills otherwise let arrows bleed through.
 - **Arrows before components** in document order (SVG paints in order; arrows must sit behind boxes).
 - **Vertical stacking**: ≥40px gap between components; inline connectors (message buses, 20px tall) live inside the gap, never overlapping boxes.
 - **Boundary padding**: boundary `y` = inner `y` − 30, boundary `height` = inner `height` + 50, label baseline 18px below the boundary top.
@@ -275,7 +275,7 @@ Typography inherits JetBrains Mono from the SVG root. Sizes: 11–12px component
 3. All `<line>`/`<path>` arrows appear before all component rects in document order.
 4. Compute max(y + height) over all SVG elements: viewBox height must exceed it by ≥20px; same for x/width.
 5. Legend y is below every boundary's y + height.
-6. The `.toolbar`, `<script>` blocks, and `:root` / `[data-theme]` CSS are untouched — they ARE the theme toggle and export menu.
+6. The `.toolbar`, `<script>` blocks, and `:root` / `[data-theme]` CSS are untouched - they ARE the theme toggle and export menu.
 
 ## Output
 

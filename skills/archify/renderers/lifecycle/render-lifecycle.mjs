@@ -123,7 +123,7 @@ function validateLifecycle() {
   // The three bands are fixed at y=112/264/436; the legend (viewBox[1] - 98)
   // must clear the outcome band's header zone.
   if (legendY() - 20 < 448) {
-    problems.push(`viewBox height ${viewBox[1]} is too short for the fixed band layout — set meta.viewBox[1] to at least 566.`);
+    problems.push(`viewBox height ${viewBox[1]} is too short for the fixed band layout - set meta.viewBox[1] to at least 566.`);
   }
 
   const laneIds = new Set(asArray(lifecycle.lanes).map((lane) => lane.id));
@@ -144,32 +144,32 @@ function validateLifecycle() {
         ? layout.outcomeXs.length
         : layout.eventXs.length;
     if (!Number.isInteger(state.col) || state.col < 0 || state.col >= maxCol) {
-      problems.push(`State "${state.id}" uses invalid column ${state.col} — the ${band} band has integer columns 0..${maxCol - 1}.`);
+      problems.push(`State "${state.id}" uses invalid column ${state.col} - the ${band} band has integer columns 0..${maxCol - 1}.`);
       continue;
     }
     if (!isFinitePoint(state.x, state.y, state.cx, state.cy)) {
-      problems.push(`State "${state.id}" produced non-finite coordinates — check col, width, height, and yOffset are numbers.`);
+      problems.push(`State "${state.id}" produced non-finite coordinates - check col, width, height, and yOffset are numbers.`);
       continue;
     }
     if (state.x < 32 || state.x + state.width > viewBox[0] - 32) {
-      problems.push(`State "${state.id}" exceeds the horizontal bounds of the diagram — reduce state.width or increase meta.viewBox[0].`);
+      problems.push(`State "${state.id}" exceeds the horizontal bounds of the diagram - reduce state.width or increase meta.viewBox[0].`);
     }
     if (state.y < 64 || state.y + state.height > legendY() - 24) {
-      problems.push(`State "${state.id}" exceeds the vertical lifecycle area — keep y between 64 and ${legendY() - 24} (adjust yOffset or increase meta.viewBox[1]).`);
+      problems.push(`State "${state.id}" exceeds the vertical lifecycle area - keep y between 64 and ${legendY() - 24} (adjust yOffset or increase meta.viewBox[1]).`);
     }
     const estLabelW = textUnits(state.label) * 6.2;
     if (estLabelW > state.width + 6) {
-      problems.push(`Label "${state.label}" (~${Math.round(estLabelW)}px) is wider than state "${state.id}" (${state.width}px) — shorten the label, move detail to sublabel, or increase state.width.`);
+      problems.push(`Label "${state.label}" (~${Math.round(estLabelW)}px) is wider than state "${state.id}" (${state.width}px) - shorten the label, move detail to sublabel, or increase state.width.`);
     }
   }
 
   // All non-main/non-terminal lanes share the same y band, so the overlap
-  // check must run across lanes — not per-lane.
+  // check must run across lanes - not per-lane.
   const allStates = [...states.values()];
   for (let i = 0; i < allStates.length; i += 1) {
     for (let j = i + 1; j < allStates.length; j += 1) {
       if (rectsOverlap(allStates[i], allStates[j], 10)) {
-        problems.push(`States "${allStates[i].id}" and "${allStates[j].id}" are less than 10px apart — move one to another col or separate them with yOffset (lanes other than "main"/"terminal" share one band).`);
+        problems.push(`States "${allStates[i].id}" and "${allStates[j].id}" are less than 10px apart - move one to another col or separate them with yOffset (lanes other than "main"/"terminal" share one band).`);
       }
     }
   }
@@ -181,7 +181,7 @@ function validateLifecycle() {
       const routed = pathFor(transition);
       const [start, end] = [routed.points[0], routed.points[routed.points.length - 1]];
       const distance = Math.hypot(end[0] - start[0], end[1] - start[1]);
-      if (distance < 32) problems.push(`Transition "${transition.label || `${transition.from}->${transition.to}`}" is too short (${Math.round(distance)}px; minimum 32px) — route it through a channel or drop its label.`);
+      if (distance < 32) problems.push(`Transition "${transition.label || `${transition.from}->${transition.to}`}" is too short (${Math.round(distance)}px; minimum 32px) - route it through a channel or drop its label.`);
     }
   }
 
@@ -197,14 +197,14 @@ function validateLifecycle() {
   for (const rect of labelRects) {
     for (const state of states.values()) {
       if (rectsOverlap(rect, state, -2)) {
-        problems.push(`Label "${rect.label}" overlaps state "${state.id}" — adjust labelDx/labelDy/labelSegment or set labelAt.\n${suggestLabelObstacleFix(rect, rect.lx, rect.ly, state, 'state')}`);
+        problems.push(`Label "${rect.label}" overlaps state "${state.id}" - adjust labelDx/labelDy/labelSegment or set labelAt.\n${suggestLabelObstacleFix(rect, rect.lx, rect.ly, state, 'state')}`);
       }
     }
   }
   for (let i = 0; i < labelRects.length; i += 1) {
     for (let j = i + 1; j < labelRects.length; j += 1) {
       if (rectsOverlap(labelRects[i], labelRects[j], -2)) {
-        problems.push(`Labels "${labelRects[i].label}" and "${labelRects[j].label}" overlap — adjust labelDx/labelDy.\n${suggestLabelPairFix(labelRects[i], labelRects[j])}`);
+        problems.push(`Labels "${labelRects[i].label}" and "${labelRects[j].label}" overlap - adjust labelDx/labelDy.\n${suggestLabelPairFix(labelRects[i], labelRects[j])}`);
       }
     }
   }

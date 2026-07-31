@@ -3,7 +3,7 @@
 Interactions from train_task_1_2.csv (QuestionId, UserId, IsCorrect, AnswerId);
 KCs are the SubjectId list of each question (question_metadata_task_1_2.csv,
 a stringified int list). AnswerId is monotonic with time, so it serves as the
-ordering timestamp — this avoids the ~1GB join to answer_metadata just for
+ordering timestamp - this avoids the ~1GB join to answer_metadata just for
 DateAnswered.
 """
 from __future__ import annotations

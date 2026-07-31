@@ -12,7 +12,7 @@ Detailed paragraph-level templates for each section of a 10–12 page systems pa
 | 2 | Irene Zhang | "Hints on how to write an SOSP paper" | MSR/UW, SOSP/OSDI PC | https://irenezhang.net/blog/2021/06/05/hints.html |
 | 3 | Gernot Heiser | Style Guide + Paper Writing Talk | UNSW, seL4 author | https://gernot-heiser.org/style-guide.html |
 | 4 | Timothy Roscoe | "Writing reviews for systems conferences" | ETH Zürich | https://people.inf.ethz.ch/troscoe/pubs/review-writing.pdf |
-| 5 | Yi Ding | "How to write good systems papers?" | — | https://counterfac.medium.com/how-to-write-good-systems-papers-b6ef3b7043ff |
+| 5 | Yi Ding | "How to write good systems papers?" | - | https://counterfac.medium.com/how-to-write-good-systems-papers-b6ef3b7043ff |
 | 6 | hzwer & DingXiaoH | WritingAIPaper | GitHub (1.3k+ stars) | https://github.com/hzwer/WritingAIPaper |
 | 7 | MLNLP-World | Paper-Writing-Tips | GitHub (4.4k stars) | https://github.com/MLNLP-World/Paper-Writing-Tips |
 | 8 | RU-System-Software-and-Security | Paper_Writing_Tips | GitHub | https://github.com/RU-System-Software-and-Security/Paper_Writing_Tips |
@@ -24,15 +24,15 @@ Detailed paragraph-level templates for each section of a 10–12 page systems pa
 ### Structure: 5 Sentences
 
 ```text
-S1 — Context: What broad problem area is this work in? Why does it matter?
+S1 - Context: What broad problem area is this work in? Why does it matter?
      (e.g., "Large-scale ML training clusters waste 30–50% of GPU cycles due to...")
-S2 — Gap: What specific limitation of current approaches does this work address?
+S2 - Gap: What specific limitation of current approaches does this work address?
      (e.g., "Existing schedulers cannot adapt to ... because ...")
-S3 — Thesis: What is your key insight/approach?
+S3 - Thesis: What is your key insight/approach?
      (e.g., "We present X, which uses [technique] to achieve [property] for [workload] in [environment]")
-S4 — Results: What are the headline numbers?
+S4 - Results: What are the headline numbers?
      (e.g., "Evaluation on [N]-GPU cluster shows X improves [metric] by [Y]% over [baselines]")
-S5 — Impact: Broader significance or availability.
+S5 - Impact: Broader significance or availability.
      (e.g., "X is open-sourced at [URL] and has been deployed at [organization]")
 ```
 
@@ -40,7 +40,7 @@ S5 — Impact: Broader significance or availability.
 
 - **Levin & Redell**: "Can you state the new idea concisely? [...] Use them in the abstract and introduction."
 - **Irene Zhang**: "The abstract is probably the hardest section to write because you cannot use any terms or concepts that you introduced in the paper."
-- **Gernot Heiser**: The abstract must be self-contained — no forward references, no undefined jargon.
+- **Gernot Heiser**: The abstract must be self-contained - no forward references, no undefined jargon.
 
 ### Structural Examples
 
@@ -78,19 +78,19 @@ For example, [real-world scenario with numbers].
 ```text
 Existing systems address [aspect] through [approaches], but they fall short in [N] ways:
 
-G1: [First gap] — [existing system] assumes [assumption], which breaks when [condition]. [Evidence].
-G2: [Second gap] — [existing approach] cannot handle [scenario] because [reason]. [Evidence].
-G3: [Third gap] — ...
+G1: [First gap] - [existing system] assumes [assumption], which breaks when [condition]. [Evidence].
+G2: [Second gap] - [existing approach] cannot handle [scenario] because [reason]. [Evidence].
+G3: [Third gap] - ...
 ```
 
 **Guidance**:
 - Irene Zhang: "clearly state why previous systems do not meet the needs of applications Y in environment Z"
-- Each gap should be falsifiable — a reviewer can verify the claim
+- Each gap should be falsifiable - a reviewer can verify the claim
 - Lucid (ASPLOS'23) exemplifies this: G1–G5 mapped precisely to A1–A5
 
 #### Para 5: Key Insight (1 paragraph)
 
-**Purpose**: The core thesis statement — the one sentence that captures your contribution.
+**Purpose**: The core thesis statement - the one sentence that captures your contribution.
 
 **Template**:
 ```text
@@ -111,10 +111,10 @@ that [key differentiator] for [target applications] in [target environment].
 **Template**:
 ```text
 This paper makes the following contributions:
-1. [Insight/Analysis] — We identify [N observations] about [domain] (§2).
-2. [Design] — We design [component], which [key property] (§3).
-3. [System] — We implement [System Name] in [LOC] lines of [language] (§4).
-4. [Evaluation] — We evaluate [System Name] on [workload], showing [headline result] (§5).
+1. [Insight/Analysis] - We identify [N observations] about [domain] (§2).
+2. [Design] - We design [component], which [key property] (§3).
+3. [System] - We implement [System Name] in [LOC] lines of [language] (§4).
+4. [Evaluation] - We evaluate [System Name] on [workload], showing [headline result] (§5).
 ```
 
 **Structural Examples**:
@@ -138,7 +138,7 @@ Figure [N] shows the [architecture/workflow] of [system being studied].
 ```
 
 **Guidance**:
-- Gernot Heiser: "define-before-use" — every term must be defined before first substantive use
+- Gernot Heiser: "define-before-use" - every term must be defined before first substantive use
 - Only include background necessary for understanding this paper's contribution
 - If background exceeds 0.5 page, the reader may not be in your target audience
 
@@ -158,7 +158,7 @@ Observation 3: [Finding]. [Evidence]. Combined with O1 and O2, this motivates [a
 **Guidance**:
 - Irene Zhang: "clearly motivate Y and Z. Why is application Y important?"
 - Each observation should logically lead to a design decision in §3
-- Use figures/tables to present data — reviewers trust visualizations over prose claims
+- Use figures/tables to present data - reviewers trust visualizations over prose claims
 
 **Structural Examples**:
 - **GFS (arXiv 2025)**: 3 production observations → 3 design insights → 3 system components
@@ -183,8 +183,8 @@ A typical request flows as follows: [step-by-step walkthrough of data/control fl
 ```
 
 **Guidance**:
-- Yi Ding: "Draw a picture first" — the architecture diagram anchors the entire design section
-- Gernot Heiser: "Maintaining user state" — the reader should hold the architecture in mind while reading subsections
+- Yi Ding: "Draw a picture first" - the architecture diagram anchors the entire design section
+- Gernot Heiser: "Maintaining user state" - the reader should hold the architecture in mind while reading subsections
 
 ### Subsections: Module-by-Module Design (~2–2.5 pages)
 
@@ -193,14 +193,14 @@ A typical request flows as follows: [step-by-step walkthrough of data/control fl
 ```text
 §3.X [Module Name]
 
-[What problem this module solves — 1 sentence].
+[What problem this module solves - 1 sentence].
 
 [Design choice]: We use [approach] because [reason].
 [Alternative 1]: [description] was considered but rejected because [trade-off].
 [Alternative 2]: [description] does not work because [limitation].
 
-[Detailed mechanism — 1–3 paragraphs explaining how it works].
-[Pseudocode or algorithm if applicable — Algorithm [N]].
+[Detailed mechanism - 1–3 paragraphs explaining how it works].
+[Pseudocode or algorithm if applicable - Algorithm [N]].
 ```
 
 **Guidance**:
@@ -231,20 +231,20 @@ For complex systems, a summary table of design decisions is highly effective:
 ### Structure
 
 ```text
-Para 1: System overview — [Language], [LOC], built on top of [framework/library].
+Para 1: System overview - [Language], [LOC], built on top of [framework/library].
          We implement [System Name] as [deployment model: library/service/kernel module].
 
-Para 2: Key engineering decisions — [Non-obvious choices]:
+Para 2: Key engineering decisions - [Non-obvious choices]:
          - [Decision 1]: We chose [X] over [Y] because [reason].
          - [Decision 2]: [Integration detail with existing system].
          - [Decision 3]: [Performance-critical optimization].
 
-Para 3 (optional): Deployment experience — [If applicable, brief deployment notes].
+Para 3 (optional): Deployment experience - [If applicable, brief deployment notes].
 ```
 
 **Guidance**:
 - Levin & Redell: "Does the paper describe something that has actually been implemented, or is it merely a proposal? Are the lessons drawn from experience or from thought experiment?"
-- Keep this section concise — reviewers care about design and evaluation, not engineering diaries
+- Keep this section concise - reviewers care about design and evaluation, not engineering diaries
 
 ---
 
@@ -253,9 +253,9 @@ Para 3 (optional): Deployment experience — [If applicable, brief deployment no
 ### Para 1–2: Experimental Setup (~0.5 page)
 
 ```text
-**Testbed**: [Hardware description — GPUs, CPUs, network, storage].
+**Testbed**: [Hardware description - GPUs, CPUs, network, storage].
 **Baselines**: [System A] ([citation]), [System B] ([citation]), [System C] ([citation]).
-**Workloads**: [Workload 1 — description], [Workload 2 — description].
+**Workloads**: [Workload 1 - description], [Workload 2 - description].
 **Metrics**: [Primary metric] (higher is better), [Secondary metric].
 **Configuration**: [Key parameter settings for all systems].
 ```
@@ -288,9 +288,9 @@ confirming that [design choice from §3] is effective for [workload].
 §5.Y Ablation Study
 
 To understand the contribution of each component, we disable them individually:
-- [System Name] w/o [Component A]: [result] — [Component A] contributes [X]%.
-- [System Name] w/o [Component B]: [result] — [Component B] contributes [Y]%.
-- [System Name] w/o [Component C]: [result] — [Component C] contributes [Z]%.
+- [System Name] w/o [Component A]: [result] - [Component A] contributes [X]%.
+- [System Name] w/o [Component B]: [result] - [Component B] contributes [Y]%.
+- [System Name] w/o [Component C]: [result] - [Component C] contributes [Z]%.
 
 Table [N] summarizes the ablation results. [Key takeaway about which components matter most].
 ```
@@ -332,7 +332,7 @@ Unlike these systems, [our system] [key difference].
 
 **Guidance**:
 - Levin & Redell: "Are comparisons with previous work clear and explicit?"
-- Never just list papers — always state how your work differs
+- Never just list papers - always state how your work differs
 - Irene Zhang: Use a comparison table when comparing 4+ systems
 
 ### Optional: Comparison Table
@@ -353,12 +353,12 @@ Unlike these systems, [our system] [key difference].
 
 ```text
 Para 1 (3 sentences):
-  S1: [Problem restated — what challenge this paper addressed].
-  S2: [Solution — what [System Name] does and how].
-  S3: [Key result — headline evaluation numbers].
+  S1: [Problem restated - what challenge this paper addressed].
+  S2: [Solution - what [System Name] does and how].
+  S3: [Key result - headline evaluation numbers].
 
 Para 2 (optional, 2–3 sentences):
-  [Future directions — what extensions or open problems remain].
+  [Future directions - what extensions or open problems remain].
 ```
 
 **Guidance**:
@@ -392,8 +392,8 @@ Para 2 (optional, 2–3 sentences):
 
 ### Common Structural Traits in Exemplar Papers
 
-1. **Clear thesis in abstract sentence 3** — every best paper has a quotable thesis
-2. **Numbered contributions with section maps** — reviewers can trace claims
-3. **Architecture figure within first 3 pages** — visual anchor for the design
-4. **Alternatives discussed for every major decision** — shows design maturity
-5. **Ablation experiments present** — isolate each component's contribution
+1. **Clear thesis in abstract sentence 3** - every best paper has a quotable thesis
+2. **Numbered contributions with section maps** - reviewers can trace claims
+3. **Architecture figure within first 3 pages** - visual anchor for the design
+4. **Alternatives discussed for every major decision** - shows design maturity
+5. **Ablation experiments present** - isolate each component's contribution

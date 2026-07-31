@@ -31,13 +31,13 @@ Fine-grained structural guidance for writing **10–12 page systems papers** tar
 
 This blueprint synthesizes guidance from established systems researchers:
 
-1. **Levin & Redell** — "How (and How Not) to Write a Good Systems Paper" (SOSP'83 PC Chairs, USENIX/ACM SIGOPS)
-2. **Irene Zhang** (MSR/UW) — "Hints on how to write an SOSP paper" (SOSP/OSDI PC)
-3. **Gernot Heiser** (UNSW, seL4) — Style Guide + Paper Writing Talk
-4. **Timothy Roscoe** (ETH Zürich) — "Writing reviews for systems conferences"
-5. **Mike Dahlin** (UT Austin/Google) — "Giving a Conference Talk"
-6. **Yi Ding** — "How to write good systems papers?"
-7. **hzwer & DingXiaoH** — WritingAIPaper (GitHub 1.3k+ stars)
+1. **Levin & Redell** - "How (and How Not) to Write a Good Systems Paper" (SOSP'83 PC Chairs, USENIX/ACM SIGOPS)
+2. **Irene Zhang** (MSR/UW) - "Hints on how to write an SOSP paper" (SOSP/OSDI PC)
+3. **Gernot Heiser** (UNSW, seL4) - Style Guide + Paper Writing Talk
+4. **Timothy Roscoe** (ETH Zürich) - "Writing reviews for systems conferences"
+5. **Mike Dahlin** (UT Austin/Google) - "Giving a Conference Talk"
+6. **Yi Ding** - "How to write good systems papers?"
+7. **hzwer & DingXiaoH** - WritingAIPaper (GitHub 1.3k+ stars)
 
 Full citations and URLs: see [references/section-blueprints.md](references/section-blueprints.md).
 
@@ -69,55 +69,55 @@ Sentence 4: Summary of approach and key results
 Sentence 5: Broader impact or availability
 ```
 
-**Source**: Levin & Redell — "Can you state the new idea concisely? Use them in the abstract." Irene Zhang — "The abstract is harder to write because you cannot use terms or concepts you introduced in the paper."
+**Source**: Levin & Redell - "Can you state the new idea concisely? Use them in the abstract." Irene Zhang - "The abstract is harder to write because you cannot use terms or concepts you introduced in the paper."
 
 ### S1 Introduction (1.5–2 pages)
 
 **Paragraph structure**:
 
-1. **Problem statement** (~0.5 page) — Establish the domain and why it matters. Use concrete numbers (cluster sizes, workload statistics, latency requirements).
-2. **Gap analysis** (~0.5 page) — Enumerate specific gaps G1–Gn in existing systems. Each gap is one sentence with evidence.
-3. **Key insight** (1 paragraph) — The thesis statement: "X is better for applications Y running in environment Z." (Irene Zhang formula)
-4. **Contributions** (~0.5 page) — Numbered list of 3–5 concrete contributions. Each contribution is testable and maps to a section.
+1. **Problem statement** (~0.5 page) - Establish the domain and why it matters. Use concrete numbers (cluster sizes, workload statistics, latency requirements).
+2. **Gap analysis** (~0.5 page) - Enumerate specific gaps G1–Gn in existing systems. Each gap is one sentence with evidence.
+3. **Key insight** (1 paragraph) - The thesis statement: "X is better for applications Y running in environment Z." (Irene Zhang formula)
+4. **Contributions** (~0.5 page) - Numbered list of 3–5 concrete contributions. Each contribution is testable and maps to a section.
 
 **Writing pattern**: hzwer Move 1 (Establish territory) → Move 2 (Find niche) → Move 3 (Occupy niche).
 
-**Source**: Irene Zhang — "clearly state your target environment (Z) and application (Y)" + "clearly state why previous systems do not meet the needs"; Levin & Redell — "What exactly is the problem being solved?"
+**Source**: Irene Zhang - "clearly state your target environment (Z) and application (Y)" + "clearly state why previous systems do not meet the needs"; Levin & Redell - "What exactly is the problem being solved?"
 
 ### S2 Background & Motivation (1–1.5 pages)
 
 **Paragraph structure**:
 
-1. **Technical background** (~0.5 page) — Define terms and systems the reader needs. Follow Gernot Heiser's "define-before-use" principle.
-2. **Production observations** (~0.5–1 page) — Present Observation 1, 2, 3 from real data or measurements. Each observation leads to a design insight.
+1. **Technical background** (~0.5 page) - Define terms and systems the reader needs. Follow Gernot Heiser's "define-before-use" principle.
+2. **Production observations** (~0.5–1 page) - Present Observation 1, 2, 3 from real data or measurements. Each observation leads to a design insight.
 
-**Source**: Irene Zhang — "clearly motivate Y and Z. Why is application Y important?"; Gernot Heiser — "define-before-use."
+**Source**: Irene Zhang - "clearly motivate Y and Z. Why is application Y important?"; Gernot Heiser - "define-before-use."
 
 ### S3 Design (3–4 pages)
 
 **Paragraph structure**:
 
-1. **System architecture overview** (~0.5 page) — Architecture diagram first (Yi Ding: "draw a picture first"). One-paragraph walkthrough of major components and data flow.
-2. **Module-by-module design** (~2–2.5 pages) — Each subsection: what the module does, the design choice made, alternatives considered, and why this choice wins.
-3. **Design alternatives and trade-offs** (~0.5–1 page) — For each major decision, explicitly discuss what was not chosen and why.
+1. **System architecture overview** (~0.5 page) - Architecture diagram first (Yi Ding: "draw a picture first"). One-paragraph walkthrough of major components and data flow.
+2. **Module-by-module design** (~2–2.5 pages) - Each subsection: what the module does, the design choice made, alternatives considered, and why this choice wins.
+3. **Design alternatives and trade-offs** (~0.5–1 page) - For each major decision, explicitly discuss what was not chosen and why.
 
-**Source**: Irene Zhang — "Every design choice made in X should be discussed with alternatives and the reasons for the choice"; Levin & Redell — "What were the alternatives considered at various points, and why were the choices made?"
+**Source**: Irene Zhang - "Every design choice made in X should be discussed with alternatives and the reasons for the choice"; Levin & Redell - "What were the alternatives considered at various points, and why were the choices made?"
 
 ### S4 Implementation (0.5–1 page)
 
-1. **Prototype description** — Language, framework, LOC, integration with existing systems.
-2. **Key engineering decisions** — Non-obvious implementation choices worth documenting.
+1. **Prototype description** - Language, framework, LOC, integration with existing systems.
+2. **Key engineering decisions** - Non-obvious implementation choices worth documenting.
 
-**Source**: Levin & Redell — "Does the paper describe something that has actually been implemented?"; Irene Zhang — "explain how you constructed a prototype to test your hypothesis."
+**Source**: Levin & Redell - "Does the paper describe something that has actually been implemented?"; Irene Zhang - "explain how you constructed a prototype to test your hypothesis."
 
 ### S5 Evaluation (3–4 pages)
 
 **Paragraph structure**:
 
-1. **Experimental setup** (~0.5 page) — Hardware, baselines, workloads, metrics. Enough detail to reproduce.
-2. **End-to-end comparison** (~1–1.5 pages) — X vs baselines for application Y on environment Z. Main performance results.
-3. **Microbenchmarks / Ablation** (~1–1.5 pages) — Isolate each design decision's contribution. Ablation experiments decompose the gains.
-4. **Scalability** (~0.5 page) — Show behavior as problem size, cluster size, or load increases.
+1. **Experimental setup** (~0.5 page) - Hardware, baselines, workloads, metrics. Enough detail to reproduce.
+2. **End-to-end comparison** (~1–1.5 pages) - X vs baselines for application Y on environment Z. Main performance results.
+3. **Microbenchmarks / Ablation** (~1–1.5 pages) - Isolate each design decision's contribution. Ablation experiments decompose the gains.
+4. **Scalability** (~0.5 page) - Show behavior as problem size, cluster size, or load increases.
 
 **Critical rule** (Irene Zhang): State every experimental conclusion **three times**:
 - Section opening: hypothesis ("We expect X to outperform Y because...")
@@ -126,7 +126,7 @@ Sentence 5: Broader impact or availability
 
 **Two experiment types**:
 - Type 1: X vs baselines for Y on Z (end-to-end comparison)
-- Type 2: Ablation — remove each design component to measure its individual impact
+- Type 2: Ablation - remove each design component to measure its individual impact
 
 ### S6 Related Work (1 page)
 
@@ -134,7 +134,7 @@ Sentence 5: Broader impact or availability
 - For each group: what they do, what limitation remains, how your work differs.
 - Use a comparison table when comparing 4+ systems on specific dimensions.
 
-**Source**: Levin & Redell — "Are comparisons with previous work clear and explicit?"; Irene Zhang — use comparison tables.
+**Source**: Levin & Redell - "Are comparisons with previous work clear and explicit?"; Irene Zhang - use comparison tables.
 
 ### S7 Conclusion (0.5 page)
 
@@ -171,9 +171,9 @@ Structure the entire paper around: "X is better for applications Y running in en
 |-------|--------|-----------------|--------------|------------|
 | OSDI | USENIX | 12 pages | 14 pages | Unlimited |
 | NSDI | USENIX | 12 pages | 14 pages | Unlimited |
-| SOSP | ACM SIGOPS | 12 pages (tech content) | — | Unlimited |
+| SOSP | ACM SIGOPS | 12 pages (tech content) | - | Unlimited |
 | ASPLOS | ACM SIGPLAN | 11 pages | 13 pages | Unlimited |
-| EuroSys | ACM | 12 pages | — | Unlimited |
+| EuroSys | ACM | 12 pages | - | Unlimited |
 
 Based on 2025/2026 CFPs. Verify current limits before submission.
 
@@ -255,16 +255,16 @@ Step 6: Use ml-paper-writing for citation verification and LaTeX formatting
 ## References
 
 ### Writing Guidance
-- [references/section-blueprints.md](references/section-blueprints.md) — Detailed per-section paragraph templates with authoritative source quotes and best-paper structural examples
-- [references/writing-patterns.md](references/writing-patterns.md) — Four writing patterns with concrete paper examples
+- [references/section-blueprints.md](references/section-blueprints.md) - Detailed per-section paragraph templates with authoritative source quotes and best-paper structural examples
+- [references/writing-patterns.md](references/writing-patterns.md) - Four writing patterns with concrete paper examples
 
 ### Venue-Specific
-- [references/checklist.md](references/checklist.md) — 7-stage pre-submission checklist covering structure, writing quality, evaluation rigor, design quality, academic integrity, venue-specific requirements (OSDI/NSDI/ASPLOS/SOSP/EuroSys), and final pass
-- [references/systems-conferences.md](references/systems-conferences.md) — Conference overview, deadlines, track descriptions, formatting requirements, submission rules, and format conversion guides
-- [references/reviewer-guidelines.md](references/reviewer-guidelines.md) — How systems conference reviewers evaluate papers, with venue-specific criteria and common concerns
+- [references/checklist.md](references/checklist.md) - 7-stage pre-submission checklist covering structure, writing quality, evaluation rigor, design quality, academic integrity, venue-specific requirements (OSDI/NSDI/ASPLOS/SOSP/EuroSys), and final pass
+- [references/systems-conferences.md](references/systems-conferences.md) - Conference overview, deadlines, track descriptions, formatting requirements, submission rules, and format conversion guides
+- [references/reviewer-guidelines.md](references/reviewer-guidelines.md) - How systems conference reviewers evaluate papers, with venue-specific criteria and common concerns
 
 ### LaTeX Templates
-- [templates/osdi2026/](templates/osdi2026/) — OSDI 2026 (USENIX format)
-- [templates/nsdi2027/](templates/nsdi2027/) — NSDI 2027 (USENIX format)
-- [templates/asplos2027/](templates/asplos2027/) — ASPLOS 2027 (ACM SIGPLAN format)
-- [templates/sosp2026/](templates/sosp2026/) — SOSP 2026 (ACM SIGPLAN format)
+- [templates/osdi2026/](templates/osdi2026/) - OSDI 2026 (USENIX format)
+- [templates/nsdi2027/](templates/nsdi2027/) - NSDI 2027 (USENIX format)
+- [templates/asplos2027/](templates/asplos2027/) - ASPLOS 2027 (ACM SIGPLAN format)
+- [templates/sosp2026/](templates/sosp2026/) - SOSP 2026 (ACM SIGPLAN format)

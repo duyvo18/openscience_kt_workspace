@@ -21,7 +21,7 @@ NB_DIR = ROOT / "notebooks"
 
 
 # ---------------------------------------------------------------- texts ----
-ENG_INTRO = """# DPA-KT — 200-epoch + 5-fold Cross-Validation Results
+ENG_INTRO = """# DPA-KT - 200-epoch + 5-fold Cross-Validation Results
 
 This notebook collects the results of the **200-epoch training run with
 5-fold cross-validation** on every dataset of the DPA-KT benchmark. The
@@ -36,17 +36,17 @@ training and is split into:
 
 1. Setup & environment
 2. Datasets in the sweep
-2b. DPA-KT model modules — explained for newcomers
+2b. DPA-KT model modules - explained for newcomers
 2c. Dataset descriptions
 2d. KC-graph inspection (node graphs)
-3. 5-fold CV results — per-dataset summary (mean ± std across folds)
+3. 5-fold CV results - per-dataset summary (mean ± std across folds)
 4. Test metrics vs pyKT literature
 5. Per-fold training curves
 6. Throughput & peak memory
 7. Conclusions
 """
 
-VN_INTRO = """# DPA-KT — Kết quả 200 epoch + Cross-Validation 5-fold
+VN_INTRO = """# DPA-KT - Kết quả 200 epoch + Cross-Validation 5-fold
 
 Notebook này tổng hợp kết quả của **đợt huấn luyện 200 epoch kèm
 cross-validation 5-fold** trên tất cả các dataset của benchmark DPA-KT.
@@ -61,10 +61,10 @@ có kiểm chứng CV và được chia thành:
 
 1. Môi trường & thiết lập
 2. Các dataset trong đợt chạy
-2b. Các module mô hình DPA-KT — giải thích cho người mới
+2b. Các module mô hình DPA-KT - giải thích cho người mới
 2c. Mô tả chi tiết các dataset
 2d. Đồ thị KC (đồ thị nút)
-3. Kết quả 5-fold CV — tóm tắt theo dataset (mean ± std qua các fold)
+3. Kết quả 5-fold CV - tóm tắt theo dataset (mean ± std qua các fold)
 4. So sánh metric test với tài liệu pyKT
 5. Đường cong huấn luyện từng fold
 6. Throughput & bộ nhớ đỉnh
@@ -169,7 +169,7 @@ def kc_graph_section(lang: str) -> list:
     """
     if lang == "eng":
         title = "## 2d. KC-graph inspection (node graphs)"
-        body = ("The KC graph is **estimated from training interactions** — "
+        body = ("The KC graph is **estimated from training interactions** - "
                 "edges are inferred from co-occurrence (prerequisite = "
                 "asymmetric conditional dependence, neighbor = symmetric "
                 "co-occurrence). Below: each dataset as a node graph "
@@ -177,7 +177,7 @@ def kc_graph_section(lang: str) -> list:
                 "edge = relation). Large graphs are sub-sampled for clarity.")
     else:
         title = "## 2d. Đồ thị KC (đồ thị nút)"
-        body = ("Đồ thị KC được **ước lượng từ dữ liệu huấn luyện** — các "
+        body = ("Đồ thị KC được **ước lượng từ dữ liệu huấn luyện** - các "
                 "cạnh suy ra từ đồng xuất hiện (prerequisite = phụ thuộc có "
                 "điều kiện bất đối xứng, neighbor = đồng xuất hiện đối xứng). "
                 "Bên dưới: mỗi dataset được vẽ dưới dạng đồ thị nút "
@@ -235,7 +235,7 @@ def kc_graph_section(lang: str) -> list:
             "                         title=f'{ds} KC graph (sample)')\n"
             "    plt.show()\n"
             "    viz.plot_kc_graph_degree(g['P_rel'], g['N_rel'],\n"
-            "                             f'{ds} KC graph — degree distribution')\n"
+            "                             f'{ds} KC graph - degree distribution')\n"
             "    plt.show()\n"
             "    shown.append(ds)\n"
             "print('KC graphs rendered for:', shown)\n"
@@ -254,9 +254,9 @@ def mastery_beta_section(lang: str) -> list:
         title = "## 5b. Mastery spider + beta contributions (per dataset)"
         body = ("For every dataset that finished, we load the `best.pt` "
                 "checkpoint of **fold 0** and visualise:\n"
-                "* **Mastery spider** — scalar mastery at the first vs last valid "
+                "* **Mastery spider** - scalar mastery at the first vs last valid "
                 "interaction for one test student.\n"
-                "* **Beta contributions** — KC→prediction weights at the same "
+                "* **Beta contributions** - KC→prediction weights at the same "
                 "first step.\n\n"
                 "This mirrors the master notebook's per-dataset illustrations "
                 "but uses the **longer-trained 200-epoch weights**.")
@@ -264,9 +264,9 @@ def mastery_beta_section(lang: str) -> list:
         title = "## 5b. Mastery spider + đóng góp beta (từng dataset)"
         body = ("Với mỗi dataset đã hoàn thành ta load checkpoint `best.pt` của "
                 "**fold 0** và minh họa:\n"
-                "* **Mastery spider** — scalar mastery ở bước hợp lệ đầu tiên "
+                "* **Mastery spider** - scalar mastery ở bước hợp lệ đầu tiên "
                 "vs cuối cùng cho một sinh viên test.\n"
-                "* **Đóng góp beta** — trọng số KC→dự đoán tại cùng bước đầu.\n\n"
+                "* **Đóng góp beta** - trọng số KC→dự đoán tại cùng bước đầu.\n\n"
                 "Phần này song song với minh họa từng dataset của master "
                 "notebook nhưng dùng trọng số 200 epoch đã huấn luyện dài hơn.")
     return [
@@ -325,7 +325,7 @@ def mastery_beta_section(lang: str) -> list:
             "        print(f'{ds}: not enough valid interactions'); continue\n"
             "    top = _top_kcs(np.asarray(trace['mastery'])[0])\n"
             "    labels = [kc_names.get(str(int(c)), str(int(c)))[:12] for c in top]\n"
-            "    title = f'{ds} (200-ep fold0) mastery spider — student 0 '\n"
+            "    title = f'{ds} (200-ep fold0) mastery spider - student 0 '\n"
             "    title += f'(steps {f_step}→{l_step})'\n"
             "    viz.plot_mastery_spider(m_first[top], m_last[top], labels, title=title)\n"
             "    plt.show()\n"
@@ -367,7 +367,7 @@ def attribution_section(lang: str) -> list:
             "                if (RUNS_200 / f'{d}_full_fold0' / 'best.pt').exists()),\n"
             "               None)\n"
             "if CASE_DS is None:\n"
-            "    print('No fold0 best.pt yet — attribution will appear once '\n"
+            "    print('No fold0 best.pt yet - attribution will appear once '\n"
             "          'the sweep makes progress.')\n"
             "else:\n"
             "    cfg = load_config(CASE_DS, num_workers=0)\n"
@@ -382,7 +382,7 @@ def attribution_section(lang: str) -> list:
             "    figs = attribution_case_study(model, batch_dev, b=0, step=30,\n"
             "                                 kc_names=kc_names, device=DEVICE)\n"
             "    for name, fig in figs.items():\n"
-            "        print('—', name); plt.show()\n"
+            "        print('-', name); plt.show()\n"
         ),
     ]
 
@@ -439,7 +439,7 @@ def datasets_section(lang: str) -> list:
 def model_modules_section(lang: str) -> list:
     """§2b: beginner-friendly module walk-through in ENG + VN."""
     if lang == "eng":
-        title = "## 2b. DPA-KT model modules — explained for newcomers"
+        title = "## 2b. DPA-KT model modules - explained for newcomers"
         body = (
             "DPA-KT is built from **four conceptual modules** plus a shared "
             "embedding layer. The code for each module lives in a single file "
@@ -453,7 +453,7 @@ def model_modules_section(lang: str) -> list:
             "knowledge component) and updating it after every interaction "
             "using four modules described below.\n\n"
             "---\n\n"
-            "### Shared layer — `InteractionEmbeddings`\n\n"
+            "### Shared layer - `InteractionEmbeddings`\n\n"
             "Before any module runs, raw integer IDs are turned into dense "
             "vectors:\n"
             "* **Question id** (`q`, shape `batch × sequence_length`) → "
@@ -466,7 +466,7 @@ def model_modules_section(lang: str) -> list:
             "bins from 0 to 4) → additional embeddings.\n\n"
             "All these embeddings are learned during training from scratch.\n\n"
             "---\n\n"
-            "### Module 1 — Dual-branch interaction encoder\n\n"
+            "### Module 1 - Dual-branch interaction encoder\n\n"
             "**Goal:** turn the embeddings of step *t* into a single "
             "representation `z_t` that captures both the raw interaction "
             "context and what the model currently knows.\n\n"
@@ -485,36 +485,36 @@ def model_modules_section(lang: str) -> list:
             "**Fusion** simply concatenates `h_a` and `h_b` and projects back "
             "to `z_t`.\n\n"
             "---\n\n"
-            "### Module 2 — Distributional alignment (project + pool)\n\n"
+            "### Module 2 - Distributional alignment (project + pool)\n\n"
             "**Goal:** convert `z_t` into a structured summary of what the "
             "student's knowledge looks like across the whole history.\n\n"
-            "**Step 2.1 — Gaussian projection.** Two linear heads map `z_t` "
+            "**Step 2.1 - Gaussian projection.** Two linear heads map `z_t` "
             "to the parameters of a Gaussian distribution: a mean vector "
             "`mu_t` and a log-variance vector `logvar_t`. Together they "
             "describe *where* and *how spread out* the knowledge representation "
             "is. (An ablation switch `use_distributional` can disable this "
             "and fall back to point embeddings.)\n\n"
-            "**Step 2.2–2.4 — Four pattern operators.** Each operator "
+            "**Step 2.2–2.4 - Four pattern operators.** Each operator "
             "computes **attention-style weights** `w_j` over the *prefix* "
             "(steps `0 … t`) and then pools (averages) the prefix Gaussians "
             "using those weights:\n"
-            "* **Temporal** — weights decrease exponentially with step age; "
+            "* **Temporal** - weights decrease exponentially with step age; "
             "recent interactions matter more.\n"
-            "* **Same-KC** — only steps that tested the *same* knowledge "
+            "* **Same-KC** - only steps that tested the *same* knowledge "
             "component as step *t*.\n"
-            "* **Prerequisite** — only steps that tested a *prerequisite* KC "
+            "* **Prerequisite** - only steps that tested a *prerequisite* KC "
             "(inferred from the KC graph).\n"
-            "* **Neighbor** — only steps on *neighboring* KCs (co-occurrence "
+            "* **Neighbor** - only steps on *neighboring* KCs (co-occurrence "
             "in the training data).\n\n"
             "Pattern structure is the same for every student (fixed operators). "
             "Each pooled pattern becomes a `d_z`-dimensional vector `v` after "
             "a small MLP readout. The four `v` vectors are concatenated into "
             "`z'_t`, the aligned representation.\n\n"
             "---\n\n"
-            "### Module 3 — Mastery tracking (DKVMN-style memory)\n\n"
+            "### Module 3 - Mastery tracking (DKVMN-style memory)\n\n"
             "**Goal:** maintain an explicit memory `M_t` of how well each KC "
             "is known, and update it after every interaction.\n\n"
-            "`M_t` has shape `batch × num_KCs × d_v` — one `d_v`-dimensional "
+            "`M_t` has shape `batch × num_KCs × d_v` - one `d_v`-dimensional "
             "**memory vector** per KC, shared across all students in the batch.\n\n"
             "**Erase-add update.** The four pattern outputs `v` each produce:\n"
             "* An **erase** vector (what to forget in the relevant KCs).\n"
@@ -531,10 +531,10 @@ def model_modules_section(lang: str) -> list:
             "`m_read` (the combined mastery vector used by Branch B) and a "
             "scalar mastery score in `(0, 1)` used in visualizations.\n\n"
             "---\n\n"
-            "### Module 4 — Prediction head\n\n"
+            "### Module 4 - Prediction head\n\n"
             "**Goal:** using the mastery state *before* seeing the response at "
             "step *t*, predict whether the student will answer correctly.\n\n"
-            "Module 4 first computes **KC contribution weights** `beta` — a "
+            "Module 4 first computes **KC contribution weights** `beta` - a "
             "softmax over the related KCs that asks *which KC is the best "
             "indicator of whether this student gets this question right?* "
             "These `beta` values are part of the attribution trace and let us "
@@ -553,11 +553,11 @@ def model_modules_section(lang: str) -> list:
             "y_hat = (1 - slip) × p_master  +  guess × (1 - p_master)\n"
             "```\n\n"
             "---\n\n"
-            "### Assembly — `DPAKT` (the time loop)\n\n"
+            "### Assembly - `DPAKT` (the time loop)\n\n"
             "The `DPAKT` class wires all modules into a single **truncated-BPTT "
             "time loop** over the 200-step sequence. The crucial causal order "
             "at every step *t* is:\n"
-            "1. **Module 4 predicts** `y_hat_t` from `M_t` and the question — "
+            "1. **Module 4 predicts** `y_hat_t` from `M_t` and the question - "
             "the response `r_t` is *not* visible yet (this is what makes it "
             "a fair, realistic prediction).\n"
             "2. **Module 1** reads the interaction `(q_t, r_t, diff_t)` and "
@@ -575,7 +575,7 @@ def model_modules_section(lang: str) -> list:
             "```"
         )
     else:
-        title = "## 2b. Các module mô hình DPA-KT — giải thích cho người mới"
+        title = "## 2b. Các module mô hình DPA-KT - giải thích cho người mới"
         body = (
             "DPA-KT được xây dựng từ **bốn module khái niệm** cộng với một "
             "lớp embedding dùng chung. Mã của mỗi module nằm trong một file "
@@ -589,7 +589,7 @@ def model_modules_section(lang: str) -> list:
             "thái mastery** (mức độ hiểu của học sinh về từng kiến thức cơ "
             "bản) và cập nhật nó sau mỗi tương tác bằng bốn module dưới đây.\n\n"
             "---\n\n"
-            "### Lớp dùng chung — `InteractionEmbeddings`\n\n"
+            "### Lớp dùng chung - `InteractionEmbeddings`\n\n"
             "Trước khi bất kỳ module nào chạy, các ID nguyên được chuyển "
             "thành vector đặc trưng:\n"
             "* **ID câu hỏi** (`q`, shape `batch × độ_dài_chuỗi`) → "
@@ -603,7 +603,7 @@ def model_modules_section(lang: str) -> list:
             "Tất cả các embedding này được học từ đầu trong quá trình "
             "huấn luyện.\n\n"
             "---\n\n"
-            "### Module 1 — Bộ mã hóa tương tác hai nhánh\n\n"
+            "### Module 1 - Bộ mã hóa tương tác hai nhánh\n\n"
             "**Mục tiêu:** biến các embedding ở bước *t* thành một biểu diễn "
             "duy nhất `z_t` vừa nắm được ngữ cảnh tương tác thô, vừa nắm "
             "được những gì mô hình hiện đang biết.\n\n"
@@ -620,34 +620,34 @@ def model_modules_section(lang: str) -> list:
             "chạy từng bước bên trong vòng lặp thời gian.\n\n"
             "**Fusion** nối `h_a` và `h_b` rồi chiếu ngược về `z_t`.\n\n"
             "---\n\n"
-            "### Module 2 — Alignment phân phối (chiếu + pooling)\n\n"
+            "### Module 2 - Alignment phân phối (chiếu + pooling)\n\n"
             "**Mục tiêu:** chuyển `z_t` thành một bản tóm tắt có cấu trúc "
             "về kiến thức của học sinh trên toàn bộ lịch sử.\n\n"
-            "**Bước 2.1 — Chiếu Gaussian.** Hai đầu tuyến tính ánh xạ `z_t` "
+            "**Bước 2.1 - Chiếu Gaussian.** Hai đầu tuyến tính ánh xạ `z_t` "
             "với tham số của một phân phối Gaussian: vector kỳ vọng `mu_t` "
             "và vector log-phương sai `logvar_t`. Cặp này mô tả *vị trí* và "
             "*(độ) lan truyền* của biểu diễn kiến thức. (Có một công tắc "
             "ablation `use_distributional` để tắt bước này, lúc đó patterns "
             "sẽ pooling theo embedding điểm đơn giản.)\n\n"
-            "**Bước 2.2–2.4 — Bốn toán tử pattern.** Mỗi toán tử tính "
+            "**Bước 2.2–2.4 - Bốn toán tử pattern.** Mỗi toán tử tính "
             "**trọng số kiểu attention** `w_j` trên *tiền tố* (các bước "
             "`0 … t`) rồi pooling (trung bình có trọng số) các Gaussians "
             "tiền tố:\n"
-            "* **Temporal** — trọng số giảm theo cấp số nhân theo độ tuổi "
+            "* **Temporal** - trọng số giảm theo cấp số nhân theo độ tuổi "
             "bước; tương tác gần đây quan trọng hơn.\n"
-            "* **Same-KC** — chỉ các bước test cùng một KC với bước *t*.\n"
-            "* **Prerequisite** — chỉ các bước test KC *tiên quyết* (suy ra "
+            "* **Same-KC** - chỉ các bước test cùng một KC với bước *t*.\n"
+            "* **Prerequisite** - chỉ các bước test KC *tiên quyết* (suy ra "
             "từ đồ thị KC).\n"
-            "* **Neighbor** — chỉ các bước trên KC *kề* (đồng xuất hiện "
+            "* **Neighbor** - chỉ các bước trên KC *kề* (đồng xuất hiện "
             "trong dữ liệu huấn luyện).\n\n"
             "Cấu trúc pattern giống hệt cho mọi học sinh. Mỗi pattern pooled "
             "trở thành vector `v` kích thước `d_z` qua một MLP nhỏ. Bốn "
             "vector `v` được nối thành `z'_t`.\n\n"
             "---\n\n"
-            "### Module 3 — Theo dõi mastery (bộ nhớ kiểu DKVMN)\n\n"
+            "### Module 3 - Theo dõi mastery (bộ nhớ kiểu DKVMN)\n\n"
             "**Mục tiêu:** duy trì một bộ nhớ `M_t` mô tả mức độ hiểu từng "
             "KC, và cập nhật nó sau mỗi tương tác.\n\n"
-            "`M_t` có shape `batch × số_KC × d_v` — mỗi KC giữ một vector "
+            "`M_t` có shape `batch × số_KC × d_v` - mỗi KC giữ một vector "
             "`d_v` chiều, *chung cho toàn bộ học sinh trong batch*.\n\n"
             "**Cập nhật erase-add.** Bốn đầu ra pattern `v` mỗi cái tạo:\n"
             "* Vector **erase** (quên điều gì trong các KC liên quan).\n"
@@ -663,10 +663,10 @@ def model_modules_section(lang: str) -> list:
             "(vector mastery tổng hợp dùng bởi Nhánh B) và một điểm mastery "
             "dạng scalar nằm trong `(0, 1)` dùng cho các biểu đồ.\n\n"
             "---\n\n"
-            "### Module 4 — Đầu dự đoán\n\n"
+            "### Module 4 - Đầu dự đoán\n\n"
             "**Mục tiêu:** dùng trạng thái mastery *trước khi nhìn thấy "
             "response* ở bước *t* để dự đoán liệu học sinh có trả lời đúng không.\n\n"
-            "Module 4 đầu tiên tính **trọng số đóng góp KC** `beta` — một "
+            "Module 4 đầu tiên tính **trọng số đóng góp KC** `beta` - một "
             "softmax trên các KC liên quan, trả lời câu hỏi *KC nào là chỉ số "
             "tốt nhất để biết học sinh có trả lời đúng câu này không?* Các giá "
             "trị `beta` thuộc về attribution trace, cho phép bạn trực quan hóa "
@@ -684,11 +684,11 @@ def model_modules_section(lang: str) -> list:
             "y_hat = (1 - slip) × p_master  +  guess × (1 - p_master)\n"
             "```\n\n"
             "---\n\n"
-            "### Lắp ráp — `DPAKT` (vòng lặp thời gian)\n\n"
+            "### Lắp ráp - `DPAKT` (vòng lặp thời gian)\n\n"
             "Lớp `DPAKT` nối tất cả module vào một **vòng lặp thời gian "
             "truncated-BPTT** trên chuỗi 200 bước. Thứ tự nhân quả quan trọng "
             "tại mỗi bước *t* là:\n"
-            "1. **Module 4 dự đoán** `y_hat_t` từ `M_t` và câu hỏi — response "
+            "1. **Module 4 dự đoán** `y_hat_t` từ `M_t` và câu hỏi - response "
             "`r_t` *chưa được nhìn thấy* (đây là điều làm dự đoán công bằng "
             "và thực tế).\n"
             "2. **Module 1** đọc tương tác `(q_t, r_t, diff_t)` và cập nhật "
@@ -729,7 +729,7 @@ def model_modules_section(lang: str) -> list:
             "     'h_a (B,d_model), h_b (B,d_model)',\n"
             "     'z_t (B,d_model)'),\n"
             "    ('2', 'GaussianProjection', 'distribution.py',\n"
-            "     'maps z_t to N(mu, diag sigma^2) — a distribution over knowledge states',\n"
+            "     'maps z_t to N(mu, diag sigma^2) - a distribution over knowledge states',\n"
             "     'z_t (B,d_model)',\n"
             "     'mu (B,d_z), logvar (B,d_z)'),\n"
             "    ('2', 'PatternOperators', 'patterns.py',\n"
@@ -765,12 +765,12 @@ def model_modules_section(lang: str) -> list:
 
 def cv_summary_section(lang: str) -> list:
     if lang == "eng":
-        title = "## 3. 5-fold CV — per-dataset summary"
+        title = "## 3. 5-fold CV - per-dataset summary"
         body = ("For every dataset we report **four aggregations** of the "
                 "held-out test AUC/ACC/RMSE across the completed folds:\n\n"
                 "* `mean` (default for the literature comparison)\n"
-                "* `best` fold — the highest-scoring fold\n"
-                "* `worst` fold — the lowest-scoring fold\n"
+                "* `best` fold - the highest-scoring fold\n"
+                "* `worst` fold - the lowest-scoring fold\n"
                 "* per-fold raw numbers (long table)\n\n"
                 "The number of folds included (`n`) reflects the sweep status "
                 "at notebook-build time; rerun this cell after the sweep "
@@ -779,12 +779,12 @@ def cv_summary_section(lang: str) -> list:
                "pyKT and most KT papers report). Switch to `best` in the "
                "literature-comparison cell if you want the optimistic headline.")
     else:
-        title = "## 3. Kết quả 5-fold CV — tóm tắt theo dataset"
+        title = "## 3. Kết quả 5-fold CV - tóm tắt theo dataset"
         body = ("Với mỗi dataset ta báo cáo **bốn cách tổng hợp** test "
                 "AUC/ACC/RMSE qua các fold đã hoàn thành:\n\n"
                 "* `mean` (mặc định dùng để so sánh với tài liệu)\n"
-                "* `best` fold — fold có điểm cao nhất\n"
-                "* `worst` fold — fold có điểm thấp nhất\n"
+                "* `best` fold - fold có điểm cao nhất\n"
+                "* `worst` fold - fold có điểm thấp nhất\n"
                 "* bảng per-fold đầy đủ\n\n"
                 "Số lượng fold (`n`) phản ánh trạng thái đợt chạy tại thời "
                 "điểm dựng notebook; chạy lại cell sau khi đợt chạy kết thúc "
@@ -1007,7 +1007,7 @@ def conclusions_section(lang: str) -> list:
     if lang == "eng":
         title = "## 7. Conclusions"
         body = ("* The full model trained for **200 epochs** with **5-fold "
-                "CV** on every dataset — see Section 3 for the mean ± std "
+                "CV** on every dataset - see Section 3 for the mean ± std "
                 "test AUC/ACC across completed folds.\n"
                 "* The per-fold training curves (Section 5) confirm that "
                 "validation AUC plateaus well before the 200-epoch horizon "
@@ -1026,7 +1026,7 @@ def conclusions_section(lang: str) -> list:
     else:
         title = "## 7. Kết luận"
         body = ("* Mô hình đầy đủ được huấn luyện **200 epoch** với **5-fold "
-                "CV** trên tất cả các dataset — xem Mục 3 để có mean ± std "
+                "CV** trên tất cả các dataset - xem Mục 3 để có mean ± std "
                 "test AUC/ACC qua các fold đã hoàn thành.\n"
                 "* Đường cong huấn luyện từng fold (Mục 5) cho thấy AUC "
                 "trên tập valid đã thoả mãn khá sớm so với mốc 200 epoch "
@@ -1078,9 +1078,9 @@ def module_flow_cells(lang: str) -> list:
             "*next* step's Branch B, so the model gradually incorporates what "
             "it just learned.\n"
             "* **Module 3 → Module 4:** `M_t` is the primary prediction-head "
-            "input — it tells the model what the student already knows before "
+            "input - it tells the model what the student already knows before "
             "answering.\n"
-            "* **Module 4 runs FIRST** — it must predict before seeing `r_t`. "
+            "* **Module 4 runs FIRST** - it must predict before seeing `r_t`. "
             "Modules 1–3 then consume `r_t` and update `M_t` for the next step."
         )
         causal_title = "### Per-step causal order (the 4 calls inside one time-step)"
@@ -1093,7 +1093,7 @@ def module_flow_cells(lang: str) -> list:
             "| 3 | Module 2 | Gaussian proj + prefix pooling w/ 4 patterns | `z_t`, prefix `{μ,σ²}` | `z'_t` |\n"
             "| 4 | Module 3 | Erase-add update on related KCs via pattern gates | `M_t`, `z'_t`, `rel_t` | `M_{t+1}` |\n\n"
             "> Mastery read for Branch B at step *t* happens **inside** "
-            "Module 1 *before* Module 4 runs — it uses `M_{t-1}`, preserving "
+            "Module 1 *before* Module 4 runs - it uses `M_{t-1}`, preserving "
             "strict causality (no future leakage)."
         )
     else:
@@ -1125,8 +1125,8 @@ def module_flow_cells(lang: str) -> list:
             "* **Module 3 → Module 1 (Nhánh B):** `M_{t+1}` được đọc ở *bước "
             "tiếp theo* của Nhánh B, tích lũy kiến thức vừa học.\n"
             "* **Module 3 → Module 4:** `M_t` là đầu vào chính của đầu dự "
-            "đoán — cho mô hình biết học sinh đã biết gì trước khi trả lời.\n"
-            "* **Module 4 chạy TRƯỚC** — dự đoán trước khi nhìn thấy `r_t`. "
+            "đoán - cho mô hình biết học sinh đã biết gì trước khi trả lời.\n"
+            "* **Module 4 chạy TRƯỚC** - dự đoán trước khi nhìn thấy `r_t`. "
             "Modules 1–3 sau đó mới tiêu thụ `r_t` và cập nhật `M_t`."
         )
         causal_title = "### Thứ tự nhân quả từng bước (4 lệnh gọi trong một bước)"
@@ -1139,7 +1139,7 @@ def module_flow_cells(lang: str) -> list:
             "| 3 | Module 2 | Chiếu Gaussian + pooling tiền tố 4 patterns | `z_t`, prefix `{μ,σ²}` | `z'_t` |\n"
             "| 4 | Module 3 | Erase-add trên KC liên quan qua pattern gates | `M_t`, `z'_t`, `rel_t` | `M_{t+1}` |\n\n"
             "> Đọc mastery cho Nhánh B bước *t* xảy ra *bên trong* Module 1 "
-            "trước khi Module 4 chạy — lúc đó dùng `M_{t-1}`, bảo toàn tính "
+            "trước khi Module 4 chạy - lúc đó dùng `M_{t-1}`, bảo toàn tính "
             "nhân quả tuyệt đối."
         )
     return [

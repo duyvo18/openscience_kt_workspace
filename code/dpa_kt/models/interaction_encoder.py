@@ -1,7 +1,7 @@
 """Module 1: dual-branch interaction representation learning.
 
 Branch A (interaction context: question + response + question difficulty) is a
-1-layer causal Transformer computed in parallel before the time loop — it does
+1-layer causal Transformer computed in parallel before the time loop - it does
 not depend on the mastery state. Branch B (knowledge context: localized
 mastery read + concept embedding + concept difficulty) depends on M_t, so it
 is a GRU cell stepped inside the time loop. Fusion produces z_t.

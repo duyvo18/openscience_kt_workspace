@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Generate notebooks/DPA_KT_master.ipynb — the master orchestration notebook.
+"""Generate notebooks/DPA_KT_master.ipynb - the master orchestration notebook.
 
 Regenerate with: python scripts/build_notebook.py
 The notebook holds orchestration + display only; all logic lives in dpa_kt/.
@@ -20,7 +20,7 @@ def code(src): cells.append(nbf.v4.new_code_cell(src))
 
 
 # ======================================================================
-md("""# DPA-KT — Distributional Pedagogical Alignment for Knowledge Tracing
+md("""# DPA-KT - Distributional Pedagogical Alignment for Knowledge Tracing
 
 Reference implementation of the four-module framework from `main.pdf`, trained
 full-scale on five dataset families (7 configs). This notebook orchestrates the
@@ -127,7 +127,7 @@ print("forward OK | y", tuple(demo["y"].shape), "| guess", round(trace["guess"],
 """)
 
 # --- 4. Module 1 ---
-md("""## 4. Module 1 — dual-branch interaction encoder
+md("""## 4. Module 1 - dual-branch interaction encoder
 
 Branch A (a causal Transformer over question+response+difficulty) and Branch B
 (a layer-normalised GRU that reads localized mastery) are fused into the
@@ -143,7 +143,7 @@ viz.plot_embedding_scatter(kc_emb, "KC embeddings (PCA)", color=kb); plt.show()
 """)
 
 # --- 5. Module 2 ---
-md("""## 5. Module 2 — Distributional Pedagogical Alignment (core novelty)
+md("""## 5. Module 2 - Distributional Pedagogical Alignment (core novelty)
 
 `z_t` is projected to a Gaussian `N(mu, diag sigma^2)`; four fixed pattern
 operators (temporal, same-KC, prerequisite, neighbor) pool the interaction
@@ -168,7 +168,7 @@ viz.plot_pattern_weights(trace, b=b, step=step, names=names); plt.show()
 """)
 
 # --- 6. Module 3 ---
-md("""## 6. Module 3 — mastery state tracking + pattern→KC gating
+md("""## 6. Module 3 - mastery state tracking + pattern→KC gating
 
 The gating `A_i[c]` says how much each learning pattern drives each related KC
 (the interpretable pattern→KC block of the attribution trace). Mastery evolves
@@ -183,7 +183,7 @@ viz.plot_mastery_evolution(trace, b=0, kc_ids=kc_ids,
 """)
 
 # --- 7. Module 4 ---
-md("""## 7. Module 4 — prediction aggregation
+md("""## 7. Module 4 - prediction aggregation
 
 The next question's related KCs contribute to the prediction via weights `beta`
 (the KC→prediction block `W`), combined with learnable guess/slip scalars.""")
@@ -239,7 +239,7 @@ md("""## 9. Results vs literature
 
 Our test AUC/ACC next to values reported in the pyKT benchmark and original
 papers. **Caveat:** literature numbers use different preprocessing/splits, so
-this is indicative context, not a head-to-head comparison — only *DPA-KT (ours)*
+this is indicative context, not a head-to-head comparison - only *DPA-KT (ours)*
 is on our exact splits.""")
 code("""from dpa_kt.analysis.literature import comparison_frame, CAVEAT
 
@@ -276,13 +276,13 @@ if any(abl.values()):
     viz.plot_ablation_matrix(abl, [d for d in ABL_DATASETS if abl.get(d)]); plt.show()
     import pandas as pd; display(pd.DataFrame(abl))
 else:
-    print("No ablation runs found yet — run the shell loop above.")
+    print("No ablation runs found yet - run the shell loop above.")
 """)
 
 # --- 11. Resume ---
 md("""## 11. Checkpoint-resume demo
 
-Train 2 epochs, save, reload into a fresh `Trainer`, continue 2 more — the loss
+Train 2 epochs, save, reload into a fresh `Trainer`, continue 2 more - the loss
 curve is seamless, demonstrating that model+optimizer+scheduler+RNG state all
 restore correctly (continue-training on a trained weight).""")
 code("""from dpa_kt.training.checkpoint import save_checkpoint, load_checkpoint
@@ -309,7 +309,7 @@ prediction. Multi-panel figure below.""")
 code("""from dpa_kt.analysis.attribution import attribution_case_study
 figs = attribution_case_study(model, batch, b=0, step=30, kc_names=kc_names, device=DEVICE)
 for name, fig in figs.items():
-    print("—", name); plt.show()
+    print("-", name); plt.show()
 """)
 
 # --- 13. Conclusions ---

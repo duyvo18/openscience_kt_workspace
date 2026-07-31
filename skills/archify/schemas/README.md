@@ -12,11 +12,11 @@ against one of the schemas in this folder before any layout work happens.
 | `dataflow.schema.json` | `diagram_type: "dataflow"` | `stages`, `nodes`, `flows` |
 | `lifecycle.schema.json` | `diagram_type: "lifecycle"` | `lanes`, `states`, `transitions` |
 | `architecture.schema.json` | `diagram_type: "architecture"` | `components`, `boundaries`, `connections` |
-| `common.schema.json` | shared `$defs` only (no top-level document) | — |
+| `common.schema.json` | shared `$defs` only (no top-level document) | - |
 
 Every diagram schema requires `schema_version`, `diagram_type`, `meta` (with
-`title`), and its structural arrays — except `segments`, `activations`, and
-`cards`, which are optional — and sets `additionalProperties: false` at every
+`title`), and its structural arrays - except `segments`, `activations`, and
+`cards`, which are optional - and sets `additionalProperties: false` at every
 level, so unknown fields are rejected rather than silently ignored.
 
 Every `meta` object also accepts `animation: "trace"` for opt-in SVG/CSS motion
@@ -34,13 +34,13 @@ Additive, backwards-compatible fields do not bump the version.
 
 The five diagram schemas reference `common.schema.json#/$defs/...`:
 
-- `id` — element identifiers, pattern `^[a-zA-Z][a-zA-Z0-9_-]*$`
-- `point` — an `[x, y]` pair of numbers (used by `via` and `labelAt`)
-- `componentType` — `frontend`, `backend`, `database`, `cloud`, `security`,
+- `id` - element identifiers, pattern `^[a-zA-Z][a-zA-Z0-9_-]*$`
+- `point` - an `[x, y]` pair of numbers (used by `via` and `labelAt`)
+- `componentType` - `frontend`, `backend`, `database`, `cloud`, `security`,
   `messagebus`, `external`
-- `variant` — `default`, `emphasis`, `security`, `dashed` (sequence messages
+- `variant` - `default`, `emphasis`, `security`, `dashed` (sequence messages
   extend this list locally with `return`)
-- `cards` — the summary-card blocks rendered below the SVG
+- `cards` - the summary-card blocks rendered below the SVG
 
 Lifecycle state `type` is mode-specific (`start`/`active`/`waiting`/...) and
 stays in `lifecycle.schema.json`.
@@ -60,8 +60,8 @@ run, so structurally valid files keep rendering.
 ## Error format
 
 Schema violations exit non-zero. Each ajv error is reported on its own line as
-the instance path — annotated with the nearest enclosing element's `id` or
-`label` — followed by the message and parameters:
+the instance path - annotated with the nearest enclosing element's `id` or
+`label` - followed by the message and parameters:
 
 ```text
 workflow schema validation failed:

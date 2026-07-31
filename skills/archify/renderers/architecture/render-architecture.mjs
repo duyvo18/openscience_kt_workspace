@@ -39,7 +39,7 @@ const layout = {
   defaultW: 120,
   defaultH: 60,
   margin: 40,
-  // Boundary padding — the 30/50 rule that was a hand-arithmetic footgun
+  // Boundary padding - the 30/50 rule that was a hand-arithmetic footgun
   // (CHANGELOG v2.2.1): 30px on top/left/right, plus 20px extra at the bottom.
   boundaryPad: 30,
   boundaryExtraBottom: 20,
@@ -129,24 +129,24 @@ function validateArchitecture() {
 
   for (const c of components.values()) {
     if (!isFinitePoint(c.x, c.y, c.width, c.height)) {
-      problems.push(`Component "${c.id}" has non-finite pos/size — pos and size must be [number, number].`);
+      problems.push(`Component "${c.id}" has non-finite pos/size - pos and size must be [number, number].`);
       continue;
     }
     if (c.x < 0 || c.y < 0 || c.x + c.width > viewBox[0] || c.y + c.height > viewBox[1]) {
-      problems.push(`Component "${c.id}" falls outside the viewBox ${viewBox[0]}x${viewBox[1]} — adjust pos/size or set a larger meta.viewBox.`);
+      problems.push(`Component "${c.id}" falls outside the viewBox ${viewBox[0]}x${viewBox[1]} - adjust pos/size or set a larger meta.viewBox.`);
     }
     const estLabelW = textUnits(c.label) * 6.6;
     if (estLabelW > c.width + 8) {
-      problems.push(`Label "${c.label}" (~${Math.round(estLabelW)}px) is wider than component "${c.id}" (${c.width}px) — shorten the label, move detail to sublabel, or widen size.`);
+      problems.push(`Label "${c.label}" (~${Math.round(estLabelW)}px) is wider than component "${c.id}" (${c.width}px) - shorten the label, move detail to sublabel, or widen size.`);
     }
   }
 
-  // Component overlap — the highest-traffic hand-placement failure mode.
+  // Component overlap - the highest-traffic hand-placement failure mode.
   const list = [...components.values()];
   for (let i = 0; i < list.length; i += 1) {
     for (let j = i + 1; j < list.length; j += 1) {
       if (rectsOverlap(list[i], list[j], 8)) {
-        problems.push(`Components "${list[i].id}" and "${list[j].id}" are less than 8px apart — move one or shrink its size.\n${suggestComponentSeparation(list[i], list[j], 8)}`);
+        problems.push(`Components "${list[i].id}" and "${list[j].id}" are less than 8px apart - move one or shrink its size.\n${suggestComponentSeparation(list[i], list[j], 8)}`);
       }
     }
   }
@@ -159,7 +159,7 @@ function validateArchitecture() {
   }
   for (const b of boundaries) {
     if (b.x < 0 || b.y < 0 || b.x + b.width > viewBox[0] || b.y + b.height > viewBox[1]) {
-      problems.push(`Boundary "${b.label}" extends outside the viewBox — its members sit too close to the canvas edge; add margin or enlarge meta.viewBox.`);
+      problems.push(`Boundary "${b.label}" extends outside the viewBox - its members sit too close to the canvas edge; add margin or enlarge meta.viewBox.`);
     }
   }
 
@@ -170,7 +170,7 @@ function validateArchitecture() {
       const routed = pathFor(conn);
       const [start, end] = [routed.points[0], routed.points[routed.points.length - 1]];
       const distance = Math.hypot(end[0] - start[0], end[1] - start[1]);
-      if (distance < 24) problems.push(`Connection "${conn.label || `${conn.from}->${conn.to}`}" is too short (${Math.round(distance)}px; minimum 24px) — place its components farther apart.`);
+      if (distance < 24) problems.push(`Connection "${conn.label || `${conn.from}->${conn.to}`}" is too short (${Math.round(distance)}px; minimum 24px) - place its components farther apart.`);
     }
   }
 
@@ -185,7 +185,7 @@ function validateArchitecture() {
   for (const rect of labelRects) {
     for (const c of components.values()) {
       if (rectsOverlap(rect, c, -2)) {
-        problems.push(`Label "${rect.label}" overlaps component "${c.id}" — adjust labelDx/labelDy/labelSegment or set labelAt.\n${suggestLabelObstacleFix(rect, rect.lx, rect.ly, c)}`);
+        problems.push(`Label "${rect.label}" overlaps component "${c.id}" - adjust labelDx/labelDy/labelSegment or set labelAt.\n${suggestLabelObstacleFix(rect, rect.lx, rect.ly, c)}`);
       }
     }
   }

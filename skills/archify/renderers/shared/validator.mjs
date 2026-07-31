@@ -22,7 +22,7 @@ try {
 } catch (err) {
   if (err && err.code === 'ERR_MODULE_NOT_FOUND') {
     console.warn(
-      'archify: ajv is not installed — skipping JSON-schema validation. '
+      'archify: ajv is not installed - skipping JSON-schema validation. '
       + 'Run "npm install" in the skill folder to enable it; renderer layout checks still run.'
     );
   } else {
@@ -58,7 +58,7 @@ function formatErrors(errors, data) {
 }
 
 export function validateSchema(diagramType, data) {
-  if (!validators) return; // ajv unavailable — renderer layout checks still apply
+  if (!validators) return; // ajv unavailable - renderer layout checks still apply
   const validate = validators[diagramType];
   if (!validate) {
     throw new Error(`validateSchema: unknown diagram type "${diagramType}"`);
