@@ -130,14 +130,7 @@ The third module maintains an explicit knowledge state and updates it from the s
 The final module predicts the outcome of the next interaction from the updated knowledge state and a representation of the target question. Alongside the probability, it produces a \emph{KC contribution} (contribution of each KC to the target interaction) and forms the final prediction.
 
 % ====================================================================
-\section{Preliminary Evidence}
-\label{sec:prelim}
-
-We report a preliminary evaluation of the framework's initial implementation. The implementation includes all four framework modules as presented in Section~\ref{sec:framework}, but the specific components remain simplified and have not yet been individually validated or optimized. Consequently, the results should be interpreted as an initial feasibility study rather than evidence of the framework's final performance.
-
-For this preliminary study, we evaluate the framework on four representative datasets selected from the two dataset groups: two flat-tag benchmarks requiring a constructed concept graph (ASSISTments 2009~\cite{feng2009assistments} and Algebra~\cite{stamper2010kddcup}), and two benchmarks providing a native concept structure (XES3G5M~\cite{liu2023xes3g5m} and Eedi~\cite{wang2021neurips}). We compare against the foundational BKT~\cite{corbett1994kt} and two widely adopted deep knowledge tracing baselines, DKT~\cite{piech2015dkt} and DKVMN~\cite{zhang2017dkvmn}. More recent state-of-the-art methods are reserved for the comprehensive evaluation described in Section~\ref{sec:eval}. The framework results are reported in Table~\ref{tab:prelim_results} as the mean over five-fold cross-validation after 200 training epochs.
-
-\begin{table*}[!htbp]
+\begin{table*}[!t]
 \centering
 \caption{Preliminary AUC comparison on four representative datasets.}
 \label{tab:prelim_results}
@@ -158,6 +151,13 @@ DKVMN~\cite{zhang2017dkvmn} & \underline{0.7473} & \underline{0.8054} & 0.7792 &
 The best result in each column is shown in \textbf{bold}, and the second best is \underline{underlined}. Established results for BKT, DKT, and DKVMN are taken from their pyKT implementation~\cite{zitao2022pykt}, while our proposal is reported as the mean over five-fold cross-validation. All training and evaluation paradigms are consistent.
 \end{flushleft}
 \end{table*}
+
+\section{Preliminary Evidence}
+\label{sec:prelim}
+
+We report a preliminary evaluation of the framework's initial implementation. The implementation includes all four framework modules as presented in Section~\ref{sec:framework}, but the specific components remain simplified and have not yet been individually validated or optimized. Consequently, the results should be interpreted as an initial feasibility study rather than evidence of the framework's final performance.
+
+For this preliminary study, we evaluate the framework on four representative datasets selected from the two dataset groups: two flat-tag benchmarks requiring a constructed concept graph (ASSISTments 2009~\cite{feng2009assistments} and Algebra~\cite{stamper2010kddcup}), and two benchmarks providing a native concept structure (XES3G5M~\cite{liu2023xes3g5m} and Eedi~\cite{wang2021neurips}). We compare against the foundational BKT~\cite{corbett1994kt} and two widely adopted deep knowledge tracing baselines, DKT~\cite{piech2015dkt} and DKVMN~\cite{zhang2017dkvmn}. More recent state-of-the-art methods are reserved for the comprehensive evaluation described in Section~\ref{sec:eval}. The framework results are reported in Table~\ref{tab:prelim_results} as the mean over five-fold cross-validation after 200 training epochs.
 
 The preliminary results reveal a consistent difference between the two dataset groups. On the flat-tag benchmarks, where the concept graph must first be constructed, the current implementation remains below DKT and DKVMN by approximately 2.9\% to 5.5\% in relative AUC. In contrast, on datasets providing native concept structures, the framework achieves the best performance, outperforming both deep baselines by approximately 2.7\% to 3.5\% in relative AUC. Although these results are preliminary, they are consistent with the central motivation of the proposal: explicitly modeling structured concept relationships appears to provide greater benefit when reliable concept structures are available. A comprehensive evaluation against recent state-of-the-art KT methods, together with ablation studies and statistical significance analyses, is left to the planned evaluation presented in Section~\ref{sec:eval}.
 
