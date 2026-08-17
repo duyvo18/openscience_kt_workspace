@@ -590,6 +590,7 @@ TSWLatexianTemp*
 .env
 venv/
 data_cache/
+pptx_assets/
 runs/
 __pycache__/
 *.pyc
